@@ -15,23 +15,27 @@ handler.get('/', (_, res) => {
 
 io.on('connection', (socket) => {
 
+    //socket.join(socket.user.id);
+    //Room for demo purposes
     socket.join('myRandomChatRoomId');
     console.log('someone wants to sweep some mines!');
 
     socket.on('disconnect', () => {
+        //Ensures that the user leaves the server cleanly (i guess)
+        socket.leave('myRandomChatRoomId');
         console.log('the mines have been swept');
     });
 
     socket.on('my message', (msg) => {
         io.emit('my broadcast', `server: ${msg}`);
     });
-    
+
     socket.on('join', (roomName) => {
         console.log('join: ' + roomName);
         socket.join(roomName);
     });
 
-    socket.on('message', ({message, roomName}) => {
+    socket.on('message', ({ message, roomName }) => {
         console.log('message: ' + meesage + ' in ' + roomName);
         socket.to(roomName).emit('message', message);
         callback({
