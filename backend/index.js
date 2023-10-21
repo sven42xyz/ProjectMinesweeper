@@ -1,5 +1,4 @@
 const { ok } = require('assert');
-const { callbackify } = require('util');
 
 const handler = require('express')();
 const server = require('http').createServer(handler);
@@ -35,7 +34,7 @@ io.on('connection', (socket) => {
         socket.join(roomName);
     });
 
-    socket.on('message', ({ message, roomName }) => {
+    socket.on('message', ({ message, roomName, callback }) => {
         console.log('message: ' + message + ' in ' + roomName);
 
         //Defines the message with metedata for easy handling on the frontend side
