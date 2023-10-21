@@ -1,5 +1,3 @@
-const { ok } = require('assert');
-
 const handler = require('express')();
 const server = require('http').createServer(handler);
 const io = require('socket.io')(server, {
