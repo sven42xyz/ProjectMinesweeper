@@ -1,3 +1,6 @@
+const { ok } = require('assert');
+const { callbackify } = require('util');
+
 const handler = require('express')();
 const server = require('http').createServer(handler);
 const io = require('socket.io')(server, {
@@ -12,6 +15,7 @@ handler.get('/', (_, res) => {
 
 io.on('connection', (socket) => {
 
+    socket.join(socket.user.id);
     console.log('someone wants to sweep some mines!');
 
     socket.on('disconnect', () => {
@@ -22,7 +26,18 @@ io.on('connection', (socket) => {
         io.emit('my broadcast', `server: ${msg}`);
     });
     
+    socket.on('join', (roomName) => {
+        console.log('join: ' + roomName);
+        socket.join(roomName);
+    });
 
+    socket.on('message', ({message, roomName}) => {
+        console.log('message: ' + meesage + ' in ' + roomName);
+        socket.to(roomName).emit('message', message);
+        callback({
+            status: 'ok'
+        });
+    });
 });
 
 server.listen(3000, () => {
