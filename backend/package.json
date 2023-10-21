@@ -1,0 +1,23 @@
+{
+  "name": "minesweeper-node",
+  "version": "0.0.1",
+  "description": "minesweeper",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sven42xyz/ProjectMinesweeper.git"
+  },
+  "author": "sven42xyz",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/sven42xyz/ProjectMinesweeper/issues"
+  },
+  "homepage": "https://github.com/sven42xyz/ProjectMinesweeper#readme",
+  "dependencies": {
+    "express": "^4.18.2",
+    "socket.io": "^4.7.2"
+  }
+}
