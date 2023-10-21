@@ -38,6 +38,7 @@ io.on('connection', (socket) => {
     socket.on('message', ({ message, roomName }) => {
         console.log('message: ' + message + ' in ' + roomName);
 
+        //Defines the message with metedata for easy handling on the frontend side
         const outgoingMessage = {
             name: socket.user.name,
             id: socket.user.id,
