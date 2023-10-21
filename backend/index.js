@@ -36,11 +36,22 @@ io.on('connection', (socket) => {
     });
 
     socket.on('message', ({ message, roomName }) => {
-        console.log('message: ' + meesage + ' in ' + roomName);
-        socket.to(roomName).emit('message', message);
+        console.log('message: ' + message + ' in ' + roomName);
+
+        const outgoingMessage = {
+            name: socket.user.name,
+            id: socket.user.id,
+            message
+        };
+
+        //Sends a message to every room member ecept for the sender
+        socket.to(roomName).emit('message', outgoingMessage);
         callback({
             status: 'ok'
         });
+
+        //Sends a meesage to every room meber
+        //socket.to(roomName).emit('message', message);
     });
 });
 
