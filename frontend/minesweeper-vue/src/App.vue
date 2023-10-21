@@ -1,22 +1,58 @@
 <template>
+  
   <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <div class="App">
+    <form @submit.prevent="submitUsername">
+      <input type="text" placeholder="Enter username" v-model="username" />
+      <button type="submit">Submit</button>
+    </form>
+    <div class="box">
+      <div class="messages"></div>
+      <form class="input-div" @submit.prevent="submitMessage">
+        <input type="text" placeholder="Type in text" v-model="inputMessageText" />
+        <button type="submit">Submit</button>
+      </form>
+  </div>
+  </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
 import SocketioService from './services/socketio.service.js';
 
 export default {
   name: 'App',
   components: {
-    HelloWorld
+    
+    },
+
+    /*
+    created() {
+      SocketioService.setupSocketConnection();
+    },*/
+    data() {
+      return {
+        username: '',
+        inputMessageText: ''
+      };
   },
-  created() {
-    SocketioService.setupSocketConnection();
-  },
-  beforeUnmount() {
-    SocketioService.disconnect();
+
+  methods: {
+    submitUsername() {
+        console.log(this.username);
+        SocketioService.setupSocketConnection(this.username);
+    },
+
+    submitMessage() {
+      const CHAT_ROOM = "myRandomChatRoomId";
+      const message = this.inputMessageText;
+      SocketioService.sendMessage({message, roomName: CHAT_ROOM}, cb => {
+        console.log(cb);
+      });
+    },
+    
+    beforeUnmount() {
+      SocketioService.disconnect();
+    }
   }
 }
 </script>
