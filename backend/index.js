@@ -15,7 +15,7 @@ handler.get('/', (_, res) => {
 
 io.on('connection', (socket) => {
 
-    socket.join(socket.user.id);
+    socket.join('myRandomChatRoomId');
     console.log('someone wants to sweep some mines!');
 
     socket.on('disconnect', () => {
