@@ -11,10 +11,18 @@ handler.get('/', (_, res) => {
 });
 
 io.on('connection', (socket) => {
+
     console.log('someone wants to sweep some mines!');
+
     socket.on('disconnect', () => {
         console.log('the mines have been swept');
     });
+
+    socket.on('my message', (msg) => {
+        io.emit('my broadcast', `server: ${msg}`);
+    });
+
+
 });
 
 server.listen(3000, () => {
