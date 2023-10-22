@@ -23,20 +23,36 @@ export default {
   name: 'App',
   components: {
     
+    },
+
+    /*
+    created() {
+      SocketioService.setupSocketConnection();
+    },*/
+    data() {
+      return {
+        username: '',
+        inputMessageText: ''
+      };
   },
 
-  /*
-  created() {
-    SocketioService.setupSocketConnection();
-  },*/
+  methods: {
+    submitUsername() {
+        console.log(this.username);
+        SocketioService.setupSocketConnection(this.username);
+    },
 
-  submitUsername() {
-      console.log(this.username);
-      SocketioService.setupSocketConnection(this.username);
-  },
-  
-  beforeUnmount() {
-    SocketioService.disconnect();
+    submitMessage() {
+      const CHAT_ROOM = "myRandomChatRoomId";
+      const message = this.inputMessageText;
+      SocketioService.sendMessage({message, roomName: CHAT_ROOM}, cb => {
+        console.log(cb);
+      });
+    },
+    
+    beforeUnmount() {
+      SocketioService.disconnect();
+    }
   }
 }
 </script>

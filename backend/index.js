@@ -17,7 +17,7 @@ io.on('connection', (socket) => {
 
     //socket.join(socket.user.id);
     //Room for demo purposes
-    socket.join('myRandomChatRoomId');
+    socket.join(socket.user.id);
     console.log('someone wants to sweep some mines!');
 
     socket.on('disconnect', () => {
