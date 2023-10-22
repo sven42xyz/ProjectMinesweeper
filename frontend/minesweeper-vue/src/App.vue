@@ -5,11 +5,18 @@
 
 <script>
 import HelloWorld from './components/HelloWorld.vue'
+import SocketioService from './services/socketio.service.js';
 
 export default {
   name: 'App',
   components: {
     HelloWorld
+  },
+  created() {
+    SocketioService.setupSocketConnection();
+  },
+  beforeUnmount() {
+    SocketioService.disconnect();
   }
 }
 </script>
