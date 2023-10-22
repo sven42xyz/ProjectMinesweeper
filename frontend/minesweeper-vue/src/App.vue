@@ -3,7 +3,7 @@
   <img alt="Vue logo" src="./assets/logo.png">
   <div class="App">
     <form @submit.prevent="submitUsername">
-      <input type="text" placeholder="Enter username" v-model="message" />
+      <input type="text" placeholder="Enter username" v-model="username" />
       <button type="submit">Submit</button>
     </form>
     <div class="box">
