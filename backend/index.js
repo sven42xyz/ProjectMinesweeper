@@ -8,6 +8,7 @@ const io = require('socket.io')(server, {
 
 handler.get('/', (_, res) => {
     res.send('<h1>Hello World!</h1>');
+    console.log("Connection");
 });
 
 /*io.use(async (socket, next) => {
@@ -45,22 +46,22 @@ io.on('connection', (socket) => {
         socket.join(roomName);
     });
 
-    socket.on("message", ({message, roomName}, callback) => {
-    console.log("message: " + message + " in " + roomName);
-    
-    /*// generate data to send to receivers
-    const outgoingMessage = {
-        name: socket.user.name,
-        id: socket.user.id,
-        message,
-    };*/
-    // send socket to all in room except sender
-    socket.to(roomName).emit("message", message);
-    callback({
-        status: "ok"
-    });
-    // send to all including sender
-    // io.to(roomName).emit("message", message);
+    socket.on("message", ({ message, roomName }, callback) => {
+        console.log("message: " + message + " in " + roomName);
+
+        /*// generate data to send to receivers
+        const outgoingMessage = {
+            name: socket.user.name,
+            id: socket.user.id,
+            message,
+        };*/
+        // send socket to all in room except sender
+        socket.to(roomName).emit("message", message);
+        callback({
+            status: "ok"
+        });
+        // send to all including sender
+        // io.to(roomName).emit("message", message);
     });
 });
 
