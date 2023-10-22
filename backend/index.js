@@ -13,11 +13,24 @@ handler.get('/', (_, res) => {
     res.send('<h1>Hello World!</h1>');
 });
 
-io.on('connection', (socket) => {
+/*io.use(async (socket, next) => {
+    const username = socket.username;
+    try {
+        const user = username;
+        console.log('user', user);
+        socket.user = user;
+        next();
+    } catch (e) {
+        // if token is invalid, close connection
+        console.log('error', e.message);
+        return next(new Error(e.message));
+    }
+});*/
 
+io.on('connection', (socket) => {
     //socket.join(socket.user.id);
     //Room for demo purposes
-    socket.join(socket.user.id);
+    socket.join('myRandomChatRoomId');
     console.log('someone wants to sweep some mines!');
 
     socket.on('disconnect', () => {
@@ -35,24 +48,22 @@ io.on('connection', (socket) => {
         socket.join(roomName);
     });
 
-    socket.on('message', ({ message, roomName }) => {
-        console.log('message: ' + message + ' in ' + roomName);
-
-        //Defines the message with metedata for easy handling on the frontend side
-        const outgoingMessage = {
-            name: socket.user.name,
-            id: socket.user.id,
-            message
-        };
-
-        //Sends a message to every room member ecept for the sender
-        socket.to(roomName).emit('message', outgoingMessage);
-        callback({
-            status: 'ok'
-        });
-
-        //Sends a meesage to every room meber
-        //socket.to(roomName).emit('message', message);
+    socket.on("message", ({message, roomName}, callback) => {
+    console.log("message: " + message + " in " + roomName);
+    
+    /*// generate data to send to receivers
+    const outgoingMessage = {
+        name: socket.user.name,
+        id: socket.user.id,
+        message,
+    };*/
+    // send socket to all in room except sender
+    socket.to(roomName).emit("message", message);
+    callback({
+        status: "ok"
+    });
+    // send to all including sender
+    // io.to(roomName).emit("message", message);
     });
 });
 
