@@ -4,4 +4,5 @@ import "bootstrap/dist/css/bootstrap.min.css"
 import "bootstrap"
 import "../public/css/App.css"
 
+
 createApp(App).mount('#app')

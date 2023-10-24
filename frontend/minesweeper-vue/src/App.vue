@@ -1,28 +1,33 @@
 <template>
-  
-  <img alt="Vue logo" src="./assets/logo.png">
+  <!--   <img alt="Vue logo" src="./assets/logo.png">
   <div class="App">
     <form @submit.prevent="submitUsername">
       <input type="text" placeholder="Enter username" v-model="username" />
       <button type="submit">Submit</button>
     </form>
     <div class="box">
-      <div class="messages"></div>
+      <div v-for="user in messages" :key="user.id">
+        {{user.username}}: {{user.message}}
+      </div>
       <form class="input-div" @submit.prevent="submitMessage">
         <input type="text" placeholder="Type in text" v-model="inputMessageText" />
         <button type="submit">Submit</button>
       </form>
-  </div>
+    </div>
+  </div> -->
+  <div class="App">
+    <WelcomeSite />
   </div>
 </template>
 
 <script>
 import SocketioService from './services/socketio.service.js';
+import WelcomeSite from './components/WelcomeSite.vue';
 
 export default {
   name: 'App',
   components: {
-    
+      WelcomeSite
     },
 
     /*
