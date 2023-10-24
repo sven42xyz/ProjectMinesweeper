@@ -11,29 +11,27 @@ handler.get('/', (_, res) => {
     console.log("Connection");
 });
 
-/*io.use(async (socket, next) => {
-    const username = socket.username;
-    try {
-        const user = username;
-        console.log('user', user);
-        socket.user = user;
-        next();
-    } catch (e) {
-        // if token is invalid, close connection
-        console.log('error', e.message);
-        return next(new Error(e.message));
-    }
-});*/
+// set of all active users (in a room)
+const activeUsers = new Set();
 
 io.on('connection', (socket) => {
-    //socket.join(socket.user.id);
-    //Room for demo purposes
+    // make room generator
     socket.join('myRandomChatRoomId');
     console.log('someone wants to sweep some mines!');
 
+    socket.on('new user', (data) => {
+        socket.username = data;
+        activeUsers.add(data);
+        io.emit('new user', [...activeUsers]);
+
+        console.log('user ' + data + ' joined');
+    });
+
     socket.on('disconnect', () => {
-        //Ensures that the user leaves the server cleanly (i guess)
+        activeUsers.delete(socket.username);
         socket.leave('myRandomChatRoomId');
+        io.emit('user disconnect', socket.username);
+
         console.log('the mines have been swept');
     });
 
@@ -60,8 +58,6 @@ io.on('connection', (socket) => {
         callback({
             status: "ok"
         });
-        // send to all including sender
-        // io.to(roomName).emit("message", message);
     });
 });
 
