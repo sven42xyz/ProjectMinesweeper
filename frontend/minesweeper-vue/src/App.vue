@@ -1,44 +1,48 @@
 <template>
   <div class="App">
-    <Landing />
+    <div>
+      <component v-bind:is="activeComponent"></component>
+    </div>
+
   </div>
 </template>
 
 <script>
 import SocketioService from './services/socketio.service.js';
-import Landing from './components/Landing.vue';
+import LandingPage from './components/views/LandingPage.vue';
+import CreateGame from './components/views/CreateGame.vue';
+import JoinGame from './components/views/JoinGame.vue';
 
 export default {
   name: 'App',
   components: {
-    Landing
-},
+    LandingPage,
+    CreateGame,
+    JoinGame
+  },
 
-    /*
-    created() {
-      SocketioService.setupSocketConnection();
-    },*/
-    data() {
-      return {
-        username: '',
-        inputMessageText: ''
-      };
+  data() {
+    return {
+      activeComponent: 'LandingPage',
+      username: '',
+      inputMessageText: ''
+    };
   },
 
   methods: {
     submitUsername() {
-        console.log(this.username);
-        SocketioService.setupSocketConnection(this.username);
+      console.log(this.username);
+      SocketioService.setupSocketConnection(this.username);
     },
 
     submitMessage() {
       const CHAT_ROOM = "myRandomChatRoomId";
       const message = this.inputMessageText;
-      SocketioService.sendMessage({message, roomName: CHAT_ROOM}, cb => {
+      SocketioService.sendMessage({ message, roomName: CHAT_ROOM }, cb => {
         console.log(cb);
       });
     },
-    
+
     beforeUnmount() {
       SocketioService.disconnect();
     }
@@ -47,16 +51,17 @@ export default {
 </script>
 
 <style>
-    #app {
-      font-family: Avenir, Helvetica, Arial, sans-serif;
-      -webkit-font-smoothing: antialiased;
-      -moz-osx-font-smoothing: grayscale;
-      text-align: center;
-      color: #2c3e50;
-      margin-top: 0px;
-      background-color: #8f8aa4;
-      height: 100%;
-      margin: 0;
-      min-height: 100%;
-    }
+#app {
+  font-family: Avenir, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-align: center;
+  color: #2c3e50;
+  margin-top: 0px;
+  background-color: #4885ca;
+  height: 100vh;
+  width: 100vw;
+  margin: 0;
+  min-height: 100%;
+}
 </style>
