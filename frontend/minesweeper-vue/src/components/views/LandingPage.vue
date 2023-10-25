@@ -60,10 +60,7 @@ export default {
     newGame() {
       console.log(this.username);
 
-      console.log(!this.validateInput());
-
       if (!this.validateInput()) {
-        console.log("hello");
         return;
       }
 

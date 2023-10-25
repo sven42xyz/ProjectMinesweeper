@@ -24,24 +24,22 @@ export default {
   data() {
     return {
       activeComponent: 'LandingPage',
-      username: '',
-      inputMessageText: ''
     };
   },
 
   methods: {
-    submitUsername() {
-      console.log(this.username);
-      SocketioService.setupSocketConnection(this.username);
-    },
-
-    submitMessage() {
-      const CHAT_ROOM = "myRandomChatRoomId";
-      const message = this.inputMessageText;
-      SocketioService.sendMessage({ message, roomName: CHAT_ROOM }, cb => {
-        console.log(cb);
-      });
-    },
+        /*     submitUsername() {
+          console.log(this.username);
+          SocketioService.setupSocketConnection(this.username);
+        },
+    
+        submitMessage() {
+          const CHAT_ROOM = "myRandomChatRoomId";
+          const message = this.inputMessageText;
+          SocketioService.sendMessage({ message, roomName: CHAT_ROOM }, cb => {
+            console.log(cb);
+          });
+            }, */
 
     beforeUnmount() {
       SocketioService.disconnect();

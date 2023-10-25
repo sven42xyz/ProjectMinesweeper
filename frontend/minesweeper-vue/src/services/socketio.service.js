@@ -7,10 +7,7 @@ class SocketioService {
     setupSocketConnection(username) {
       this.socket = io(process.env.VUE_APP_SOCKET_ENDPOINT);
       console.log(`Connecting socket...`);
-      this.socket.emit('my message', 'Hello there from Vue.');
-      this.socket.on('my broadcast', (data) => {
-        console.log(data);
-      });
+
 
       this.socket.emit('new user', username)
     }
