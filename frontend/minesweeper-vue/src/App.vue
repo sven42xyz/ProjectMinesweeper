@@ -57,7 +57,7 @@ export default {
   text-align: center;
   color: #2c3e50;
   margin-top: 0px;
-  background-color: #4885ca;
+  background-color: #3a3861;
   height: 100vh;
   width: 100vw;
   margin: 0;

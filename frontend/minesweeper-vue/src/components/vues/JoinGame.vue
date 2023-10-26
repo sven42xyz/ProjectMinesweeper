@@ -22,6 +22,7 @@
   </div>
 </template>
 
+
 <script>
 export default {
   name: 'JoinGame',
@@ -30,4 +31,5 @@ export default {
 }
 </script>
 
-<style scoped></style>
+<style scoped>
+</style>
