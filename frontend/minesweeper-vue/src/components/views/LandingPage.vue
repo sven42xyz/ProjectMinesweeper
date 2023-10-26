@@ -1,4 +1,4 @@
-<template>
+<!-- <template>
   <div class="d-flex justify-content-md-center">
     <div class="card text-bg-primary" style="width: 36rem;">
       <div class="card-body">
@@ -24,10 +24,39 @@
       </div>
     </div>
   </div>
+</template> -->
+
+<template>
+  <div id = "WelcomeDiv">
+    <div class="container-fluid">
+      <div class="text-center">
+        <form id="WelcomeForm" v-on:submit.prevent>
+          <h1 class="card-header">Minesweeper.io</h1>
+          <hr/>
+          <div class="input-group mt-1">
+              <span class="input-group-text" id="basic-addon1">username</span>
+              <input type="text" class="form-control" aria-label="Username" v-model="username">
+          </div>
+          <div class="mb-3 mt-3">
+              <button v-on:click="newGame" class="btn btn-new-game w-75" type="Submit" id="new-game"
+                aria-expanded="false">New
+                Game</button>
+           </div>
+           <div class="mb-3 mt-3">
+            <button v-on:click="joinGame" class="btn btn-join-game w-75" type="Submit" id="join-game"
+                aria-expanded="false">Join
+                Game</button>
+            </div>
+        </form>
+      </div>
+    </div>
+  </div>
 </template>
 
 <script>
 import SocketioService from '../../services/socketio.service.js';
+
+//https://getbootstrap.com/docs/5.0/components/popovers/
 
 export default {
   name: 'LandingPage',
@@ -85,4 +114,83 @@ export default {
 }
 </script>
 
-<style scoped></style>
+<style scoped>
+ #app {
+    font-family: Avenir, Helvetica, Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-align: center;
+    position: absolute;
+    top: 0; right: 0; bottom: 0; left: 0;
+    }
+    
+    .container-fluid{
+      position: absolute;
+      top: 0; right: 0; bottom: 0; left: 0;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+
+    .input-group{
+      padding-left: 0%;
+      top: 0%;
+      left: 26%;
+      width: 100%;
+      transform: translate(-25%, -25%);
+      
+    }
+
+    .form-control{
+      width:50%;
+    }
+
+    .card-header{
+      width: 110%;
+      transform: translate(-5%, -5%);
+      padding-top: 5%;
+    }
+
+    .WelcomeDiv{
+      position: absolute;
+      top: 0; right: 0; bottom: 0; left: 0;
+    }
+
+    .text-center{
+      padding: 2.5%;
+    }
+
+    hr{
+      margin: 5%;
+      margin-bottom: 15%;
+    }
+
+    form{
+      background-color: rgb(240, 240, 255);
+      padding-top: 25px;
+      padding-bottom: 10px;
+      padding-left: 25px;
+      padding-right: 25px;
+      width: 330px;
+      height: 330px;
+      border-radius:10px;
+      margin: auto;
+    }
+
+    .btn-new-game{
+      background-color: rgb(149, 149, 197);
+      color: azure;
+      border-color: rgb(35, 35, 35);
+      border: 2px;
+      border-style: outset;
+    }
+
+    .btn-join-game{
+      background-color: rgb(247, 232, 99);
+      color: rgb(0, 0, 0);
+      border-color: rgb(35, 35, 35);
+      border: 2px;
+      border-style: outset;
+    }
+
+</style>
