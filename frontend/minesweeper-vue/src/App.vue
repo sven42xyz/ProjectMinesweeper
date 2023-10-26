@@ -1,6 +1,7 @@
 <template>
   <div class="App">
     <div>
+      <!-- current comp defined in data -->
       <component v-bind:is="activeComponent"></component>
     </div>
 
