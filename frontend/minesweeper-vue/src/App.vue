@@ -10,9 +10,9 @@
 
 <script>
 import SocketioService from './services/socketio.service.js';
-import LandingPage from './components/views/LandingPage.vue';
-import CreateGame from './components/views/CreateGame.vue';
-import JoinGame from './components/views/JoinGame.vue';
+import LandingPage from './components/vues/LandingPage.vue';
+import CreateGame from './components/vues/CreateGame.vue';
+import JoinGame from './components/vues/JoinGame.vue';
 
 export default {
   name: 'App',
