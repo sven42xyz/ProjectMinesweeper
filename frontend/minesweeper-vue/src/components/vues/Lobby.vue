@@ -1,56 +1,59 @@
 <template>
-  <div id = "Center">
-    <div class="container-fluid big-fluid-container">
-      <div class="container-fluid lobby-container">
-        <h2 class="welcome-label row">Welcome to the Lobby!</h2>
-        <div class="row row-cols-2">
-          <div class="col card player-col">
-            <h5 class="card-title">Sven</h5>
-            <hr/>
-            <button class="btn btn-light btn-ready" type="button" disabled>
-              <span class="spinner-grow spinner-grow-active spinner-grow-sm float-start" role="status" aria-hidden="true"></span>
-              <h6 class="m-0">Ready!</h6>
-            </button>
-          </div>
-          <div class="col card player-col">
-            <h5 class="card-title">Anna</h5>
-            <hr/>
-            <button class="btn btn-waiting btn-primary" type="button" disabled>
-              <span class="spinner-grow spinner-grow-sm float-start" role="status" aria-hidden="true"></span>
-              <h6 class="m-0">Waiting...</h6>
-            </button>
-          </div>
-          <div class="col card player-col">
-            <h5 class="card-title">Bob</h5>
-            <hr/>
-            <button class="btn btn-waiting btn-primary" type="button" disabled>
-              <span class="spinner-grow spinner-grow-sm float-start" role="status" aria-hidden="true"></span>
-              <h6 class="m-0">Waiting...</h6>
-            </button>
-          </div>
-          <div class="col card player-col">
-            <h5 class="card-title">Tim</h5>
-            <hr/>
-            <button class="btn btn-waiting btn-primary" type="button" disabled>
-              <span class="spinner-grow spinner-grow-sm float-start" role="status" aria-hidden="true"></span>
-              <h6 class="m-0">Loading...</h6>
-            </button>
-          </div>
-          <div class="col card player-col">
-            <h5 class="card-title">Luna</h5>
-            <hr/>
-            <button class="btn btn-waiting btn-primary" type="button" disabled>
-              <span class="spinner-grow spinner-grow-sm float-start" role="status" aria-hidden="true"></span>
-              <h6 class="m-0">Loading...</h6>
-            </button>
-          </div>
-          <div class="col card player-col-empty">
-            <h5 class="card-title">Waiting for player...</h5>
-          </div>
+  <div class="container-fluid big-fluid-container">
+    <div class="container-fluid lobby-container">
+      <h1 class="welcome-label row">Welcome to the Lobby!</h1>
+      <hr class="w-100 mb-3"/>
+      <div class="row row-cols-2">
+        <div class="col card player-col">
+          <h5 class="card-title">Sven</h5>
+          <hr/>
+          <button class="btn btn-light btn-ready" type="button" disabled>
+            <span class="spinner-grow spinner-grow-active spinner-grow-sm float-start" role="status" aria-hidden="true"></span>
+            <h6 class="m-0">Ready!</h6>
+          </button>
+        </div>
+        <div class="col card player-col">
+          <h5 class="card-title">Anna</h5>
+          <hr/>
+          <button class="btn btn-waiting btn-primary" type="button" disabled>
+            <span class="spinner-grow spinner-grow-sm float-start" role="status" aria-hidden="true"></span>
+            <h6 class="m-0">Waiting...</h6>
+          </button>
+        </div>
+        <div class="col card player-col">
+          <h5 class="card-title">Bob</h5>
+          <hr/>
+          <button class="btn btn-waiting btn-primary" type="button" disabled>
+            <span class="spinner-grow spinner-grow-sm float-start" role="status" aria-hidden="true"></span>
+            <h6 class="m-0">Waiting...</h6>
+          </button>
+        </div>
+        <div class="col card player-col">
+          <h5 class="card-title">Tim</h5>
+          <hr/>
+          <button class="btn btn-waiting btn-primary" type="button" disabled>
+            <span class="spinner-grow spinner-grow-sm float-start" role="status" aria-hidden="true"></span>
+            <h6 class="m-0">Loading...</h6>
+          </button>
+        </div>
+        <div class="col card player-col">
+          <h5 class="card-title">Luna</h5>
+          <hr/>
+          <button class="btn btn-waiting btn-primary" type="button" disabled>
+            <span class="spinner-grow spinner-grow-sm float-start" role="status" aria-hidden="true"></span>
+            <h6 class="m-0">Loading...</h6>
+          </button>
+        </div>
+        <div class="col card player-col player-col-empty">
+          <h5 class="card-title">Waiting for player...</h5>
         </div>
       </div>
-      <hr class="bottom-line"/>
     </div>
+    <hr class="bottom-line"/>
+    <form v-on:submit.prevent class="lobby-game-form">
+      <button v-on:click="joinLobby" class="btn btn-success" type="Submit" id="Submit-Button" aria-expanded="false">Ready?</button>
+      <button v-on:click="cancel" class="btn btn-danger" type="Cancel" id="Cancel-Button" aria-expanded="false">Cancel</button>
+    </form>
   </div>
 </template>
 
@@ -157,10 +160,11 @@ export default {
     .lobby-container{
       position: absolute;
       top: 0; right: 0; bottom: 0; left: 0;
-      padding: 30px;
+      padding-left: 2vw;
+      padding-right: 2vw;
       padding-top: 0%;
-      width: 70%;
-      height: 70%;
+      width: 60vw;
+      height: 60vh;
       border-radius:10px;
       margin: 0;
       top: 0%;
@@ -171,9 +175,12 @@ export default {
       margin: 0;
     }
     .player-col{
-      margin: 1%;
-      width: 48%;
-      max-height: 50%;
+      margin-top: 1.5vh;
+      margin-right: 2.5vw;
+      margin-left: 2.5vw;
+      margin-bottom: 1.5vh;
+      width: 22.5vw;
+      height: 12vh;
       padding: 10px;
       background-color: rgba(230, 230, 250, 0.599);
     }
@@ -189,11 +196,14 @@ export default {
       border-color: rgb(85, 85, 85);
     }
 
+    .btn{
+      margin-top: 0vw;
+      margin-left: 2.5vw;
+      width: 15.5vw;
+    }
 
     .player-col-empty{
-      margin: 1%;
-      width: 48%;
-      padding: 10px;
+      background-color: transparent;
     }
 
     .spinner-grow-active{
@@ -208,11 +218,27 @@ export default {
     }
     .welcome-label{
       margin: 1%;
-      margin-top: 5%;
-      margin-bottom: 5%;
+      margin-top: 2vh;
+      margin-bottom: 2vh;
     }
     .bottom-line{
-      margin-top: 30rem;
+      margin-top: 72.5vh;
+      margin-bottom: 4vh;
     }
+
+    .btn-success{
+      margin-right: 21.5vw;
+      margin-left: 4.5vw;
+      width: 45vw;
+    }
+    .btn-danger{
+      width: 10vw;
+    }
+
+    hr{
+      margin-bottom: 0.75vh;
+      margin-top: 0vh;
+    }
+
 
 </style>
