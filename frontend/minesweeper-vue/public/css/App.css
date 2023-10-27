@@ -19,7 +19,8 @@
     display: flex;
     width: 100%;
 }
-form{
+
+.small-center-form{
   background-color: rgb(240, 240, 255);
   padding-top: 25px;
   padding-bottom: 10px;
@@ -31,6 +32,16 @@ form{
   margin: auto;
 }
 
+.small-fluid-container{
+  position: absolute;
+  top: 0; right: 0; bottom: 0; left: 0;
+  top: 50%;
+  left: 50%;
+  width: auto;
+  height:auto;
+  transform: translate(-50%, -50%);
+}
+
 .btn-primary-lavender{
   background-color: rgb(149, 149, 197);
   color: azure;
@@ -39,10 +50,24 @@ form{
   border-style: outset;
 }
 
+.btn-primary-lavender:hover{
+  background-color: rgb(85, 85, 155);
+  border-color: rgb(35, 35, 35);
+  border: 2px;
+  border-style: inset;
+}
+
 .btn-secondary-yellow{
   background-color: rgb(247, 232, 99);
-  color: rgb(0, 0, 0);
+  color: rgb(14, 3, 3);
   border-color: rgb(35, 35, 35);
   border: 2px;
   border-style: outset;
+}
+
+.btn-secondary-yellow:hover{
+  background-color: rgb(255, 207, 34);
+  border-color: rgb(35, 35, 35);
+  border: 2px;
+  border-style: inset;
 }

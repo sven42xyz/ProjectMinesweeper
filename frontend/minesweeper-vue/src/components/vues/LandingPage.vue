@@ -28,9 +28,9 @@
 
 <template>
   <div id = "WelcomeDiv">
-    <div class="container-fluid">
+    <div class="container-fluid small-fluid-container">
       <div class="text-center">
-        <form id="WelcomeForm" v-on:submit.prevent>
+        <form id="WelcomeForm" class="small-center-form" v-on:submit.prevent>
           <h1 class="card-header">Minesweeper.io</h1>
           <hr/>
           <div class="input-group mt-1">
@@ -124,13 +124,6 @@ export default {
     top: 0; right: 0; bottom: 0; left: 0;
     }
     
-    .container-fluid{
-      position: absolute;
-      top: 0; right: 0; bottom: 0; left: 0;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-    }
 
     .input-group{
       padding-left: 0%;
