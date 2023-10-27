@@ -13,6 +13,7 @@ handler.get('/', (_, res) => {
 
 // set of all active users (in a room)
 const activeUsers = new Set();
+const activeGames = new Set();
 
 io.on('connection', (socket) => {
     // make room generator
@@ -21,11 +22,31 @@ io.on('connection', (socket) => {
 
     socket.on('new user', (data) => {
         socket.username = data;
-        activeUsers.add(data);
+        activeUsers.add(username);
         io.emit('new user', [...activeUsers]);
 
-        console.log('user ' + data + ' joined');
+        console.log('user ' + username + ' joined');
     });
+
+    socket.on('new game', (data, callback) => {
+        // todo: gameRoomGenerator
+        const gameRoom = 12345;
+
+        const game = {
+            roomId: gameRoom,
+            host: data,
+            difficulty: null,
+            players: {},
+        };
+
+        activeGames.add(game);
+
+        socket.to('myRandomChatRoomId').emit("new game", game);
+        callback({
+            status: "ok",
+            data: game,
+        });
+    })
 
     socket.on('disconnect', () => {
         activeUsers.delete(socket.username);

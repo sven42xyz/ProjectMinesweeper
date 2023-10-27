@@ -64,6 +64,7 @@ export default {
   data() {
     return {
       username: '',
+      intent: '',
     };
   },
 
@@ -84,14 +85,18 @@ export default {
     },
 
     newGame() {
-      console.log(this.username);
+      this.intent = 'create'
+      const data = {username: this.username, intent: this.intent};
+
+      console.log(data);
 
       if (!this.validateInput()) {
         return;
       }
 
-      SocketioService.setupSocketConnection(this.username);
+      const route = SocketioService.setupSocketConnection(data);
 
+      this.$router.push('/' + route);
       
     },
 
@@ -102,7 +107,7 @@ export default {
         return;
       }
 
-      SocketioService.setupSocketConnection(this.username);
+      this.$router.push('/join');
     },
 
     /*     //not in use
