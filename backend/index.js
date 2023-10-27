@@ -19,13 +19,14 @@ io.on('connection', (socket) => {
     // make room generator
     socket.join('myRandomChatRoomId');
     console.log('someone wants to sweep some mines!');
+    console.log(socket.username);
 
     socket.on('new user', (data) => {
         socket.username = data;
-        activeUsers.add(username);
+        activeUsers.add(socket.username);
         io.emit('new user', [...activeUsers]);
 
-        console.log('user ' + username + ' joined');
+        console.log('user ' + socket.username + ' joined');
     });
 
     socket.on('new game', (data, callback) => {
