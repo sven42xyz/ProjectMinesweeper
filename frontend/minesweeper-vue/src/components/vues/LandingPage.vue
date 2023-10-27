@@ -60,9 +60,6 @@ import SocketioService from '../../services/socketio.service.js';
 
 export default {
   name: 'LandingPage',
-  components: {
-
-  },
 
   data() {
     return {
@@ -94,6 +91,8 @@ export default {
       }
 
       SocketioService.setupSocketConnection(this.username);
+
+      
     },
 
     joinGame() {

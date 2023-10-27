@@ -1,27 +1,33 @@
 <template>
   <div class="App">
     <div>
-      <!-- current comp defined in data -->
-      <component v-bind:is="activeComponent"></component>
+      <router-view/>
     </div>
-
   </div>
 </template>
 
-<script>
+<!--
+  ROUTES:
+  / -> LandingPage
+  /join -> JoinGame
+  /create -> CreateGame
+  /lobby -> Lobby
+-->
+
+<!-- @Michelle
+  für deine Info: die App.vue dient fortan nur noch als Base für die anderen Vues. 
+  Diese laden wir je nach State in die "router-view".
+  Das einzige was wir noch auf die App.vue packen könnten wäre ein footer, der dann auf allen Seiten drauf wäre.
+
+  Hab das mal auskommentiert, falls du noch was hiervon brauchst. Wenn nicht, kannst du es gerne löschen :)
+-->
+
+<!-- <script>
 import SocketioService from './services/socketio.service.js';
-import LandingPage from './components/vues/LandingPage.vue';
-import CreateGame from './components/vues/CreateGame.vue';
-import JoinGame from './components/vues/JoinGame.vue';
-import Lobby from './components/vues/Lobby.vue';
 
 export default {
   name: 'App',
   components: {
-    LandingPage,
-    CreateGame,
-    JoinGame,
-    Lobby
   },
 
   data() {
@@ -31,18 +37,18 @@ export default {
   },
 
   methods: {
-        /*     submitUsername() {
-          console.log(this.username);
-          SocketioService.setupSocketConnection(this.username);
-        },
-    
-        submitMessage() {
-          const CHAT_ROOM = "myRandomChatRoomId";
-          const message = this.inputMessageText;
-          SocketioService.sendMessage({ message, roomName: CHAT_ROOM }, cb => {
-            console.log(cb);
-          });
-            }, */
+    /*     submitUsername() {
+      console.log(this.username);
+      SocketioService.setupSocketConnection(this.username);
+    },
+ 
+    submitMessage() {
+      const CHAT_ROOM = "myRandomChatRoomId";
+      const message = this.inputMessageText;
+      SocketioService.sendMessage({ message, roomName: CHAT_ROOM }, cb => {
+        console.log(cb);
+      });
+        }, */
 
     beforeUnmount() {
       SocketioService.disconnect();
@@ -65,4 +71,4 @@ export default {
   margin: 0;
   min-height: 100%;
 }
-</style>
+</style> -->
