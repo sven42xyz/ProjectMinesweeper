@@ -38,12 +38,12 @@
               <input type="text" class="form-control" aria-label="Username" v-model="username">
           </div>
           <div class="mb-3 mt-3">
-              <button v-on:click="newGame" class="btn btn-new-game w-75" type="Submit" id="new-game"
+              <button v-on:click="newGame" class="btn btn-primary-lavender w-75" type="Submit" id="new-game"
                 aria-expanded="false">New
                 Game</button>
            </div>
            <div class="mb-3 mt-3">
-            <button v-on:click="joinGame" class="btn btn-join-game w-75" type="Submit" id="join-game"
+            <button v-on:click="joinGame" class="btn btn-secondary-yellow w-75" type="Submit" id="join-game"
                 aria-expanded="false">Join
                 Game</button>
             </div>
@@ -163,34 +163,6 @@ export default {
     hr{
       margin: 5%;
       margin-bottom: 15%;
-    }
-
-    form{
-      background-color: rgb(240, 240, 255);
-      padding-top: 25px;
-      padding-bottom: 10px;
-      padding-left: 25px;
-      padding-right: 25px;
-      width: 330px;
-      height: 330px;
-      border-radius:10px;
-      margin: auto;
-    }
-
-    .btn-new-game{
-      background-color: rgb(149, 149, 197);
-      color: azure;
-      border-color: rgb(35, 35, 35);
-      border: 2px;
-      border-style: outset;
-    }
-
-    .btn-join-game{
-      background-color: rgb(247, 232, 99);
-      color: rgb(0, 0, 0);
-      border-color: rgb(35, 35, 35);
-      border: 2px;
-      border-style: outset;
     }
 
 </style>
