@@ -13,18 +13,20 @@ import SocketioService from './services/socketio.service.js';
 import LandingPage from './components/vues/LandingPage.vue';
 import CreateGame from './components/vues/CreateGame.vue';
 import JoinGame from './components/vues/JoinGame.vue';
+import Lobby from './components/vues/Lobby.vue';
 
 export default {
   name: 'App',
   components: {
     LandingPage,
     CreateGame,
-    JoinGame
+    JoinGame,
+    Lobby
   },
 
   data() {
     return {
-      activeComponent: 'LandingPage',
+      activeComponent: 'Lobby',
     };
   },
 
