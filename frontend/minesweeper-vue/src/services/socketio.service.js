@@ -22,6 +22,12 @@ class SocketioService {
 
     setGameOptions(data, res) {
         this.socket.emit('set options', data, res);
+
+        return;
+    }
+
+    joinLobby(data, res) {
+        this.socket.emit('join lobby', data, res);
     }
 
     disconnect() {

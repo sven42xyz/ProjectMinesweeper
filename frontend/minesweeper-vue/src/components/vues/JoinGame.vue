@@ -6,23 +6,73 @@
       <div class="d-flex justify-content-center">
         <div class="input-group md-4 w-100 mb-2 mt-2">
           <span class="input-group-text" id="basic-addon1">room</span>
-          <input type="text" class="form-control" aria-label="Roomcode" v-model="room">
+                <input type="text" class="form-control" aria-label="Roomcode" v-model="roomId">
+              </div>
+            </div>
+            <div class="d-flex justify-content-center">
+              <button v-on:click="joinLobby" class="btn btn-success" type="Submit" id="Submit-Button" aria-expanded="false">Join Game</button>
+              <button v-on:click="cancel" class="btn btn-danger" type="Cancel" id="Cancel-Button" aria-expanded="false">Cancel</button>
+            </div>
+          </form>
         </div>
-      </div>
-      <div class="d-flex justify-content-center">
-        <button v-on:click="joinLobby" class="btn btn-success" type="Submit" id="Submit-Button" aria-expanded="false">Join Game</button>
-        <button v-on:click="cancel" class="btn btn-danger" type="Cancel" id="Cancel-Button" aria-expanded="false">Cancel</button>
-      </div>
-    </form>
-  </div>
 </template>
 
 
 <script>
+import socketioService from '@/services/socketio.service';
+
 export default {
   name: 'JoinGame',
-  props: {
+
+  data() {
+    return {
+      roomId: null,
+    };
+  },
+
+  methods: {
+    validateInput() {
+      const regex = /^[a-zA-Z0-9]+$/;
+
+      if (!this.roomId) {
+        //add error handling -> user input needed
+        return;
+      }
+
+      if (!regex.test(this.roomId)) {
+        return;
+      }
+
+      return true;
+    },
+
+    joinLobby() {
+      const data = { roomId: this.roomId };
+
+      console.log(data);
+
+      if (!this.validateInput()) {
+        return;
+      }
+
+      socketioService.joinLobby(data, res => {
+        if (res.status !== 200) {
+          console.log('Error: bad request');
+          return;
+        }
+
+        this.$router.push('/lobby/' + res.data);
+      })
+    },
+
+    //Go back to the beginning
+    cancel() {
+      //todo: delete game from activegames
+      this.$router.push('/');
+    },
   }
+
+
 }
 </script>
 

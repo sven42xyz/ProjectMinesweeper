@@ -59,6 +59,8 @@ io.on('connection', (socket) => {
 
         socket.join(gameRoom);
 
+        console.log('new join: ' + socket.id + ' to room: ' + gameRoom);
+
         const game = {
             roomId: gameRoom,
             host: data,
@@ -78,18 +80,6 @@ io.on('connection', (socket) => {
     });
 
     socket.on('join game', (data, callback) => {
-/*         for (const game of activeGames) {
-            if (game.roomId !== data.roomId) {
-                console.log('Error: room not found');
-                callback({
-                    status: 400,
-                });
-                return;
-            };
-        }; */
-
-/*         socket.join(data.roomId); */
-
         console.log(socket.id);
 
         callback({
@@ -119,6 +109,26 @@ io.on('connection', (socket) => {
         };
         callback({
             status: 200,
+        });
+    });
+
+    socket.on('join lobby', (data, callback) => {
+        console.log('new join: ' + socket.id + ' to room: ' + data.roomId);
+
+        for (const game of activeGames) {
+            if (game.roomId !== data.roomId) {
+                console.log('Error: room not found');
+                callback({
+                    status: 400,
+                });
+                return;
+            };
+        };
+
+        socket.join(data.roomId);
+        callback({
+            status: 200,
+            data: data.roomId,
         });
     });
 
