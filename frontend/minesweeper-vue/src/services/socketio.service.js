@@ -28,6 +28,8 @@ class SocketioService {
 
     joinLobby(data, res) {
         this.socket.emit('join lobby', data, res);
+
+        return;
     }
 
     disconnect() {
