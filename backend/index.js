@@ -116,19 +116,19 @@ io.on('connection', (socket) => {
         console.log('new join: ' + socket.id + ' to room: ' + data.roomId);
 
         for (const game of activeGames) {
-            if (game.roomId !== data.roomId) {
-                console.log('Error: room not found');
+            if (game.roomId === data.roomId) {
+                socket.join(data.roomId);
                 callback({
-                    status: 400,
+                    status: 200,
+                    data: data.roomId,
                 });
                 return;
             };
         };
 
-        socket.join(data.roomId);
+        console.log('Error: room not found');
         callback({
-            status: 200,
-            data: data.roomId,
+            status: 400,
         });
     });
 
