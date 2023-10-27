@@ -6,23 +6,23 @@
   </div>
 </template>
 
-<!--
-  ROUTES:
+
+<!--   ROUTES:
   / -> LandingPage
   /join -> JoinGame
   /create -> CreateGame
-  /lobby -> Lobby
--->
+  /lobby -> Lobby -->
 
-<!-- @Michelle
+
+<!--  @Michelle
   für deine Info: die App.vue dient fortan nur noch als Base für die anderen Vues. 
   Diese laden wir je nach State in die "router-view".
   Das einzige was wir noch auf die App.vue packen könnten wäre ein footer, der dann auf allen Seiten drauf wäre.
 
-  Hab das mal auskommentiert, falls du noch was hiervon brauchst. Wenn nicht, kannst du es gerne löschen :)
--->
+  Hab das mal auskommentiert, falls du noch was hiervon brauchst. Wenn nicht, kannst du es gerne löschen :) -->
 
-<!-- <script>
+
+<script>
 import SocketioService from './services/socketio.service.js';
 
 export default {
@@ -56,7 +56,7 @@ export default {
   }
 }
 </script>
--->
+
 <style>
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
@@ -71,4 +71,4 @@ export default {
   margin: 0;
   min-height: 100%;
 }
-</style> -->
+</style>

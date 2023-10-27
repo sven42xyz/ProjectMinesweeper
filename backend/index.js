@@ -5,6 +5,7 @@ const io = require('socket.io')(server, {
         origins: ['http://localhost:8080']
     }
 });
+const crypto = require('crypto');
 
 handler.get('/', (_, res) => {
     res.send('<h1>Hello World!</h1>');
@@ -15,23 +16,48 @@ handler.get('/', (_, res) => {
 const activeUsers = new Set();
 const activeGames = new Set();
 
+const difficulties = new Map([
+    ['dif-1', 'Easy'],
+    ['dif-2', 'Medium'],
+    ['dif-3', 'Hard'],
+    ['dif-4', 'Insane'],
+]);
+
+/* function generateRoomId() {
+    let roomId;
+    const roomIds = activeGames.roomId;
+    do {
+        roomId = randomId();
+    } while
+        (roomIds.has(roomId));
+    return roomId;
+} */
+
+function randomId() {
+    const randomBytes = crypto.randomBytes(4);
+    return randomBytes.toString('hex');
+}
+
 io.on('connection', (socket) => {
-    // make room generator
-    socket.join('myRandomChatRoomId');
     console.log('someone wants to sweep some mines!');
-    console.log(socket.username);
 
     socket.on('new user', (data) => {
         socket.username = data;
-        activeUsers.add(socket.username);
+
+        activeUsers.add({ 
+            userid: socket.id,
+            username: socket.username, 
+        });
+
         io.emit('new user', [...activeUsers]);
 
-        console.log('user ' + socket.username + ' joined');
+        console.log('new user ' + socket.username + ' joined the server.');
     });
 
     socket.on('new game', (data, callback) => {
-        // todo: gameRoomGenerator
-        const gameRoom = 12345;
+        const gameRoom = randomId();
+
+        socket.join(gameRoom);
 
         const game = {
             roomId: gameRoom,
@@ -42,20 +68,68 @@ io.on('connection', (socket) => {
 
         activeGames.add(game);
 
-        socket.to('myRandomChatRoomId').emit("new game", game);
+        console.log(socket.id);
+        console.log(game.roomId);
+
         callback({
-            status: "ok",
+            status: 200,
             data: game,
         });
-    })
+    });
 
-    socket.on('disconnect', () => {
+    socket.on('join game', (data, callback) => {
+/*         for (const game of activeGames) {
+            if (game.roomId !== data.roomId) {
+                console.log('Error: room not found');
+                callback({
+                    status: 400,
+                });
+                return;
+            };
+        }; */
+
+/*         socket.join(data.roomId); */
+
+        console.log(socket.id);
+
+        callback({
+            status: 200,
+        });
+    });
+
+    socket.on('set options', (data, callback) => {
+        diff = difficulties.get(data.difficulty);
+        for (const game of activeGames) {
+            if (game.roomId === data.roomId) {
+                game.difficulty = diff;
+                break;
+            };
+        };
+        callback({
+            status: 200,
+        });
+    });
+
+    socket.on('delete game', (data, callback) => {
+        for (const game of activeGames) {
+            if (game.roomId === data.roomId) {
+                activeGames.delete(game);
+                break;
+            };
+        };
+        callback({
+            status: 200,
+        });
+    });
+
+
+/*     socket.on('disconnect', () => {
         activeUsers.delete(socket.username);
         socket.leave('myRandomChatRoomId');
         io.emit('user disconnect', socket.username);
 
         console.log('the mines have been swept');
-    });
+    }); */
 
     socket.on('my message', (msg) => {
         io.emit('my broadcast', `server: ${msg}`);

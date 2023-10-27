@@ -4,26 +4,24 @@ class SocketioService {
     socket = io(process.env.VUE_APP_SOCKET_ENDPOINT);
     constructor() { }
 
-    setupSocketConnection(data) {
-        this.socket.emit('new user', data.username)
+    setupSocketConnection(data, res) {
+        this.socket.emit('new user', data.username);
 
         console.log('Connecting ' + data.username + ' to socket...');
 
         if (data.intent === 'create') {
-            this.socket.emit('new game', data.username, tb => {
-                console.log(tb);
-            });
+            this.socket.emit('new game', data.username, res);
         }
 
-        return data.intent
+        if (data.intent === 'join') {
+            this.socket.emit('join game', data.username, res);
+        }
+
+        return;
     }
 
-    subscribeToGame(tb) {
-        if (!this.socket) return (true);
-        this.socket.on('game', game => {
-            console.log('Game created');
-            return tb(null, game);
-        });
+    setGameOptions(data, res) {
+        this.socket.emit('set options', data, res);
     }
 
     disconnect() {
@@ -33,14 +31,6 @@ class SocketioService {
     }
 
     // Handle message receive event
-    subscribeToMessages(cb) {
-        if (!this.socket) return (true);
-        this.socket.on('message', msg => {
-            console.log('Room event received!');
-            return cb(null, msg);
-        });
-    }
-
     sendMessage({ message, roomName }, cb) {
         if (this.socket) this.socket.emit('message', { message, roomName }, cb);
     }
