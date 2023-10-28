@@ -42,6 +42,29 @@
   transform: translate(-50%, -50%);
 }
 
+.medium-fluid-container{
+  position: absolute;
+  top: 0; right: 0; bottom: 0; left: 0;
+  background-color: rgb(240, 240, 255);
+  padding-top: 25px;
+  padding-bottom: 25px;
+  padding-left: 25px;
+  padding-right: 25px;
+  width: 45%;
+  height: 60%;
+  border-radius:10px;
+  margin: auto;
+  top: 55%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.btn{
+  height: 5.5vh;
+  width: 12.5vw;
+  font-size: 2.25vh;
+}
+
 .big-fluid-container{
   position: absolute;
   top: 0; right: 0; bottom: 0; left: 0;
