@@ -1,6 +1,6 @@
 <template>
   <div class="container-fluid medium-fluid-container">
-    <h1 class="card-header mt-2 mb-2" style="font-size: 6vh;">Create Game</h1>
+    <h1 class="card-header mt-2 mb-2">Create Game</h1>
     <hr style="margin-left: 2vw; margin-right: 2vw;"/>
     <form v-on:submit.prevent class="create-game-form">
       <div class="row row-cols-1">
@@ -39,8 +39,8 @@
         </div>
       </div>
       <hr class="m-0"/>
-      <button class="btn btn-success" type="Submit" id="Submit-Button" aria-expanded="false">Create Game</button>
-      <button class="btn btn-danger" type="Cancel" id="Cancel-Button" aria-expanded="false">Cancel</button>
+      <button v-on:click="joinLobby" class="btn btn-success" type="Submit" id="Submit-Button" aria-expanded="false">Create Game</button>
+      <button v-on:click="cancel" class="btn btn-danger" type="Cancel" id="Cancel-Button" aria-expanded="false">Cancel</button>
     </form>
   </div>
 </template>
@@ -68,7 +68,37 @@ export default {
     beforeUnmount() {
       SocketioService.disconnect();
     }
-  }
+  },
+
+  joinLobby() {
+    /* Please enter here
+    this.intent = 'create'
+    const data = {username: this.username, intent: this.intent};
+
+    console.log(data);
+
+    if (!this.validateInput()) {
+      return;
+    }
+
+    const route = SocketioService.setupSocketConnection(data);
+
+    this.$router.push('/' + route);
+    */
+    
+  },
+
+  cancel() {
+    /* Please enter here
+    console.log(this.username);
+
+    if (!this.validateInput()) {
+      return;
+    }
+
+    this.$router.push('');
+    */
+  },
 }
 </script>
 
@@ -80,13 +110,6 @@ export default {
   font-size: 2vh;
 }
 
-.btn-success{
-  margin-right: 10.5vw;
-}
-.btn{
-  margin-top: 2vw;
-}
-
 .form-check-input{
   height: 2.25vh;
   width: 2.25vh;
@@ -96,10 +119,15 @@ export default {
   min-width: 2.25vh;
 }
 
+.btn-success{
+  margin-right: 10.5vw;
+}
+
 .create-game-form{
   padding: 5%;
   padding-top: 1%;
   width: 40vw;
 
 }
+
 </style>
