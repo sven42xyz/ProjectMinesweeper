@@ -176,10 +176,10 @@ export default {
     }
     .player-col{
       margin-top: 1.5vh;
-      margin-right: 1.5vw;
-      margin-left: 1.5vw;
+      margin-right: 2.5vw;
+      margin-left: 2.5vw;
       margin-bottom: 1.5vh;
-      width: 25vw;
+      width: 22.5vw;
       height: 12vh;
       padding: 10px;
       background-color: rgba(230, 230, 250, 0.599);
@@ -199,7 +199,7 @@ export default {
     .btn{
       margin-top: 0vw;
       margin-left: 2.5vw;
-      width: 17.5vw;
+      width: 15.5vw;
     }
 
     .player-col-empty{
@@ -227,8 +227,8 @@ export default {
     }
 
     .btn-success{
-      margin-right: 22.5vw;
-      margin-left: 5vw;
+      margin-right: 21.5vw;
+      margin-left: 4.5vw;
       width: 45vw;
     }
     .btn-danger{

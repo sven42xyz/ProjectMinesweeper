@@ -9,12 +9,12 @@
               <span class="input-group-text" id="basic-addon1">username</span>
               <input type="text" class="form-control" aria-label="Username" v-model="username">
           </div>
-          <div class="mb-3 mt-3">
+          <div class>
               <button v-on:click="newGame" class="btn btn-primary-lavender w-75" type="Submit" id="new-game"
                 aria-expanded="false">New
                 Game</button>
            </div>
-           <div class="mb-3 mt-3">
+           <div class>
             <button v-on:click="joinGame" class="btn btn-secondary-yellow w-75" type="Submit" id="join-game"
                 aria-expanded="false">Join
                 Game</button>
@@ -132,6 +132,10 @@ export default {
     hr{
       margin: 5%;
       margin-bottom: 15%;
+    }
+
+    .btn{
+      margin-top: 2.5vh;
     }
 
 </style>
