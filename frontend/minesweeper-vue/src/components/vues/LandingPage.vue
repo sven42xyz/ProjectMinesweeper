@@ -138,4 +138,8 @@ export default {
       margin-top: 2.5vh;
     }
 
+    h1{
+      font-size: 5.5vh;
+    }
+
 </style>
