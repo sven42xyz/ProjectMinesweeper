@@ -51,7 +51,7 @@
     </div>
     <hr class="bottom-line"/>
     <form v-on:submit.prevent class="lobby-game-form">
-      <button v-on:click="joinLobby" class="btn btn-success" type="Submit" id="Submit-Button" aria-expanded="false">Create Game</button>
+      <button v-on:click="joinLobby" class="btn btn-success" type="Submit" id="Submit-Button" aria-expanded="false">Ready?</button>
       <button v-on:click="cancel" class="btn btn-danger" type="Cancel" id="Cancel-Button" aria-expanded="false">Cancel</button>
     </form>
   </div>
@@ -227,12 +227,12 @@ export default {
     }
 
     .btn-success{
-      margin-right: 25vw;
-      margin-left: 10vw;
-      width: 30vw;
+      margin-right: 22.5vw;
+      margin-left: 5vw;
+      width: 45vw;
     }
-    .btn-warning{
-      
+    .btn-danger{
+      width: 10vw;
     }
 
     hr{
