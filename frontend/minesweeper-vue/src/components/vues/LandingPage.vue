@@ -35,8 +35,9 @@ export default {
 
   data() {
     return {
-      username: '',
-      intent: '',
+      username: null,
+      intent: null,
+      game: null,
     };
   },
 
@@ -66,18 +67,32 @@ export default {
         return;
       }
 
-      const route = SocketioService.setupSocketConnection(data);
+      SocketioService.setupSocketConnection(data, res => {
+        if (res.status !== 200) {
+          return;
+        }
 
-      this.$router.push('/' + route);
-      
+        this.$router.push('/' + this.intent + '/' + res.data.roomId);
+      });
     },
 
     joinGame() {
-      console.log(this.username);
+      this.intent = 'join'
+      const data = {username: this.username, intent: this.intent};
+
+      console.log(data);
 
       if (!this.validateInput()) {
         return;
       }
+
+      SocketioService.setupSocketConnection(data, res => {
+        if (res.status !== 200) {
+          return;
+        }
+
+        this.$router.push('/' + this.intent);
+      });
 
       this.$router.push('/join');
     },

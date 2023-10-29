@@ -6,9 +6,9 @@ import Lobby from '../components/vues/Lobby.vue'
 
 const routes = [
     { path: '/', component: LandingPage },
-    { path: '/create', name: 'create', component: CreateGame },
+    { path: '/create/:id', name: 'create', component: CreateGame },
     { path: '/join', name: 'join', component: JoinGame },
-    { path: '/lobby', name: 'lobby', component: Lobby },
+    { path: '/lobby/:id', name: 'lobby', component: Lobby },
 ];
 
 const router = createRouter({

@@ -6,8 +6,8 @@
       <div class="row row-cols-1">
         <div class="col mb-2" style="padding-right: 0%;">
           <div class="input-group md-4 mb-3" style="height: 5.5vh; width: 100%;">
-            <span class="input-group-text" id="basic-addon1" style="font-size: 2vh; ">room</span>
-            <input type="text" class="form-control" aria-label="Roomcode" v-model="room"  style="height: 5.5vh;">
+            <span class="input-group-text" id="basic-addon1" style="font-size: 2vh; ">your room</span>
+              <span class="form-control" style="height: 5.5vh;">{{ roomId }}</span>
           </div>
         </div>
         <div class="col">
@@ -18,19 +18,19 @@
               </div>
               <div class="form-group">
                 <div class="form-check">
-                  <input class="form-check-input" type="radio" name="dif" id="dif-1" value="dif-1" checked>
+                  <input class="form-check-input" type="radio" name="dif" id="dif-1" value="dif-1" checked v-model="difficulty">
                   <label class="form-check-label" for="dif-1">Easy</label>
                 </div>
                 <div class="form-check">
-                  <input class="form-check-input" type="radio" name="dif" id="dif-2" value="dif-2">
+                  <input class="form-check-input" type="radio" name="dif" id="dif-2" value="dif-2" v-model="difficulty">
                   <label class="form-check-label" for="dif-2">Medium</label>
                 </div>
                 <div class="form-check">
-                  <input class="form-check-input" type="radio" name="dif" id="dif-3" value="dif-3">
+                  <input class="form-check-input" type="radio" name="dif" id="dif-3" value="dif-3" v-model="difficulty">
                   <label class="form-check-label" for="dif-3">Hard</label>
                 </div>
                 <div class="form-check">
-                  <input class="form-check-input" type="radio" name="dif" id="dif-4" value="dif-4">
+                  <input class="form-check-input" type="radio" name="dif" id="dif-4" value="dif-4" v-model="difficulty">
                   <label class="form-check-label" for="dif-4">Insane</label>
                 </div>
               </div>
@@ -39,7 +39,7 @@
         </div>
       </div>
       <hr class="m-0"/>
-      <button v-on:click="joinLobby" class="btn btn-success" type="Submit" id="Submit-Button" aria-expanded="false">Create Game</button>
+      <button v-on:click="createGame" class="btn btn-success" type="Submit" id="Submit-Button" aria-expanded="false">Create Game</button>
       <button v-on:click="cancel" class="btn btn-danger" type="Cancel" id="Cancel-Button" aria-expanded="false">Cancel</button>
     </form>
   </div>
@@ -50,54 +50,45 @@ import SocketioService from '../../services/socketio.service.js';
 
 export default {
   name: 'CreateGame',
-  components: {
-  },
 
   data() {
     return {
-      room: '',
-      difficulty: ''
+      roomId: null,
+      difficulty: 'dif-1',
     };
   },
 
+  created() {
+    this.roomId = this.$route.params.id;
+  },
+
   methods: {
-    submitRoomCode() {
-      console.log(this.room);
+    //Set difficulty and go to lobby
+    createGame() {
+      //update game on serverside with selected diff and forward to lobby
+      const data = {roomId: this.roomId, difficulty: this.difficulty};
+      console.log(data);
+
+      SocketioService.setGameOptions(data, cb => {
+        if (cb.status !== 200) {
+          console.log('Error: bad request');
+          return;
+        }
+
+        this.$router.push('/lobby/' + this.roomId);
+      });
     },
 
+    //Go back to the beginning
+    cancel() {
+      //todo: delete game from activegames
+      this.$router.push('/');
+    },
+
+    //...
     beforeUnmount() {
       SocketioService.disconnect();
     }
-  },
-
-  joinLobby() {
-    /* Please enter here
-    this.intent = 'create'
-    const data = {username: this.username, intent: this.intent};
-
-    console.log(data);
-
-    if (!this.validateInput()) {
-      return;
-    }
-
-    const route = SocketioService.setupSocketConnection(data);
-
-    this.$router.push('/' + route);
-    */
-    
-  },
-
-  cancel() {
-    /* Please enter here
-    console.log(this.username);
-
-    if (!this.validateInput()) {
-      return;
-    }
-
-    this.$router.push('');
-    */
   },
 }
 </script>
