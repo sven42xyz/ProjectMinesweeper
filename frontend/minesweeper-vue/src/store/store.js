@@ -1,19 +1,5 @@
-import { createStore } from 'vuex'
+import { defineStore } from 'pinia'
 
-const store = createStore({
-    state() {
-        return {
-            gameReady: false,
-        }
-    },
-    mutations: {
-        gameReadyState (state, data) {
-            if (data.status !== 200) {
-                state.gameReady = data.state
-            }
-        },
-        
-    }
+export const useGameReadyStore = defineStore('game ready', {
+ //do something here...
 });
-
-export default store;
