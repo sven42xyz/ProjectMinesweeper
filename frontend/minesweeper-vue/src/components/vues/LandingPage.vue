@@ -72,7 +72,7 @@ export default {
           return;
         }
 
-        this.$router.push('/' + this.intent + '/' + res.data.roomId);
+        this.$router.push('/' + this.intent + '/' + res.roomId + '/u/' + res.userId);
       });
     },
 
@@ -91,7 +91,7 @@ export default {
           return;
         }
 
-        this.$router.push('/' + this.intent);
+        this.$router.push('/' + this.intent + '/u/' + res.userId);
       });
 
       this.$router.push('/join');

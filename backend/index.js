@@ -63,9 +63,16 @@ io.on('connection', (socket) => {
 
         const game = {
             roomId: gameRoom,
-            host: data,
+            host: socket.id,
             difficulty: null,
-            players: {},
+            players: {
+                p1: socket.id,
+                p2: null,
+                p3: null,
+                p4: null,
+                p5: null,
+                p6: null,
+            },
         };
 
         activeGames.add(game);
@@ -75,15 +82,30 @@ io.on('connection', (socket) => {
 
         callback({
             status: 200,
-            data: game,
+            roomId: game.roomId,
+            userId: socket.id,
         });
     });
 
-    socket.on('join game', (data, callback) => {
+    socket.on('join game', (_, callback) => {
         console.log(socket.id);
+
+        for (const game of activeGames) {
+            for (let i in game.players) {
+                console.log(game.players);
+                if (i === null) {
+                    console.log(i);
+                    i = socket.id;
+                    break;
+                };
+            }
+        };
+
+        console.log(activeGames);
 
         callback({
             status: 200,
+            userId: socket.id,
         });
     });
 
@@ -97,6 +119,8 @@ io.on('connection', (socket) => {
         };
         callback({
             status: 200,
+            roomId: data.roomId,
+            userId: data.userId,
         });
     });
 
@@ -113,14 +137,15 @@ io.on('connection', (socket) => {
     });
 
     socket.on('join lobby', (data, callback) => {
-        console.log('new join: ' + socket.id + ' to room: ' + data.roomId);
+        console.log('new join: ' + data.userId + ' to room: ' + data.roomId);
 
         for (const game of activeGames) {
             if (game.roomId === data.roomId) {
                 socket.join(data.roomId);
                 callback({
                     status: 200,
-                    data: data.roomId,
+                    roomId: data.roomId,
+                    userId: data.userId,
                 });
                 return;
             };

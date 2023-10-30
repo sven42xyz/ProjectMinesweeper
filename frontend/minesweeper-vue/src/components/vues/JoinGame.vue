@@ -27,7 +27,12 @@ export default {
   data() {
     return {
       roomId: null,
+      userId: null,
     };
+  },
+
+  created() {
+    this.userId = this.$route.params.userId;
   },
 
   methods: {
@@ -47,7 +52,7 @@ export default {
     },
 
     joinLobby() {
-      const data = { roomId: this.roomId };
+      const data = { roomId: this.roomId, userId: this.userId };
 
       console.log(data);
 
@@ -61,7 +66,7 @@ export default {
           return;
         }
 
-        this.$router.push('/lobby/' + res.data);
+        this.$router.push('/lobby/' + res.roomId + '/u/' + res.userId);
       })
     },
 

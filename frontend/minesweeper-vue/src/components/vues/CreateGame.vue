@@ -54,26 +54,28 @@ export default {
   data() {
     return {
       roomId: null,
+      userId: null,
       difficulty: 'dif-1',
     };
   },
 
   created() {
-    this.roomId = this.$route.params.id;
+    this.roomId = this.$route.params.roomId;
+    this.userId = this.$route.params.userId;
   },
 
   methods: {
     createGame() {
-      const data = {roomId: this.roomId, difficulty: this.difficulty};
+      const data = {roomId: this.roomId, userId: this.userId, difficulty: this.difficulty};
       console.log(data);
 
-      SocketioService.setGameOptions(data, cb => {
-        if (cb.status !== 200) {
+      SocketioService.setGameOptions(data, res => {
+        if (res.status !== 200) {
           console.log('Error: bad request');
           return;
         }
 
-        this.$router.push('/lobby/' + this.roomId);
+        this.$router.push('/lobby/' + res.roomId + '/u/' + res.userId);
       });
     },
 
