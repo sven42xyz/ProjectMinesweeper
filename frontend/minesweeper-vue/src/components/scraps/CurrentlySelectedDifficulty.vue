@@ -19,6 +19,24 @@
     </div>
 </template>
 
+<script>
+export default {
+  data() {
+    return {
+      roomId: null,
+      difficulty: 'dif-1',
+    };
+  },
+
+  created() {
+    this.roomId = this.$route.params.id;
+  },
+
+  methods: {
+  },
+}
+</script>
+
 <style scoped>
     .form-group{      
       margin-top: 1.5vh;

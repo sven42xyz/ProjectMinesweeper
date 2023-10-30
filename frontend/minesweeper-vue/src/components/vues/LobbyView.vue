@@ -11,6 +11,7 @@
         <PlayerIcon/>
         <PlayerEmpty/>
         <Difficulty/>
+        <Progress/>
       </div>
     </div>
     <hr class="bottom-line"/>
@@ -26,6 +27,8 @@ import PlayerReady from '../scraps/PlayerIconReady.vue'
 import PlayerIcon from '../scraps/PlayerIcon.vue'
 import PlayerEmpty from '../scraps/PlayerIconEmpty.vue'
 import Difficulty from '../scraps/CurrentlySelectedDifficulty.vue'
+import Progress from '../scraps/ProgressBar.vue'
+
 </script>
 
 <style scoped>
