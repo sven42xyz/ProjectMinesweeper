@@ -63,9 +63,7 @@ export default {
   },
 
   methods: {
-    //Set difficulty and go to lobby
     createGame() {
-      //update game on serverside with selected diff and forward to lobby
       const data = {roomId: this.roomId, difficulty: this.difficulty};
       console.log(data);
 
@@ -81,7 +79,19 @@ export default {
 
     //Go back to the beginning
     cancel() {
-      //todo: delete game from activegames
+      //todo: determine if the kill comes from host or player
+      const userClass = 'host'
+
+      const data = {roomId: this.roomId, userClass: userClass}
+      console.log(data);
+
+      SocketioService.killLobby(data, cb => {
+        if (cb.status !== 200) {
+          console.log('Error: bad request');
+          return;
+        }
+      });
+
       this.$router.push('/');
     },
 

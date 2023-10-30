@@ -32,6 +32,12 @@ class SocketioService {
         return;
     }
 
+    killLobby(data, res) {
+        this.socket.emit('delete game', data, res)
+
+        return;
+    }
+
     disconnect() {
         if (this.socket) {
             this.socket.disconnect();
