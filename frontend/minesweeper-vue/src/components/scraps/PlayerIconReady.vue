@@ -1,67 +1,16 @@
 <template>
-  <div class="container-fluid big-fluid-container">
-    <div class="container-fluid lobby-container">
-      <h1 class="welcome-label row">Welcome to the Lobby!</h1>
-      <hr class="w-100 mb-3"/>
-      <div class="row row-cols-2">
-        <div class="col card player-col">
-          <h5 class="card-title" v-html="this.username"/>
-          <hr/>
-          <button class="btn btn-light btn-ready" type="button" disabled>
-            <span class="spinner-grow spinner-grow-active spinner-grow-sm float-start" role="status" aria-hidden="true"></span>
-            <h6 class="m-0">Ready!</h6>
-          </button>
-        </div>
-        <div class="col card player-col">
-          <h5 class="card-title">Anna</h5>
-          <hr/>
-          <button class="btn btn-waiting btn-primary" type="button" disabled>
-            <span class="spinner-grow spinner-grow-sm float-start" role="status" aria-hidden="true"></span>
-            <h6 class="m-0">Waiting...</h6>
-          </button>
-        </div>
-        <div class="col card player-col">
-          <h5 class="card-title">Bob</h5>
-          <hr/>
-          <button class="btn btn-waiting btn-primary" type="button" disabled>
-            <span class="spinner-grow spinner-grow-sm float-start" role="status" aria-hidden="true"></span>
-            <h6 class="m-0">Waiting...</h6>
-          </button>
-        </div>
-        <div class="col card player-col">
-          <h5 class="card-title">Tim</h5>
-          <hr/>
-          <button class="btn btn-waiting btn-primary" type="button" disabled>
-            <span class="spinner-grow spinner-grow-sm float-start" role="status" aria-hidden="true"></span>
-            <h6 class="m-0">Loading...</h6>
-          </button>
-        </div>
-        <div class="col card player-col">
-          <h5 class="card-title">Luna</h5>
-          <hr/>
-          <button class="btn btn-waiting btn-primary" type="button" disabled>
-            <span class="spinner-grow spinner-grow-sm float-start" role="status" aria-hidden="true"></span>
-            <h6 class="m-0">Loading...</h6>
-          </button>
-        </div>
-        <div class="col card player-col player-col-empty">
-          <h5 class="card-title">Waiting for player...</h5>
-        </div>
-      </div>
-    </div>
-    <hr class="bottom-line"/>
-    <form v-on:submit.prevent class="lobby-game-form">
-      <button v-on:click="joinLobby" class="btn btn-success" type="Submit" id="Submit-Button" aria-expanded="false">Ready?</button>
-      <button v-on:click="cancel" class="btn btn-danger" type="Cancel" id="Cancel-Button" aria-expanded="false">Cancel</button>
-    </form>
+  <div class="col card player-col">
+    <h5 class="card-title">Sven</h5>
+    <hr/>
+    <button class="btn btn-light btn-ready" type="button" disabled>
+      <span class="spinner-grow spinner-grow-active spinner-grow-sm float-start" role="status" aria-hidden="true"></span>
+      <h6 class="m-0">Ready!</h6>
+    </button>
   </div>
 </template>
 
 <script>
 import SocketioService from '../../services/socketio.service.js';
-
-//https://getbootstrap.com/docs/5.0/components/popovers/
-
 export default {
   name: 'LandingPage',
   components: {
