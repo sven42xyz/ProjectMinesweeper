@@ -2,7 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 import CreateGame from '../components/vues/CreateGame.vue'
 import JoinGame from '../components/vues/JoinGame.vue'
 import LandingPage from '../components/vues/LandingPage.vue'
-import Lobby from '../components/vues/Lobby.vue'
+import Lobby from '../components/vues/LobbyView.vue'
 
 const routes = [
     { path: '/', component: LandingPage },
