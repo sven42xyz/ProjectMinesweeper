@@ -52,10 +52,6 @@
       this.userId = this.$cookies.get('session').userId;
     },
 
-    socket: {
-      //reactive socket functions: on server event...
-    },
-
     methods: {
       cancel() {
         const data = { roomId: this.roomId, userId: this.userId }
