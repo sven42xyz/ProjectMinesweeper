@@ -32,7 +32,7 @@ export default {
   },
 
   created() {
-    this.userId = this.$route.params.userId;
+    this.userId = this.$cookies.get('session').userId;
   },
 
   methods: {
