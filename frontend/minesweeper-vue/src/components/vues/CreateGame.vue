@@ -67,7 +67,6 @@ export default {
   methods: {
     createGame() {
       const data = {roomId: this.roomId, userId: this.userId, difficulty: this.difficulty};
-      console.log(data);
 
       SocketioService.setGameOptions(data, res => {
         if (res.status !== 200) {
@@ -79,13 +78,8 @@ export default {
       });
     },
 
-    //Go back to the beginning
     cancel() {
-      //todo: determine if the kill comes from host or player
-      const userClass = 'host'
-
-      const data = {roomId: this.roomId, userClass: userClass}
-      console.log(data);
+      const data = {roomId: this.roomId, userId: this.userId}
 
       SocketioService.killLobby(data, cb => {
         if (cb.status !== 200) {

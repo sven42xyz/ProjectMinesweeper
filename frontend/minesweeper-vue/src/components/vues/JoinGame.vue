@@ -71,14 +71,10 @@ export default {
       })
     },
 
-    //Go back to the beginning
     cancel() {
-      //todo: delete game from activegames
       this.$router.push('/');
     },
   }
-
-
 }
 </script>
 

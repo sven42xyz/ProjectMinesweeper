@@ -124,7 +124,7 @@ io.on('connection', (socket) => {
             return;
         }
 
-        socket.to(game.roomId).emit('game closed');
+        socket.to(game.roomId).emit('game deleted');
 
         activeGames.delete(game);
 
