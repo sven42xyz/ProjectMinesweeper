@@ -1,3 +1,6 @@
+const Player = require('./models/player');
+const Game = require ('./models/game');
+
 const handler = require('express')();
 const server = require('http').createServer(handler);
 const io = require('socket.io')(server, {
@@ -23,16 +26,6 @@ const difficulties = new Map([
     ['dif-4', 'Insane'],
 ]);
 
-/* function generateRoomId() {
-    let roomId;
-    const roomIds = activeGames.roomId;
-    do {
-        roomId = randomId();
-    } while
-        (roomIds.has(roomId));
-    return roomId;
-} */
-
 function randomId() {
     const randomBytes = crypto.randomBytes(4);
     return randomBytes.toString('hex');
@@ -44,38 +37,29 @@ io.on('connection', (socket) => {
     socket.on('new user', (data) => {
         socket.username = data;
 
-        activeUsers.add({ 
-            userid: socket.id,
-            username: socket.username, 
-        });
+        const player = new Player(socket.id, socket.username);
+
+        activeUsers.add(player);
+
+        console.log(activeUsers);
 
         io.emit('new user', [...activeUsers]);
 
         console.log('new user ' + socket.username + ' joined the server.');
     });
 
-    socket.on('new game', (data, callback) => {
+    socket.on('new game', (_, callback) => {
         const gameRoom = randomId();
 
         socket.join(gameRoom);
 
         console.log('new join: ' + socket.id + ' to room: ' + gameRoom);
 
-        const game = {
-            roomId: gameRoom,
-            host: socket.id,
-            difficulty: null,
-            players: {
-                p1: socket.id,
-                p2: null,
-                p3: null,
-                p4: null,
-                p5: null,
-                p6: null,
-            },
-        };
+        const game = new Game(gameRoom, socket.id);
 
         activeGames.add(game);
+
+        console.log(activeGames);
 
         console.log(socket.id);
         console.log(game.roomId);
