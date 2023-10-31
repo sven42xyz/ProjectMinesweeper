@@ -71,7 +71,7 @@ io.on('connection', (socket) => {
             roomId: data.roomId,
             userId: data.userId,
         });
-    });
+    }); 
 
     socket.on('set options', (data, callback) => {
         const game = utils.getGameByRoomId(activeGames, data.roomId);
