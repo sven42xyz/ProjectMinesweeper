@@ -72,7 +72,8 @@ export default {
           return;
         }
 
-        this.$router.push('/' + this.intent + '/' + res.roomId + '/u/' + res.userId);
+        this.$cookies.set('session', res, 0);
+        this.$router.push('/' + this.intent);
       });
     },
 
@@ -91,10 +92,9 @@ export default {
           return;
         }
 
-        this.$router.push('/' + this.intent + '/u/' + res.userId);
+        this.$cookies.set('session', res);
+        this.$router.push('/' + this.intent);
       });
-
-      this.$router.push('/join');
     },
 
     /*     //not in use

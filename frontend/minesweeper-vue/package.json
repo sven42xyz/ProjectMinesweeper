@@ -14,7 +14,8 @@
     "pinia": "^2.1.7",
     "socket.io-client": "^4.7.2",
     "vue": "^3.2.13",
-    "vue-router": "^4.2.5"
+    "vue-router": "^4.2.5",
+    "vue3-cookies": "^1.0.6"
   },
   "devDependencies": {
     "@babel/core": "^7.12.16",

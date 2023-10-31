@@ -66,7 +66,8 @@ export default {
           return;
         }
 
-        this.$router.push('/lobby/' + res.roomId + '/u/' + res.userId);
+        this.$cookies.set('session', res);
+        this.$router.push('/lobby/');
       })
     },
 

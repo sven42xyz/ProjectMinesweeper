@@ -60,8 +60,8 @@ export default {
   },
 
   created() {
-    this.roomId = this.$route.params.roomId;
-    this.userId = this.$route.params.userId;
+    this.roomId = this.$cookies.get('session').roomId;
+    this.userId = this.$cookies.get('session').userId;
   },
 
   methods: {
@@ -75,7 +75,7 @@ export default {
           return;
         }
 
-        this.$router.push('/lobby/' + res.roomId + '/u/' + res.userId);
+        this.$router.push('/lobby/');
       });
     },
 
