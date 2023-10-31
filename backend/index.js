@@ -1,6 +1,6 @@
 const Player = require('./models/player');
-const Game = require ('./models/game');
-const crypto = require('crypto');
+const Game = require('./models/game');
+const Utilities = require('./utilities');
 
 const handler = require('express')();
 const server = require('http').createServer(handler);
@@ -15,53 +15,29 @@ handler.get('/', (_, res) => {
     console.log("Connection");
 });
 
+const utils = new Utilities();
+
 // set of all active users (in a room)
 const activeUsers = new Set();
 const activeGames = new Set();
-
-function randomId() {
-    let randomBytes = crypto.randomBytes(4);
-    return randomBytes.toString('hex');
-}
-
-function getGameByRoomId(set, roomId) {
-    let target = null;
-
-    set.forEach((game) => {
-        if (game.roomId === roomId) {
-            target = game;
-            return;
-        }
-    });
-    return target;
-}
 
 io.on('connection', (socket) => {
     console.log(socket.id + ' wants to sweep some mines!');
 
     socket.on('new user', (data) => {
         socket.username = data;
-
         const player = new Player(socket.id, socket.username);
-
         activeUsers.add(player);
-
         console.log(activeUsers);
-
         console.log('new user ' + socket.username + ' joined the server.');
     });
 
     socket.on('new game', (_, callback) => {
-        const gameRoom = randomId();
-
+        const gameRoom = utils.randomId();
         socket.join(gameRoom);
-
         const game = new Game(gameRoom, socket.id);
-
         game.addPlayer(socket.id);
-
         activeGames.add(game);
-
         console.log(activeGames);
 
         callback({
@@ -79,7 +55,7 @@ io.on('connection', (socket) => {
     });
 
     socket.on('join lobby', (data, callback) => {
-        const game = getGameByRoomId(activeGames, data.roomId);
+        const game = utils.getGameByRoomId(activeGames, data.roomId);
 
         if (!game) {
             console.log('Bad request');
@@ -87,9 +63,7 @@ io.on('connection', (socket) => {
         }
 
         socket.join(data.roomId);
-
         game.addPlayer(data.userId);
-
         console.log(activeGames);
 
         callback({
@@ -100,7 +74,7 @@ io.on('connection', (socket) => {
     });
 
     socket.on('set options', (data, callback) => {
-        const game = getGameByRoomId(activeGames, data.roomId);
+        const game = utils.getGameByRoomId(activeGames, data.roomId);
 
         if (!game) {
             console.log('Bad request');
@@ -108,7 +82,6 @@ io.on('connection', (socket) => {
         }
 
         game.setDifficulty(data.difficulty);
-
         console.log(activeGames);
 
         callback({
@@ -119,15 +92,13 @@ io.on('connection', (socket) => {
     });
 
     socket.on('delete game', (data, callback) => {
-        const game = getGameByRoomId(activeGames, data.roomId);
+        const game = utils.getGameByRoomId(activeGames, data.roomId);
         if (game.host !== data.userId) {
             return;
         }
 
         socket.to(game.roomId).emit('game deleted');
-
         activeGames.delete(game);
-
         console.log(activeGames);
 
         callback({
