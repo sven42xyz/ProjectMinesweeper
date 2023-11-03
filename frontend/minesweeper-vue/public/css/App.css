@@ -22,12 +22,12 @@
 
 .small-center-form{
   background-color: rgb(240, 240, 255);
-  padding-top: 25px;
-  padding-bottom: 10px;
-  padding-left: 25px;
-  padding-right: 25px;
-  width: 330px;
-  height: 330px;
+  padding-top: 1.5vh;
+  padding-bottom: 0.75;
+  padding-left: 1.5vw;
+  padding-right: 1.5vw;
+  width: 22.5vw;
+  height: 42.5vh;
   border-radius:10px;
   margin: auto;
 }
