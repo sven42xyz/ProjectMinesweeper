@@ -26,56 +26,56 @@
 </template>
 
 <script setup>
-import PlayerReady from '../scraps/PlayerIconReady.vue'
-import PlayerIcon from '../scraps/PlayerIcon.vue'
-import PlayerEmpty from '../scraps/PlayerIconEmpty.vue'
-import Difficulty from '../scraps/CurrentlySelectedDifficulty.vue'
-import Progress from '../scraps/ProgressBar.vue'
-import Chat from '../scraps/ChatBox.vue'
+  import PlayerReady from '../scraps/PlayerIconReady.vue'
+  import PlayerIcon from '../scraps/PlayerIcon.vue'
+  import PlayerEmpty from '../scraps/PlayerIconEmpty.vue'
+  import Difficulty from '../scraps/CurrentlySelectedDifficulty.vue'
+  import Progress from '../scraps/ProgressBar.vue'
+  import Chat from '../scraps/ChatBox.vue'
 </script>
 
 <script>
-import SocketioService from '../../services/socketio.service.js';
+  import SocketioService from '../../services/socketio.service.js';
 
-export default {
-  name: 'LobbyView',
+  export default {
+    name: 'LobbyView',
 
-  data() {
-    return {
-      roomId: null,
-      userId: null,
-    };
-  },
-
-  created() {
-    this.roomId = this.$cookies.get('session').roomId;
-    this.userId = this.$cookies.get('session').userId;
-  },
-
-  socket: {
-    //reactive socket functions: on server event...
-  },
-
-  methods: {
-    cancel() {
-      const data = { roomId: this.roomId, userId: this.userId }
-
-      SocketioService.killLobby(data, cb => {
-        if (cb.status !== 200) {
-          console.log('Error: bad request');
-          return;
-        }
-      });
-
-      this.$router.push('/');
+    data() {
+      return {
+        roomId: null,
+        userId: null,
+      };
     },
 
-    //...
-    beforeUnmount() {
-      SocketioService.disconnect();
-    }
-  },
-}
+    created() {
+      this.roomId = this.$cookies.get('session').roomId;
+      this.userId = this.$cookies.get('session').userId;
+    },
+
+    socket: {
+      //reactive socket functions: on server event...
+    },
+
+    methods: {
+      cancel() {
+        const data = { roomId: this.roomId, userId: this.userId }
+
+        SocketioService.killLobby(data, cb => {
+          if (cb.status !== 200) {
+            console.log('Error: bad request');
+            return;
+          }
+        });
+
+        this.$router.push('/');
+      },
+
+      //...
+      beforeUnmount() {
+        SocketioService.disconnect();
+      }
+    },
+  }
 </script>
 
 <style scoped>

@@ -1,6 +1,6 @@
 <template>
   <div class="col card player-col">
-    <h5 class="card-title">Anna</h5>
+    <h5 class="card-title">{{ this.$cookies.get('session').userId }}</h5>
     <hr/>
     <button class="btn btn-waiting btn-primary" type="button" disabled>
       <span class="spinner-grow spinner-grow-sm float-start" role="status" aria-hidden="true"></span>
@@ -10,6 +10,7 @@
 </template>
 
 <script>
+
 </script>
 
 <style scoped>
