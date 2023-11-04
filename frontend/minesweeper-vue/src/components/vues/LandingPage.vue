@@ -72,7 +72,8 @@ export default {
           return;
         }
 
-        this.$router.push('/' + this.intent + '/' + res.data.roomId);
+        this.$cookies.set('session', res, 0);
+        this.$router.push('/' + this.intent);
       });
     },
 
@@ -91,10 +92,9 @@ export default {
           return;
         }
 
+        this.$cookies.set('session', res);
         this.$router.push('/' + this.intent);
       });
-
-      this.$router.push('/join');
     },
 
     /*     //not in use
@@ -117,12 +117,19 @@ export default {
     
 
     .input-group{
-      padding-left: 0%;
-      top: 0%;
-      left: 26%;
-      width: 100%;
-      transform: translate(-25%, -25%);
-      
+      width: 95%;
+      padding-left: 0.75vw;
+      height: 12.5%;
+      margin-bottom: 1vh;
+    }
+
+    .input-group-text{
+      font-size: 2vh;
+      height: 100%;
+    }
+
+    .form-control{
+      height: 100%;
     }
 
     .form-control{
@@ -146,7 +153,7 @@ export default {
 
     hr{
       margin: 5%;
-      margin-bottom: 15%;
+      margin-bottom: 4vh;
     }
 
     .btn{

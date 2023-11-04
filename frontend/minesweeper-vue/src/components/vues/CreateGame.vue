@@ -54,36 +54,32 @@ export default {
   data() {
     return {
       roomId: null,
+      userId: null,
       difficulty: 'dif-1',
     };
   },
 
   created() {
-    this.roomId = this.$route.params.id;
+    this.roomId = this.$cookies.get('session').roomId;
+    this.userId = this.$cookies.get('session').userId;
   },
 
   methods: {
     createGame() {
-      const data = {roomId: this.roomId, difficulty: this.difficulty};
-      console.log(data);
+      const data = {roomId: this.roomId, userId: this.userId, difficulty: this.difficulty};
 
-      SocketioService.setGameOptions(data, cb => {
-        if (cb.status !== 200) {
+      SocketioService.setGameOptions(data, res => {
+        if (res.status !== 200) {
           console.log('Error: bad request');
           return;
         }
 
-        this.$router.push('/lobby/' + this.roomId);
+        this.$router.push('/lobby/');
       });
     },
 
-    //Go back to the beginning
     cancel() {
-      //todo: determine if the kill comes from host or player
-      const userClass = 'host'
-
-      const data = {roomId: this.roomId, userClass: userClass}
-      console.log(data);
+      const data = {roomId: this.roomId, userId: this.userId}
 
       SocketioService.killLobby(data, cb => {
         if (cb.status !== 200) {

@@ -3,7 +3,16 @@ import "bootstrap"
 import "../public/css/App.css"
 
 import { createApp } from 'vue'
+import VueCookies from 'vue3-cookies'
 import App from './App.vue'
 import router from './router'
 
-createApp(App).use(router).mount('#app');
+const app = createApp(App);
+
+app.use(router);
+app.use(VueCookies, {
+    expireTimes: '0',
+    sameSite: 'Strict'
+});
+
+app.mount('#app');

@@ -27,7 +27,12 @@ export default {
   data() {
     return {
       roomId: null,
+      userId: null,
     };
+  },
+
+  created() {
+    this.userId = this.$cookies.get('session').userId;
   },
 
   methods: {
@@ -47,7 +52,7 @@ export default {
     },
 
     joinLobby() {
-      const data = { roomId: this.roomId };
+      const data = { roomId: this.roomId, userId: this.userId };
 
       console.log(data);
 
@@ -61,18 +66,15 @@ export default {
           return;
         }
 
-        this.$router.push('/lobby/' + res.data);
+        this.$cookies.set('session', res);
+        this.$router.push('/lobby/');
       })
     },
 
-    //Go back to the beginning
     cancel() {
-      //todo: delete game from activegames
       this.$router.push('/');
     },
   }
-
-
 }
 </script>
 
