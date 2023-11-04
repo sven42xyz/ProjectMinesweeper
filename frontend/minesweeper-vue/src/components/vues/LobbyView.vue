@@ -14,6 +14,9 @@
         <Progress/>
       </div>
     </div>
+    <div class="container-fluid chat-container">
+      <Chat/>
+    </div>
     <hr class="bottom-line"/>
     <form v-on:submit.prevent class="lobby-game-form">
       <button v-on:click="joinLobby" class="btn btn-success" type="Submit" id="Submit-Button" aria-expanded="false">Ready?</button>
@@ -28,6 +31,7 @@ import PlayerIcon from '../scraps/PlayerIcon.vue'
 import PlayerEmpty from '../scraps/PlayerIconEmpty.vue'
 import Difficulty from '../scraps/CurrentlySelectedDifficulty.vue'
 import Progress from '../scraps/ProgressBar.vue'
+import Chat from '../scraps/ChatBox.vue'
 </script>
 
 <script>
@@ -126,7 +130,20 @@ export default {
       top: 0%;
       left: 0%;
     }
-
+    .chat-container{
+      position: absolute;
+      top: 0; right: 0; bottom: 0; left: 0;
+      padding-left: 2vw;
+      padding-right: 2vw;
+      padding-top: 0%;
+      width: 60vw;
+      height: 60vh;
+      border-radius:10px;
+      margin: 0;
+      top: 0%;
+      margin-left: 38.5vw;
+      margin-top: 2.5vh;
+    }
     .row{
       margin: 0;
     }
