@@ -1,6 +1,6 @@
 <template>
   <div class="col card player-col">
-    <h5 class="card-title">{{ userID }}</h5>
+    <h5 class="card-title">{{ username }}</h5>
     <hr/>
     <button class="btn btn-waiting btn-primary" type="button" disabled>
       <span class="spinner-grow spinner-grow-sm float-start" role="status" aria-hidden="true"></span>

@@ -32,7 +32,6 @@
   import Difficulty from '../scraps/CurrentlySelectedDifficulty.vue'
   import Progress from '../scraps/ProgressBar.vue'
   import Chat from '../scraps/ChatBox.vue'
-import { Socket } from 'socket.io-client'
 </script>
 
 <script>
