@@ -55,7 +55,7 @@ io.on('connection', (socket) => {
     });
 
     socket.on('join lobby', (data, callback) => {
-        const game = utils.getGameByRoomId(activeGames, data.roomId);
+        const game = new Game(utils.getGameByRoomId(activeGames, data.roomId));
 
         if (!game) {
             console.log('Bad request');
@@ -76,7 +76,7 @@ io.on('connection', (socket) => {
     }); 
 
     socket.on('set options', (data, callback) => {
-        const game = utils.getGameByRoomId(activeGames, data.roomId);
+        const game = new Game(utils.getGameByRoomId(activeGames, data.roomId));
 
         if (!game) {
             console.log('Bad request');
@@ -94,7 +94,7 @@ io.on('connection', (socket) => {
     });
 
     socket.on('delete game', (data, callback) => {
-        const game = utils.getGameByRoomId(activeGames, data.roomId);
+        const game = new Game(utils.getGameByRoomId(activeGames, data.roomId));
         if (game.host !== data.userId) {
             return;
         }

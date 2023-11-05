@@ -5,9 +5,9 @@
       <hr class="w-100 mb-3"/>
       <div class="row row-cols-2">
         <div class="loop-div" v-for="i in 6" v-bind:key="i">
-          <div v-if="players.get(i-1).state == 'NotReady'"><PlayerIcon/></div>
+<!--           <div v-if="players.get(i-1).state == 'NotReady'"><PlayerIcon/></div>
           <div v-else-if="players.get(i-1).state == 'Ready'"><PlayerReady/></div>
-          <div v-else><PlayerEmpty/></div> 
+          <div v-else><PlayerEmpty/></div>  -->
           <PlayerEmpty/>
         </div>
         <Difficulty/>
@@ -26,8 +26,8 @@
 </template>
 
 <script setup>
-  import PlayerReady from '../scraps/PlayerIconReady.vue'
-  import PlayerIcon from '../scraps/PlayerIcon.vue'
+  //import PlayerReady from '../scraps/PlayerIconReady.vue'
+  //import PlayerIcon from '../scraps/PlayerIcon.vue'
   import PlayerEmpty from '../scraps/PlayerIconEmpty.vue'
   import Difficulty from '../scraps/CurrentlySelectedDifficulty.vue'
   import Progress from '../scraps/ProgressBar.vue'
@@ -50,14 +50,14 @@
     },
 
     created: function() {
-        SocketioService.on('player-join', (data) => {
+/*         SocketioService.on('player-join', (data) => {
             this.players = data.get(activeUsers);
             console.log(data.activeUsers);
         });
         SocketioService.on('player-disconnected', (data) => {
             this.playerCounter = data.activeUsers;
             console.log(data.activeUsers);
-        });
+        }); */
       this.roomId = this.$cookies.get('session').roomId;
       this.userId = this.$cookies.get('session').userId;
     },
