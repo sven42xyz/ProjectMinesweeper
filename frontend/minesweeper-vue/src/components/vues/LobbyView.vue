@@ -8,10 +8,10 @@
 <!--           <div v-if="players.get(i-1).state == 'NotReady'"><PlayerIcon/></div>
           <div v-else-if="players.get(i-1).state == 'Ready'"><PlayerReady/></div>
           <div v-else><PlayerEmpty/></div>  -->
-          <PlayerEmpty username='matt'/>
+          <PlayerEmpty/>
         </div>
         <Difficulty/>
-        <Progress/>
+        <Progress playercount="4" playersReadyCount="2"/>
       </div>
     </div>
     <div class="container-fluid chat-container">
@@ -99,25 +99,6 @@
       background-color: rgb(255, 255, 255);
     }
 
-    .form-control{
-      width:50%;
-    }
-
-    .card-header{
-      width: 110%;
-      transform: translate(-5%, -5%);
-      padding-top: 5%;
-    }
-
-    .Center{
-      position: absolute;
-      top: 0; right: 0; bottom: 0; left: 0;
-    }
-
-    .text-center{
-      padding: 2.5%;
-    }
-
     hr{
       margin: 1%;
       margin-bottom: 5%;
@@ -139,61 +120,19 @@
     .chat-container{
       position: absolute;
       top: 0; right: 0; bottom: 0; left: 0;
-      padding-left: 2vw;
-      padding-right: 2vw;
-      padding-top: 0%;
-      width: 60vw;
-      height: 60vh;
+      width: 30vw;
+      height: 55vh;
       border-radius:10px;
-      margin: 0;
-      top: 0%;
-      margin-left: 38.5vw;
+      margin-left: 66%;
       margin-top: 2.5vh;
     }
     .row{
       margin: 0;
     }
-    .player-col{
-      margin-top: 1.5vh;
-      margin-right: 2.5vw;
-      margin-left: 2.5vw;
-      margin-bottom: 1.5vh;
-      width: 22.5vw;
-      height: 12vh;
-      padding: 10px;
-      background-color: rgba(230, 230, 250, 0.599);
-    }
-
-    .btn-ready{
-      background-color: rgb(24, 200, 91);
-      border-color: rgb(85, 85, 85);
-      color: rgb(0, 0, 0);
-    }
-
-    .btn-waiting{
-      background-color: rgb(149, 149, 197);
-      border-color: rgb(85, 85, 85);
-    }
-
     .btn{
       margin-top: 0vw;
       margin-left: 2.5vw;
       width: 15.5vw;
-    }
-
-    .player-col-empty{
-      background-color: transparent;
-    }
-
-    .spinner-grow-active{
-      color: rgb(116, 255, 123);
-      animation-play-state: paused;
-    }
-
-    .spinner-grow{
-      margin-left: 0;
-      margin-top: 1%;
-      animation-duration: 1.5s;
     }
     .welcome-label{
       margin: 1%;
@@ -209,9 +148,11 @@
       margin-right: 21.5vw;
       margin-left: 4.5vw;
       width: 45vw;
+      height: 5.vh;
     }
     .btn-danger{
       width: 10vw;
+      height: 5.5vh;
     }
 
     hr{
