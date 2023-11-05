@@ -4,12 +4,12 @@
       <h1 class="welcome-label row">Welcome to the Lobby!</h1>
       <hr class="w-100 mb-3"/>
       <div class="row row-cols-2">
-        <PlayerReady/>
-        <PlayerIcon/>
-        <PlayerIcon/>
-        <PlayerIcon/>
-        <PlayerIcon/>
-        <PlayerEmpty/>
+        <div class="loop-div" v-for="i in 6" v-bind:key="i">
+          <div v-if="players.get(i-1).state == 'NotReady'"><PlayerIcon/></div>
+          <div v-else-if="players.get(i-1).state == 'Ready'"><PlayerReady/></div>
+          <div v-else><PlayerEmpty/></div> 
+          <PlayerEmpty/>
+        </div>
         <Difficulty/>
         <Progress/>
       </div>
@@ -45,10 +45,19 @@
       return {
         roomId: null,
         userId: null,
+        players: null,
       };
     },
 
-    created() {
+    created: function() {
+        SocketioService.on('player-join', (data) => {
+            this.players = data.get(activeUsers);
+            console.log(data.activeUsers);
+        });
+        SocketioService.on('player-disconnected', (data) => {
+            this.playerCounter = data.activeUsers;
+            console.log(data.activeUsers);
+        });
       this.roomId = this.$cookies.get('session').roomId;
       this.userId = this.$cookies.get('session').userId;
     },
