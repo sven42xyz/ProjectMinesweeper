@@ -8,7 +8,7 @@
 <!--           <div v-if="players.get(i-1).state == 'NotReady'"><PlayerIcon/></div>
           <div v-else-if="players.get(i-1).state == 'Ready'"><PlayerReady/></div>
           <div v-else><PlayerEmpty/></div>  -->
-          <PlayerEmpty/>
+          <PlayerEmpty username='matt'/>
         </div>
         <Difficulty/>
         <Progress/>
