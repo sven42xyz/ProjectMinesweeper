@@ -11,7 +11,7 @@
           <PlayerEmpty username='matt'/>
         </div>
         <Difficulty/>
-        <Progress playercount="4" playersReadyCount="2"/>
+        <Progress playercount='4' playersReadyCount='2'/>
       </div>
     </div>
     <div class="container-fluid chat-container">
