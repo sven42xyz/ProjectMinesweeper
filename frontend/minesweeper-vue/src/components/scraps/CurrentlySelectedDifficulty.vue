@@ -2,19 +2,19 @@
     <div class="form-group">
         <div class="form-check">
         <input class="form-check-input" tabindex="-1" type="radio" name="dif" id="dif-1" value="dif-1" checked v-model="difficulty">
-        <h7 class="form-check-label" for="dif-1">Easy</h7>
+        <label class="form-check-label" for="dif-1">Easy</label>
         </div>
         <div class="form-check">
         <input class="form-check-input" tabindex="-1" type="radio" name="dif" id="dif-2" value="dif-2" v-model="difficulty">
-        <h7 class="form-check-label" for="dif-2">Medium</h7>
+        <label class="form-check-label" for="dif-2">Medium</label>
         </div>
         <div class="form-check">
         <input class="form-check-input" tabindex="-1" type="radio" name="dif" id="dif-3" value="dif-3" v-model="difficulty">
-        <h7 class="form-check-label" for="dif-3">Hard</h7>
+        <label class="form-check-label" for="dif-3">Hard</label>
         </div>
         <div class="form-check">
         <input class="form-check-input" tabindex="-1" type="radio" name="dif" id="dif-4" value="dif-4" v-model="difficulty">
-        <h7 class="form-check-label" for="dif-4">Insane</h7>
+        <label class="form-check-label" for="dif-4">Insane</label>
         </div>
     </div>
 </template>
@@ -50,13 +50,5 @@ export default {
       }
     .form-check-input{
         pointer-events: none;
-        height: calc(0.75vh + 0.75vw);
-        width: calc(0.75vh + 0.75vw);
     }
-
-    .form-check{
-      height: calc(1vh + 1vw);
-      min-height: 0;
-    }
-
 </style>

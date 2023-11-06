@@ -1,13 +1,10 @@
 <template>
   <div class="col card player-col player-col-empty">
-    <h5 class="card-title">Waiting for player...{{username}}</h5>
+    <h5 class="card-title">Waiting for player...</h5>
   </div>
 </template>
 
 <script>
-  export default {
-    props: ['username']
-  }
 </script>
 
 <style scoped>
