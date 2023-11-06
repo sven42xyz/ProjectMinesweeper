@@ -1,6 +1,7 @@
 const Player = require('./models/player');
 const Game = require('./models/game');
 const Utilities = require('./utilities');
+const utils = new Utilities();
 
 const handler = require('express')();
 const server = require('http').createServer(handler);
@@ -15,7 +16,6 @@ handler.get('/', (_, res) => {
     console.log("Connection");
 });
 
-const utils = new Utilities();
 
 // set of all active users (in a room)
 const activeUsers = new Set();
@@ -55,7 +55,7 @@ io.on('connection', (socket) => {
     });
 
     socket.on('join lobby', (data, callback) => {
-        const game = utils.getGameByRoomId(activeGames, data.roomId);
+        const game = new Game(utils.getGameByRoomId(activeGames, data.roomId));
 
         if (!game) {
             console.log('Bad request');
@@ -66,6 +66,8 @@ io.on('connection', (socket) => {
         game.addPlayer(data.userId);
         console.log(activeGames);
 
+        io.emit('player join', {message: 'test'});
+
         callback({
             status: 200,
             roomId: data.roomId,
@@ -74,7 +76,7 @@ io.on('connection', (socket) => {
     }); 
 
     socket.on('set options', (data, callback) => {
-        const game = utils.getGameByRoomId(activeGames, data.roomId);
+        const game = new Game(utils.getGameByRoomId(activeGames, data.roomId));
 
         if (!game) {
             console.log('Bad request');
@@ -92,7 +94,7 @@ io.on('connection', (socket) => {
     });
 
     socket.on('delete game', (data, callback) => {
-        const game = utils.getGameByRoomId(activeGames, data.roomId);
+        const game = new Game(utils.getGameByRoomId(activeGames, data.roomId));
         if (game.host !== data.userId) {
             return;
         }
