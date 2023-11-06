@@ -8,7 +8,7 @@
 <!--           <div v-if="players.get(i-1).state == 'NotReady'"><PlayerIcon/></div>
           <div v-else-if="players.get(i-1).state == 'Ready'"><PlayerReady/></div>
           <div v-else><PlayerEmpty/></div>  -->
-          <PlayerEmpty/>
+          <PlayerEmpty username='matt'/>
         </div>
         <Difficulty/>
         <Progress playercount="4" playersReadyCount="2"/>
@@ -148,7 +148,7 @@
       margin-right: 21.5vw;
       margin-left: 4.5vw;
       width: 45vw;
-      height: 5.vh;
+      height: 5.5vh;
     }
     .btn-danger{
       width: 10vw;

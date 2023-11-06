@@ -2,7 +2,7 @@
     <div class="progress-bar-div">
         <h6>1/6 Players ready</h6>
         <div class="progress" role="progressbar" aria-label="Animated striped example" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100">
-            <div class="progress-bar progress-bar-striped progress-bar-animated" style="width: calc(100% * ({{playersReadyCount}}/{{playercount}}))"></div>
+            <div class="progress-bar progress-bar-striped progress-bar-animated" style="width: calc(100 * ({{playersReadyCount}}/{{playercount}}))"></div>
         </div>
     </div>
 </template>
