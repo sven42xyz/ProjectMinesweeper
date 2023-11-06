@@ -19,7 +19,7 @@
     </div>
     <hr class="bottom-line"/>
     <form v-on:submit.prevent class="lobby-game-form">
-      <button v-on:click="joinLobby" class="btn btn-success" type="Submit" id="Submit-Button" aria-expanded="false">Ready?</button>
+      <button v-on:click="startGame" class="btn btn-success" type="Submit" id="Submit-Button" aria-expanded="false">Ready?</button>
       <button v-on:click="cancel" class="btn btn-danger" type="Cancel" id="Cancel-Button" aria-expanded="false">Cancel</button>
     </form>
   </div>
@@ -75,6 +75,21 @@
 
         this.$router.push('/');
       },
+
+      startGame() {
+      const data = {roomId: this.roomId, userId: this.userId, difficulty: this.difficulty};
+
+      console.log(data);
+
+      SocketioService.setupSocketConnection(data, res => {
+        if (res.status !== 200) {
+          return;
+        }
+
+        this.$cookies.set('session', res);
+        this.$router.push('/game/');
+      });
+    },
 
       //...
       beforeUnmount() {
