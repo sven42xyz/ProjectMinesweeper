@@ -21,18 +21,17 @@
 
 <script>
 export default {
+  props:{
+    difficultyTransfer: {
+    type: Text,
+    default: 'dif-1',
+    }
+  },
+
   data() {
     return {
-      roomId: null,
-      difficulty: 'dif-1',
+      difficulty: this.difficultyTransfer,
     };
-  },
-
-  created() {
-    this.roomId = this.$route.params.id;
-  },
-
-  methods: {
   },
 }
 </script>
