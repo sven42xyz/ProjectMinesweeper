@@ -1,5 +1,6 @@
 const crypto = require('crypto');
 
+
 class Utilities {
     constructor() { }
 
@@ -11,10 +12,9 @@ class Utilities {
     getGameByRoomId(set, roomId) {
         let target = null;
 
-        set.forEach((game) => {
-            if (game.roomId === roomId) {
-                target = game;
-                return;
+        set.forEach((e) => {
+            if (e.roomId === roomId) {
+                return e;
             }
         });
         return target;

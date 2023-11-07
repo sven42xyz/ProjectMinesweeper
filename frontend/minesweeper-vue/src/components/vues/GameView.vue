@@ -1,38 +1,20 @@
 <template>
   <div class="container-fluid big-fluid-container">
-    <div class="container-fluid lobby-container">
-      <h1 class="welcome-label row">Welcome to the Lobby!</h1>
-      <hr class="w-100 mb-3"/>
-      <div class="row row-cols-2">
-        <div class="loop-div" v-for="i in 6" v-bind:key="i">
-<!--           <div v-if="players.get(i-1).state == 'NotReady'"><PlayerIcon/></div>
-          <div v-else-if="players.get(i-1).state == 'Ready'"><PlayerReady/></div>
-          <div v-else><PlayerEmpty/></div>  -->
-          <PlayerEmpty username='matt'/>
-        </div>
-        <Difficulty difficulty-transfer="dif-2"/>
-        <Progress playercount='4' playersReadyCount='2'/>
-      </div>
+    <div class="container-fluid game-container">
     </div>
     <div class="container-fluid chat-container">
       <Chat/>
     </div>
     <hr class="bottom-line"/>
     <form v-on:submit.prevent class="lobby-game-form">
-      <button v-on:click="startGame" class="btn btn-success" type="Submit" id="Submit-Button" aria-expanded="false">Ready?</button>
       <button v-on:click="cancel" class="btn btn-danger" type="Cancel" id="Cancel-Button" aria-expanded="false">Cancel</button>
     </form>
   </div>
 </template>
 
 <script setup>
-  //import PlayerReady from '../scraps/PlayerIconReady.vue'
-  //import PlayerIcon from '../scraps/PlayerIcon.vue'
-  import PlayerEmpty from '../scraps/PlayerIconEmpty.vue'
-  import Difficulty from '../scraps/CurrentlySelectedDifficulty.vue'
-  import Progress from '../scraps/ProgressBar.vue'
   import Chat from '../scraps/ChatBox.vue'
-import { Socket } from 'socket.io-client'
+
 </script>
 
 <script>
@@ -45,10 +27,19 @@ import { Socket } from 'socket.io-client'
       return {
         roomId: null,
         userId: null,
+        players: null,
       };
     },
 
-    created() {
+    created: function() {
+/*         SocketioService.on('player-join', (data) => {
+            this.players = data.get(activeUsers);
+            console.log(data.activeUsers);
+        });
+        SocketioService.on('player-disconnected', (data) => {
+            this.playerCounter = data.activeUsers;
+            console.log(data.activeUsers);
+        }); */
       this.roomId = this.$cookies.get('session').roomId;
       this.userId = this.$cookies.get('session').userId;
     },
@@ -67,37 +58,9 @@ import { Socket } from 'socket.io-client'
         this.$router.push('/');
       },
 
-      startGame() {
-      const data = {roomId: this.roomId, userId: this.userId, difficulty: this.difficulty};
-
-      console.log(data);
-
-      SocketioService.setupSocketConnection(data, res => {
-        if (res.status !== 200) {
-          return;
-        }
-
-        this.$cookies.set('session', res);
-        this.$router.push('/game/');
-      });
-    },
-
       //...
       beforeUnmount() {
         SocketioService.disconnect();
-      },
-
-      getPlayers() {
-        const data = {roomId: this.roomId}
-
-        console.log("test");
-
-        SocketioService.getPlayers(data, res => {
-          if (res.status !== 200) {
-            console.log(res.data);
-            this.players.push(res.data.players);
-          }
-        })
       }
     },
   }
