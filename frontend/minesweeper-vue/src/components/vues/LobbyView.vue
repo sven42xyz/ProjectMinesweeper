@@ -32,7 +32,6 @@
   import Difficulty from '../scraps/CurrentlySelectedDifficulty.vue'
   import Progress from '../scraps/ProgressBar.vue'
   import Chat from '../scraps/ChatBox.vue'
-
 </script>
 
 <script>
@@ -45,29 +44,20 @@
       return {
         roomId: null,
         userId: null,
-        players: null,
       };
     },
 
-    created: function() {
-/*         SocketioService.on('player-join', (data) => {
-            this.players = data.get(activeUsers);
-            console.log(data.activeUsers);
-        });
-        SocketioService.on('player-disconnected', (data) => {
-            this.playerCounter = data.activeUsers;
-            console.log(data.activeUsers);
-        }); */
+    created() {
       this.roomId = this.$cookies.get('session').roomId;
       this.userId = this.$cookies.get('session').userId;
     },
 
     methods: {
       cancel() {
-        const data = { roomId: this.roomId, userId: this.userId }
+        const data = {roomId: this.roomId, userId: this.userId}
 
-        SocketioService.killLobby(data, cb => {
-          if (cb.status !== 200) {
+        SocketioService.killLobby(data, res => {
+          if (res.status !== 200) {
             console.log('Error: bad request');
             return;
           }
@@ -77,17 +67,34 @@
       },
 
       startGame() {
-      const data = {roomId: this.roomId, userId: this.userId, difficulty: this.difficulty};
+        const data = {roomId: this.roomId, userId: this.userId}
 
-      console.log(data);
+        SocketioService.startGame(data, res => {
+          if (res.status !== 200) {
+            return;
+          }
 
-        this.$router.push('/game/');
-
-    },
+/*           this.$cookies.set('session', res); */
+          this.$router.push('/game/');
+        });
+      },
 
       //...
       beforeUnmount() {
         SocketioService.disconnect();
+      },
+
+      getPlayers() {
+        const data = {roomId: this.roomId}
+
+        console.log("test");
+
+        SocketioService.getPlayers(data, res => {
+          if (res.status !== 200) {
+            console.log(res.data);
+            this.players.push(res.data.players);
+          }
+        })
       }
     },
   }

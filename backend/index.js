@@ -19,7 +19,39 @@ handler.get('/', (_, res) => {
 
 // set of all active users (in a room)
 const activeUsers = new Set();
-const activeGames = new Set();
+const activeGames = new Map();
+
+function setDifficultyByRoomId(roomId, difficulty) {
+    const instance = activeGames.get(roomId);
+    if (!instance) {
+        return;
+    }
+    instance.setDifficulty(difficulty);
+}
+
+function addPlayerByRoomId(roomId, userId) {
+    const instance = activeGames.get(roomId);
+    if (!instance) {
+        return;
+    }
+    instance.addPlayer(userId);
+}
+
+function getPropertyByRoomId(roomId, property) {
+    const instance = activeGames.get(roomId);
+    if (!instance) {
+        return;
+    }
+    return instance[property];
+}
+
+function killGameByRoomId(roomId, userId) {
+    const instance = activeGames.get(roomId);
+    if (!instance) {
+        return;
+    }
+    return instance[property];
+}
 
 io.on('connection', (socket) => {
     console.log(socket.id + ' wants to sweep some mines!');
@@ -35,9 +67,13 @@ io.on('connection', (socket) => {
     socket.on('new game', (_, callback) => {
         const gameRoom = utils.randomId();
         socket.join(gameRoom);
+
         const game = new Game(gameRoom, socket.id);
+
         game.addPlayer(socket.id);
-        activeGames.add(game);
+
+        activeGames.set(gameRoom, game);
+
         console.log(activeGames);
 
         callback({
@@ -55,19 +91,15 @@ io.on('connection', (socket) => {
     });
 
     socket.on('join lobby', (data, callback) => {
-        const game = new Game(utils.getGameByRoomId(activeGames, data.roomId));
-
-        if (!game) {
-            console.log('Bad request');
-            return;
-        }
-
         socket.join(data.roomId);
-        game.addPlayer(data.userId);
+        addPlayerByRoomId(data.roomId, data.userId);
+
         console.log(activeGames);
 
-        io.emit('player join', {message: 'test'});
+        console.log(getPropertyByRoomId(data.roomId, 'players'));
 
+/*         io.to(data.roomId).emit(getPropertyByRoomId(data.roomId, 'players'));
+ */
         callback({
             status: 200,
             roomId: data.roomId,
@@ -76,14 +108,8 @@ io.on('connection', (socket) => {
     }); 
 
     socket.on('set options', (data, callback) => {
-        const game = new Game(utils.getGameByRoomId(activeGames, data.roomId));
+        setDifficultyByRoomId(data.roomId, data.difficulty);
 
-        if (!game) {
-            console.log('Bad request');
-            return;
-        }
-
-        game.setDifficulty(data.difficulty);
         console.log(activeGames);
 
         callback({
@@ -105,6 +131,14 @@ io.on('connection', (socket) => {
 
         callback({
             status: 200,
+        });
+    });
+
+    socket.on('start game', (data, callback) => {
+        callback({
+            status: 200,
+            roomId: data.roomId,
+            userId: data.userId,
         });
     });
 

@@ -33,7 +33,13 @@ class SocketioService {
     }
 
     killLobby(data, res) {
-        this.socket.emit('delete game', data, res)
+        this.socket.emit('delete game', data, res);
+
+        return;
+    }
+
+    getPlayers(data, res) {
+        this.socket.emit('player join', data, res);
 
         return;
     }
@@ -42,6 +48,12 @@ class SocketioService {
         if (this.socket) {
             this.socket.disconnect();
         }
+    }
+
+    startGame(data, res) {
+        this.socket.emit('start game', data, res);
+
+        return;
     }
 
     // Handle message receive event
