@@ -50,6 +50,12 @@ class SocketioService {
         }
     }
 
+    startGame(data, res) {
+        this.socket.emit('start game', data, res);
+
+        return;
+    }
+
     // Handle message receive event
     sendMessage({ message, roomName }, cb) {
         if (this.socket) this.socket.emit('message', { message, roomName }, cb);

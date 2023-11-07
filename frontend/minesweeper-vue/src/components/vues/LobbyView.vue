@@ -32,7 +32,6 @@
   import Difficulty from '../scraps/CurrentlySelectedDifficulty.vue'
   import Progress from '../scraps/ProgressBar.vue'
   import Chat from '../scraps/ChatBox.vue'
-import { Socket } from 'socket.io-client'
 </script>
 
 <script>
@@ -55,10 +54,10 @@ import { Socket } from 'socket.io-client'
 
     methods: {
       cancel() {
-        const data = { roomId: this.roomId, userId: this.userId }
+        const data = {roomId: this.roomId, userId: this.userId}
 
-        SocketioService.killLobby(data, cb => {
-          if (cb.status !== 200) {
+        SocketioService.killLobby(data, res => {
+          if (res.status !== 200) {
             console.log('Error: bad request');
             return;
           }
@@ -68,19 +67,17 @@ import { Socket } from 'socket.io-client'
       },
 
       startGame() {
-      const data = {roomId: this.roomId, userId: this.userId, difficulty: this.difficulty};
+        const data = {roomId: this.roomId, userId: this.userId}
 
-      console.log(data);
+        SocketioService.startGame(data, res => {
+          if (res.status !== 200) {
+            return;
+          }
 
-      SocketioService.setupSocketConnection(data, res => {
-        if (res.status !== 200) {
-          return;
-        }
-
-        this.$cookies.set('session', res);
-        this.$router.push('/game/');
-      });
-    },
+/*           this.$cookies.set('session', res); */
+          this.$router.push('/game/');
+        });
+      },
 
       //...
       beforeUnmount() {
