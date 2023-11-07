@@ -10,15 +10,9 @@
               <input type="text" class="form-control" aria-label="Username" v-model="username">
           </div>
           <div class>
-              <button v-on:click="newGame" class="btn btn-primary-lavender w-75" type="Submit" id="new-game"
-                aria-expanded="false">New
-                Game</button>
+              <button v-on:click="newGame" class="btn btn-primary-lavender w-75" type="Submit" id="new-game" aria-expanded="false">New Game</button>
+              <button v-on:click="joinGame" class="btn btn-secondary-yellow w-75" type="Submit" id="join-game" aria-expanded="false">Join Game</button>
            </div>
-           <div class>
-            <button v-on:click="joinGame" class="btn btn-secondary-yellow w-75" type="Submit" id="join-game"
-                aria-expanded="false">Join
-                Game</button>
-            </div>
         </form>
       </div>
     </div>
@@ -121,19 +115,19 @@ export default {
       padding-left: 0.75vw;
       height: 12.5%;
       margin-bottom: 1vh;
+      flex-wrap: nowrap;
     }
 
     .input-group-text{
       font-size: 2vh;
       height: 100%;
+      width: 35%;
+      padding: calc(0.5vh + 0.5vw);
     }
 
     .form-control{
       height: 100%;
-    }
-
-    .form-control{
-      width:50%;
+      width:65%;
     }
 
     .card-header{
@@ -158,10 +152,6 @@ export default {
 
     .btn{
       margin-top: 2.5vh;
-    }
-
-    h1{
-      font-size: 5.5vh;
     }
 
 </style>

@@ -18,7 +18,7 @@
       <Chat/>
     </div>
     <hr class="bottom-line"/>
-    <form v-on:submit.prevent class="lobby-game-form">
+    <form class="lobby-game-form">
       <button v-on:click="startGame" class="btn btn-success" type="Submit" id="Submit-Button" aria-expanded="false">Ready?</button>
       <button v-on:click="cancel" class="btn btn-danger" type="Cancel" id="Cancel-Button" aria-expanded="false">Cancel</button>
     </form>
@@ -81,14 +81,8 @@
 
       console.log(data);
 
-      SocketioService.setupSocketConnection(data, res => {
-        if (res.status !== 200) {
-          return;
-        }
-
-        this.$cookies.set('session', res);
         this.$router.push('/game/');
-      });
+
     },
 
       //...
@@ -131,15 +125,6 @@
       margin: 0;
       top: 0%;
       left: 0%;
-    }
-    .chat-container{
-      position: absolute;
-      top: 0; right: 0; bottom: 0; left: 0;
-      width: 30vw;
-      height: 55vh;
-      border-radius:10px;
-      margin-left: 66%;
-      margin-top: 2.5vh;
     }
     .row{
       margin: 0;

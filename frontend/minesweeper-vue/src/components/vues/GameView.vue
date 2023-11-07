@@ -28,6 +28,7 @@
         roomId: null,
         userId: null,
         players: null,
+        game: null,
       };
     },
 
@@ -86,7 +87,7 @@
       margin-bottom: 5%;
     }
 
-    .lobby-container{
+    .game-container{
       position: absolute;
       top: 0; right: 0; bottom: 0; left: 0;
       padding-left: 2vw;
@@ -98,15 +99,6 @@
       margin: 0;
       top: 0%;
       left: 0%;
-    }
-    .chat-container{
-      position: absolute;
-      top: 0; right: 0; bottom: 0; left: 0;
-      width: 30vw;
-      height: 55vh;
-      border-radius:10px;
-      margin-left: 66%;
-      margin-top: 2.5vh;
     }
     .row{
       margin: 0;
@@ -135,6 +127,9 @@
     .btn-danger{
       width: 10vw;
       height: 5.5vh;
+      position: absolute;
+      margin-right: 2vw;
+      right: 0;
     }
 
     hr{
