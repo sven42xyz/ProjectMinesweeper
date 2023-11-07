@@ -33,7 +33,13 @@ class SocketioService {
     }
 
     killLobby(data, res) {
-        this.socket.emit('delete game', data, res)
+        this.socket.emit('delete game', data, res);
+
+        return;
+    }
+
+    getPlayers(data, res) {
+        this.socket.emit('player join', data, res);
 
         return;
     }

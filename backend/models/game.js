@@ -1,4 +1,10 @@
 class Game {
+    roomId = null;
+    host = null;
+    state = null;
+    difficulty = null;
+    players = null;
+    difficultyMap = null;
 
     constructor(roomId, host) {
         this.roomId = roomId;

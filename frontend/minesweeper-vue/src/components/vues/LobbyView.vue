@@ -32,7 +32,6 @@
   import Difficulty from '../scraps/CurrentlySelectedDifficulty.vue'
   import Progress from '../scraps/ProgressBar.vue'
   import Chat from '../scraps/ChatBox.vue'
-import { Socket } from 'socket.io-client'
 </script>
 
 <script>
@@ -45,10 +44,13 @@ import { Socket } from 'socket.io-client'
       return {
         roomId: null,
         userId: null,
+        players: [],
       };
     },
 
     created() {
+      this.getPlayers();
+
       this.roomId = this.$cookies.get('session').roomId;
       this.userId = this.$cookies.get('session').userId;
     },
@@ -70,6 +72,19 @@ import { Socket } from 'socket.io-client'
       //...
       beforeUnmount() {
         SocketioService.disconnect();
+      },
+
+      getPlayers() {
+        const data = {roomId: this.roomId}
+
+        console.log("test");
+
+        SocketioService.getPlayers(data, res => {
+          if (res.status !== 200) {
+            console.log(res.data);
+            this.players.push(res.data.players);
+          }
+        })
       }
     },
   }
