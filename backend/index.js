@@ -6,8 +6,12 @@ const utils = new Utilities();
 const handler = require('express')();
 const server = require('http').createServer(handler);
 const io = require('socket.io')(server, {
+    allowEIO3: true, 
     cors: {
-        origins: ['http://localhost:8080']
+        origin: 'http://localhost:8080',
+        methods: ["GET", "POST"],
+        transports: ['websocket', 'polling'],
+        credentials: true,
     }
 });
 
@@ -98,8 +102,10 @@ io.on('connection', (socket) => {
 
         console.log(getPropertyByRoomId(data.roomId, 'players'));
 
-/*         io.to(data.roomId).emit(getPropertyByRoomId(data.roomId, 'players'));
- */
+        players = getPropertyByRoomId(data.roomId, 'players');
+
+        io.emit('join lobby', players);
+
         callback({
             status: 200,
             roomId: data.roomId,

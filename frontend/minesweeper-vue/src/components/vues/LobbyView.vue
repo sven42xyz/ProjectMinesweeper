@@ -44,12 +44,26 @@
       return {
         roomId: null,
         userId: null,
+        players: [],
       };
     },
 
     created() {
       this.roomId = this.$cookies.get('session').roomId;
       this.userId = this.$cookies.get('session').userId;
+    },
+
+    sockets: {
+      connect() {
+        console.log('Connected...');
+      },
+      disconnect() {
+        console.log('Disconnected...');
+      },
+      'join lobby'(userId) {
+        this.players.push(userId);
+        console.log(this.players);
+      },
     },
 
     methods: {

@@ -1,7 +1,10 @@
 import { io } from 'socket.io-client';
 
 class SocketioService {
-    socket = io(process.env.VUE_APP_SOCKET_ENDPOINT);
+/*     socket = io(process.env.VUE_APP_SOCKET_ENDPOINT); */
+    socket = io('http://localhost:3000', {
+        withCredentials: true,
+    });
     constructor() { }
 
     setupSocketConnection(data, res) {
