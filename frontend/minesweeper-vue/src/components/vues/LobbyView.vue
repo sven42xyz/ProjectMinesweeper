@@ -8,7 +8,7 @@
 <!--           <div v-if="players.get(i-1).state == 'NotReady'"><PlayerIcon/></div>
           <div v-else-if="players.get(i-1).state == 'Ready'"><PlayerReady/></div>
           <div v-else><PlayerEmpty/></div>  -->
-          <PlayerEmpty username='matt'/>
+          <PlayerEmpty :username=this.players[i-1]></PlayerEmpty>
         </div>
         <Difficulty difficulty-transfer="dif-2"/>
         <Progress playercount='4' playersReadyCount='2'/>
@@ -63,7 +63,7 @@
       'join lobby'(userId) {
         this.players.push(userId);
         console.log(this.players);
-      },
+      },      
     },
 
     methods: {

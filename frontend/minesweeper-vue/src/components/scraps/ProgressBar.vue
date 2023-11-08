@@ -11,12 +11,12 @@
     export default {
         props: {
             playercount: {
-            type: Number,
-            default: 6
+                type: Number,
+                default: 6
             },
             playersReadyCount: {
-            type: Number,
-            default: 0
+                type: Number,
+                default: 0
             }
         },
         computed: {
