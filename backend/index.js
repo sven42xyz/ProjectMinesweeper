@@ -80,6 +80,10 @@ io.on('connection', (socket) => {
 
         console.log(activeGames);
 
+        players = getPropertyByRoomId(gameRoom, 'players');
+
+        io.emit('join lobby', players);
+
         callback({
             status: 200,
             roomId: game.roomId,
