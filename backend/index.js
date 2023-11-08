@@ -82,7 +82,9 @@ io.on('connection', (socket) => {
 
         players = getPropertyByRoomId(gameRoom, 'players');
 
-        io.emit('join lobby', players);
+        players.forEach(i => {
+            io.emit('join lobby', i);
+        });
 
         callback({
             status: 200,
@@ -108,7 +110,9 @@ io.on('connection', (socket) => {
 
         players = getPropertyByRoomId(data.roomId, 'players');
 
-        io.emit('join lobby', players);
+        players.forEach(i => {
+            io.emit('join lobby', i);
+        });
 
         callback({
             status: 200,
