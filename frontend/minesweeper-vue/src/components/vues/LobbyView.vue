@@ -62,9 +62,7 @@
         console.log('Disconnected...');
       },
       'join lobby'(userId) {
-/*         this.players.push(userId); */
-
-        pushToArray(userId);
+        this.players.push(userId);
         console.log(this.players);
       },      
     },
@@ -94,10 +92,6 @@
 /*           this.$cookies.set('session', res); */
           this.$router.push('/game/');
         });
-      },
-
-      pushToArray(data) {
-        this.players.push(data);
       },
 
       //...
