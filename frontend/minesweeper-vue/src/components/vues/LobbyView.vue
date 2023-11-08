@@ -8,10 +8,11 @@
 <!--           <div v-if="players.get(i-1).state == 'NotReady'"><PlayerIcon/></div>
           <div v-else-if="players.get(i-1).state == 'Ready'"><PlayerReady/></div>
           <div v-else><PlayerEmpty/></div>  -->
-          <PlayerEmpty :username=this.players[i-1]></PlayerEmpty>
+          <PlayerEmpty :username=this.players></PlayerEmpty>
         </div>
-        <Difficulty difficulty-transfer="dif-2"/>
-        <Progress playercount='4' playersReadyCount='2'/>
+
+        <Difficulty :difficulty-transfer="dif-2"/>
+        <Progress :playercount='4' :playersReadyCount='2'/>
       </div>
     </div>
     <div class="container-fluid chat-container">
