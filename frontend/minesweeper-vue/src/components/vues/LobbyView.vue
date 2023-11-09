@@ -10,8 +10,8 @@
           <div v-else><PlayerEmpty/></div>  -->
           <PlayerEmpty :username=this.players[i-1]></PlayerEmpty>
         </div>
-        <Difficulty difficulty-transfer="dif-2"/>
-        <Progress playercount='4' playersReadyCount='2'/>
+        <Difficulty :difficulty-transfer="dif-2"/>
+        <Progress :playercount='4' :playersReadyCount='2'/>
       </div>
     </div>
     <div class="container-fluid chat-container">
