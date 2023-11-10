@@ -7,6 +7,15 @@ class SocketioService {
     });
     constructor() { }
 
+    subscribeToMessages(cb) {
+        if (!this.socket) return(true);
+        this.socket.on('message', msg => {
+          console.log('Room event received!');
+          return cb(null, msg);
+        });
+    }
+        
+
     setupSocketConnection(data, res) {
         this.socket.emit('new user', data.username);
 

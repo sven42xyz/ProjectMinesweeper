@@ -173,17 +173,20 @@ io.on('connection', (socket) => {
         socket.join(roomName);
     });
 
-    socket.on("message", ({ message, roomName }, callback) => {
+    socket.on('message', ({ message, roomName }, callback) => {
         console.log("message: " + message + " in " + roomName);
 
-        /*// generate data to send to receivers
+        // generate data to send to receivers
         const outgoingMessage = {
-            name: socket.user.name,
-            id: socket.user.id,
+            name: socket.id,
+            id: socket.id,
             message,
-        };*/
+        };
+
+        console.log(outgoingMessage);
+        console.log(players);
         // send socket to all in room except sender
-        socket.to(roomName).emit("message", message);
+        io.to(roomName).emit('message', outgoingMessage);
         callback({
             status: "ok"
         });

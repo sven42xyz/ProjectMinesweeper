@@ -21,7 +21,7 @@
   import SocketioService from '../../services/socketio.service.js';
 
   export default {
-    name: 'LobbyView',
+    name: 'GameView',
 
     data() {
       return {
@@ -32,15 +32,7 @@
       };
     },
 
-    created: function() {
-/*         SocketioService.on('player-join', (data) => {
-            this.players = data.get(activeUsers);
-            console.log(data.activeUsers);
-        });
-        SocketioService.on('player-disconnected', (data) => {
-            this.playerCounter = data.activeUsers;
-            console.log(data.activeUsers);
-        }); */
+    created() {
       this.roomId = this.$cookies.get('session').roomId;
       this.userId = this.$cookies.get('session').userId;
     },
