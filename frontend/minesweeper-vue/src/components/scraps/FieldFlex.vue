@@ -1,7 +1,7 @@
 <template>
 <div class="row" v-for="i in size" v-bind:key="i" >
     <div class="col" v-for="x in size" v-bind:key="x" >
-        <Button class="col-btn" v-on:click ="clicked()"><h7>.</h7></Button>
+        <button class="col-btn" style="background: getColor([i, x])" v-on:click ="clicked(i,x)"><h7>.</h7></button>
     </div>
 </div>
 </template>
@@ -23,20 +23,22 @@
                 gameboard : createBoard(this.size, this.size),
             }
         },
+        computed:{
+            getColor(row, col){
+                console.log(this.gameboard[row-1][col-1].getIsRevealed());
+                if(this.gameboard[row-1][col-1].getIsRevealed() == true){
+                    return "black";
+                }else return "white"
+
+            }
+        },
 
         methods: {
-/*             setActive(index) {
-                this.activeButton = index + 1;
-            },
-            btnBlue() {
-                this.color = '#039BE5';
-            },
-            btnYellow() {
-                this.color = '#f3b808';
-            } */
-            clicked(){
-                this.background = '#f3b808';
-                console.log(this.gameboard);
+            clicked(row, col){
+                this.gameboard[row-1][col-1].setIsRevealed();
+                console.log(this.gameboard[row-1][col-1])
+                console.log(this.gameboard)
+                console.log(this.gameboard[row-1])
             }
         }
     };
@@ -59,13 +61,9 @@
     aspect-ratio : 1 / 1;
    }   
    .h7{
-    color: transparent;
+        color: transparent;
    }
-
-   .white {
-       background-color: white;
-   }
-   .blue {
-       background-color: blue;
+   .isRevealed{
+        background-color: red;
    }
 </style>
