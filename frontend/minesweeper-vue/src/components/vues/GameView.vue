@@ -1,23 +1,31 @@
 <template>
   <div class="container-fluid big-fluid-container">
-    <div class="container-fluid game-container">
-      <Field :size="this.size"></Field>
-    </div>
-    <div class="container-fluid chat-container">
-      <Chat/>
-    </div>
-    <hr class="bottom-line"/>
-    <form v-on:submit.prevent class="lobby-game-form">
-      <div class="row">
-        <div class=" col loop-div" v-for="i in players" v-bind:key="i" >
-<!--           <div v-if="players.get(i-1).state == 'NotReady'"><PlayerIcon/></div>
-          <div v-else-if="players.get(i-1).state == 'Ready'"><PlayerReady/></div>
-          <div v-else><PlayerEmpty/></div>  -->
-          <PlayerCurrent :username=i></PlayerCurrent>
+    <div class="row">
+      <div class="col player-col">
+        <div class="container-fluid player-container">
+          <div class=" row loop-div" v-for="i in players" v-bind:key="i" >
+  <!--           <div v-if="players.get(i-1).state == 'NotReady'"><PlayerIcon/></div>
+            <div v-else-if="players.get(i-1).state == 'Ready'"><PlayerReady/></div>
+            <div v-else><PlayerEmpty/></div>  -->
+            <PlayerCurrent :username=i></PlayerCurrent>
+          </div>
         </div>
-        <div class="col">
-          <button v-on:click="cancel" class="btn btn-danger" type="Cancel" id="Cancel-Button" aria-expanded="false">Cancel</button>
+      </div>
+      <div class="col">
+        <div class="container-fluid game-container">
+          <Field :size="this.size"></Field>
         </div>
+      </div>
+      <div class="col-4">
+        <div class="container-fluid chat-container">
+          <Chat/>
+        </div>
+      </div>
+    </div>
+    <hr style="margin-top: 72.5vmin;"/>
+    <form v-on:submit.prevent class="lobby-game-form" style="position:absolute; bottom: 2vmin; right: 2vmin">
+      <div class="col">
+        <button v-on:click="cancel" class="btn btn-danger" type="Cancel" id="Cancel-Button" aria-expanded="false">Cancel</button>
       </div>
     </form>
   </div>
@@ -137,12 +145,15 @@ export default {
       margin-bottom: 5%;
     }
 
+    .player-container{
+      
+    }
     .game-container{
-      position: absolute;
-      top: 4vmin; right: 15vmin; bottom: 0; left: 20vmin;
-      margin: 0;
+      margin: 2vmin;
       width: 70vmin;
+      height: 70vmin;
       aspect-ratio : 1 / 1;
+      padding: 0%;
     }
     .row{
       margin: 0;
@@ -174,5 +185,14 @@ export default {
       margin-top: 0vh;
     }
 
+    .row{padding: 0; margin: 0;}
+    .col{padding: 0;  margin: 0;
+      display: flex;
+      justify-content: space-around;
+    }
+    .player-col{
+      width: 20vmin;
+      flex: none;
+    }
 
 </style>
