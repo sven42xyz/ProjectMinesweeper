@@ -78,23 +78,25 @@
             return;
           }
         });
-
+        SocketioService.disconnect();
         this.$router.push('/');
       },
 
       getPlayer(i){
+
         return this.players[i-1];
       },
 
       startGame() {
         const data = {roomId: this.roomId, userId: this.userId}
+        this.$router.push('/game/');
 
         SocketioService.startGame(data, res => {
           if (res.status !== 200) {
             return;
           }
 
-/*           this.$cookies.set('session', res); */
+          this.$cookies.set('session', res);
           this.$router.push('/game/');
         });
       },

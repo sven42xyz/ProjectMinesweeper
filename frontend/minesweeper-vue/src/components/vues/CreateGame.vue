@@ -7,7 +7,7 @@
         <div class="col mb-2">
           <div class="input-group" style="height: 5.5vh; width: 100%;">
             <h6 class="input-group-text" id="basic-addon1" style="text-align:left; display:inline-flex;">your room</h6>
-            <h6 class="form-control" style="text-align:center; align-items: center;  v display: inline-flex;">{{ roomId }}</h6>
+            <h6 class="form-control" style="text-align:center; align-items: center; display: inline-flex;">{{ roomId }}</h6>
           </div>
         </div>
         <div class="col">

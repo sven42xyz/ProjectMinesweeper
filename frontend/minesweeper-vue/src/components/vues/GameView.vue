@@ -1,62 +1,120 @@
 <template>
   <div class="container-fluid big-fluid-container">
     <div class="container-fluid game-container">
+      <Field :size="this.size"></Field>
     </div>
     <div class="container-fluid chat-container">
       <Chat/>
     </div>
     <hr class="bottom-line"/>
     <form v-on:submit.prevent class="lobby-game-form">
-      <button v-on:click="cancel" class="btn btn-danger" type="Cancel" id="Cancel-Button" aria-expanded="false">Cancel</button>
+      <div class="row">
+        <div class=" col loop-div" v-for="i in players" v-bind:key="i" >
+<!--           <div v-if="players.get(i-1).state == 'NotReady'"><PlayerIcon/></div>
+          <div v-else-if="players.get(i-1).state == 'Ready'"><PlayerReady/></div>
+          <div v-else><PlayerEmpty/></div>  -->
+          <PlayerCurrent :username=i></PlayerCurrent>
+        </div>
+        <div class="col">
+          <button v-on:click="cancel" class="btn btn-danger" type="Cancel" id="Cancel-Button" aria-expanded="false">Cancel</button>
+        </div>
+      </div>
     </form>
   </div>
 </template>
 
 <script setup>
   import Chat from '../scraps/ChatBox.vue'
-
+  import PlayerCurrent from '../scraps/PlayerIconCurrent.vue'
+  import Field from '../scraps/FieldFlex.vue'
 </script>
 
 <script>
-  import SocketioService from '../../services/socketio.service.js';
+import SocketioService from '../../services/socketio.service.js';
 
-  export default {
-    name: 'GameView',
+export default {
+  name: 'LobbyView',
 
-    data() {
-      return {
-        roomId: null,
-        userId: null,
-        players: null,
-        game: null,
-      };
+  data() {
+    return {
+      roomId: null,
+      userId: null,
+      size: 10,
+      players: ['Anna', 'Ben','Testi', 'Marie'],
+    };
+  },
+
+  created() {
+    this.roomId = this.$cookies.get('session').roomId;
+    this.userId = this.$cookies.get('session').userId;
+
+  },
+
+  sockets: {
+    connect() {
+      console.log('Connected...');
+    },
+    disconnect() {
+      console.log('Disconnected...');
+    },
+    'join lobby'(userId) {
+      this.players.push(userId);
+      console.log(this.players);
+    },      
+  },
+
+  methods: {
+    cancel() {
+      const data = {roomId: this.roomId, userId: this.userId}
+
+      SocketioService.killLobby(data, res => {
+        if (res.status !== 200) {
+          console.log('Error: bad request');
+          return;
+        }
+      });
+      SocketioService.disconnect();
+      this.$router.push('/');
     },
 
-    created() {
-      this.roomId = this.$cookies.get('session').roomId;
-      this.userId = this.$cookies.get('session').userId;
+    getPlayer(i){
+
+      return this.players[i-1];
     },
 
-    methods: {
-      cancel() {
-        const data = { roomId: this.roomId, userId: this.userId }
+    startGame() {
+      const data = {roomId: this.roomId, userId: this.userId}
+      this.$router.push('/game/');
 
-        SocketioService.killLobby(data, cb => {
-          if (cb.status !== 200) {
-            console.log('Error: bad request');
-            return;
-          }
-        });
+      SocketioService.startGame(data, res => {
+        if (res.status !== 200) {
+          return;
+        }
 
-        this.$router.push('/');
-      },
-
-      //...
-      beforeUnmount() {
-        SocketioService.disconnect();
-      }
+        this.$cookies.set('session', res);
+        this.$router.push('/game/');
+      });
     },
-  }
+
+    //...
+    beforeUnmount() {
+      SocketioService.disconnect();
+    },
+
+    getPlayers() {
+      const data = {roomId: this.roomId}
+
+      console.log("test");
+
+      SocketioService.getPlayers(data, res => {
+        if (res.status !== 200) {
+          console.log(res.data);
+          this.players.push(res.data.players);
+        }
+      })
+    }
+  },
+}
 </script>
 
 <style scoped>
@@ -81,16 +139,10 @@
 
     .game-container{
       position: absolute;
-      top: 0; right: 0; bottom: 0; left: 0;
-      padding-left: 2vw;
-      padding-right: 2vw;
-      padding-top: 0%;
-      width: 60vw;
-      height: 60vh;
-      border-radius:10px;
+      top: 4vmin; right: 15vmin; bottom: 0; left: 20vmin;
       margin: 0;
-      top: 0%;
-      left: 0%;
+      width: 70vmin;
+      aspect-ratio : 1 / 1;
     }
     .row{
       margin: 0;
@@ -110,18 +162,11 @@
       margin-bottom: 4vh;
     }
 
-    .btn-success{
-      margin-right: 21.5vw;
-      margin-left: 4.5vw;
-      width: 45vw;
-      height: 5.5vh;
-    }
     .btn-danger{
+      margin: 0;
       width: 10vw;
       height: 5.5vh;
-      position: absolute;
-      margin-right: 2vw;
-      right: 0;
+      position:inherit;
     }
 
     hr{
