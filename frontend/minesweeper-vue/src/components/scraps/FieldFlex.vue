@@ -7,11 +7,20 @@
 </template>
   
   <script>
+    import Button from ".//Button.js";
+
     export default {
+
         props: {
             size: {
                 type: Number,
                 default: 6
+            }
+        },
+
+        data(){
+            return{
+                gameboard : createBoard(this.size, this.size),
             }
         },
 
@@ -27,18 +36,19 @@
             } */
             clicked(){
                 this.background = '#f3b808';
+                console.log(this.gameboard);
             }
         }
     };
-/*     function createBoard(row, col){
+    function createBoard(row, col){
         var a = []
         for(var i=0; i < row; i++){
             a[i] = []
             for(var j=0; j < col; j++){
-                a[i][j] = null
+                a[i][j] = new Button();
             }
         } return a
-    } */
+    } 
 </script>
   
 <style scoped>
