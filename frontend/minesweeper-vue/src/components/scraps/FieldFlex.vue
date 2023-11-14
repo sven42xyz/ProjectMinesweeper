@@ -45,41 +45,44 @@
 
                         if(this.gameboard[row-1][col-1].IsBomb){
                             value[0].isBomb = 'X';
+                        }else if(this.gameboard[row-1][col-1].nBombs !=0){
+                            value[0].isNumber = this.gameboard[row-1][col-1].nBombs;
                         }else{
-                            var number = this.revealNeighbours(w, h);
-                            if(number != 0){
-                            value[0].isNumber = number;
-                            console.log(number);}
+                            this.revealNeighbours(w, h);
                         }
                     }
                 }
             },
             revealNeighbours(row, col){
-                var neighbouringBombs = 0;
-                console.log(row,col)
-/*                 const refEntries = Object.entries(this.$refs);
+                const refEntries = Object.entries(this.$refs);
                 for(var i = 0; i < 3; i++){
                     for(var j= 0; j < 3; j++){
                         var x = (row - 1 + i);
                         var y = (col - 1 + j);
-                        if(x > 0 && y > 0 && x < this.size && y < this.size && this.gameboard[x][y].IsBomb){
-                            neighbouringBombs = neighbouringBombs + 1;
-                            console.log(this.gameboard[x][y]);
-                        }else{
+                        if(x >= 0 && y >= 0 && x < this.size && y < this.size && this.gameboard[x][y].IsBomb){
+                            //do nothing
+                        }else if(x >= 0 && y >= 0 && x < this.size && y < this.size && this.gameboard[x][y].nBombs != 0 ){
                             var cur = "["+ (x + 1) + "," + (y + 1) + "]";
                             var thisEntry = refEntries.find(i => i[0] === cur);
-                            console.log(thisEntry);
+
+                                if(thisEntry && thisEntry[1][0].color != 'grey' && this.gameboard[x][y].IsBomb == false){
+                                thisEntry[1][0].color = 'grey';
+                                thisEntry[1][0].enabled = 'none';
+                                thisEntry[1][0].isNumber = this.gameboard[x][y].nBombs;
+                            }
+                        }else{
+                            cur = "["+ (x + 1) + "," + (y + 1) + "]";
+                            thisEntry = refEntries.find(i => i[0] === cur);
+
                             if(thisEntry && thisEntry[1][0].color != 'grey' && this.gameboard[x][y].IsBomb == false){
                                 thisEntry[1][0].color = 'grey';
                                 thisEntry[1][0].enabled = 'none';
-                                //this.gameboard[x][y].nBomb = this.revealNeighbours(x, y);
-                                console.log(thisEntry[1][0].isNumber);
+                                this.revealNeighbours(x, y);
                             }
                         }
                         
                     }
-                } */
-                return neighbouringBombs;
+                } 
             },
             ref(i, x) {
                 return("["+ i + "," + x + "]");
@@ -91,7 +94,7 @@
     };
     function createBoard(row, col){
         var a = []
-        var bombs = (row + col)* 2;
+        var bombs = (row + col)/2;
         for(var i = 0; i < row; i++){
             a[i] = []
             for(var j=0; j < col; j++){
@@ -109,19 +112,23 @@
             }
             a[w][h].IsBomb = true; //make new position is a bomb
         }
-        for(i = 0; i < row; i++){
-            for( j=0; j < col; j++){
+        for(i = 0; i < row; i++){ //1
+            for( j=0; j < col; j++){ // 0
                 var neighbouringBombs = 0;
-                for(var k = 0; k < 3; k++){
-                    for(var t= 0; t < 3; t++){
-                        var x = (i - 1 + k);
-                        var y = (j - 1 + t);
+                for(var k = 0; k < 3; k++){ 
+                    for(var t= 0; t < 3; t++){  
+                        var x = (i - 1 + k); // 0 > 1 > 2
+                        var y = (j - 1 + t); // -1 > 0 > 1
                         if(x >= 0 && y >= 0 && x < row && y < row && a[x][y].IsBomb == true){
+                            console.log(x, y + "for" + i, j);
                             neighbouringBombs ++;
+                            console.log(neighbouringBombs);
                         }                        
                     }
                 }
+                console.log(a[i]);
                 a[i][j].nBombs = neighbouringBombs;
+                console.log(a[i]);
             }
         }
         console.log(a);
