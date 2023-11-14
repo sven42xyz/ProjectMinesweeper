@@ -36,6 +36,10 @@
                     if(key == ("["+ row + "," + col + "]")){
                         value[0].color = 'grey';
                         value[0].enabled = 'none';
+
+                        if(this.gameboard[row-1][col-1].IsBomb){
+                            value[0].isBomb = 'X';
+                        }
                     }
                 }
             },
@@ -49,12 +53,26 @@
     };
     function createBoard(row, col){
         var a = []
-        for(var i=0; i < row; i++){
+        var bombs = (row + col) * 0.75;
+        for(var i = 0; i < row; i++){
             a[i] = []
             for(var j=0; j < col; j++){
                 a[i][j] = new Button();
             }
-        } return a
+        }
+        for (i = 0; i < bombs; i++) {
+            //Get random position for the next bomb
+            var w = Math.floor(Math.random()* col);
+            var h = Math.floor(Math.random() * row);
+            while(a[w][h].isBomb) { //if this position is a bomb
+                //we get new position
+                w = Math.floor(Math.random()* col);
+                h = Math.floor(Math.random() * row);
+            }
+            console.log(a[w][h]);
+            a[w][h].IsBomb = true; //make new position is a bomb
+        }
+        return a
     } 
 </script>
   
