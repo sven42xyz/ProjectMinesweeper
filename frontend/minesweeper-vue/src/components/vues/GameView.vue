@@ -22,7 +22,7 @@
         </div>
       </div>
     </div>
-    <hr style="margin-top: 72.5vmin;"/>
+    <hr style="margin-top: 2.5vmin;"/>
     <form v-on:submit.prevent class="lobby-game-form" style="position:absolute; bottom: 2vmin; right: 2vmin">
       <div class="col">
         <button v-on:click="cancel" class="btn btn-danger" type="Cancel" id="Cancel-Button" aria-expanded="false">Cancel</button>

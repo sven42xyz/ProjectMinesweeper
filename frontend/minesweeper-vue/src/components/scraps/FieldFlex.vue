@@ -1,13 +1,17 @@
 <template>
-<div class="row" v-for="i in size" v-bind:key="i" >
-    <div class="col" v-for="x in size" v-bind:key="x" >
-        <button class="col-btn" style="background: getColor([i, x])" v-on:click ="clicked(i,x)"><h7>.</h7></button>
+    <div class="row" v-for="i in size" v-bind:key="i" >
+        <div class="col" v-for="x in size" v-bind:key="x" >
+            <FButton :ref="ref(i,x)" class="col-btn" v-on:click ="clicked(i,x)"><h7>.</h7></FButton>
+        </div>
     </div>
-</div>
 </template>
   
+<script setup>
+  import FButton from './FieldButton.vue';
+</script>
+
   <script>
-    import Button from ".//Button.js";
+    import Button from './/Button.js';
 
     export default {
 
@@ -23,24 +27,25 @@
                 gameboard : createBoard(this.size, this.size),
             }
         },
+        methods:{
+            clicked(row, col){
+                console.log(this.gameboard[row-1]);
+                console.log(this.$refs);
+                this.gameboard[row-1][col-1].setIsRevealed();
+                for(const [key, value] of Object.entries(this.$refs)){
+                    if(key == ("["+ row + "," + col + "]")){
+                        value[0].color = 'grey';
+                        value[0].enabled = 'none';
+                    }
+                }
+            },
+            ref(i, x) {
+                return("["+ i + "," + x + "]");
+            },
+        },
         computed:{
-            getColor(row, col){
-                console.log(this.gameboard[row-1][col-1].getIsRevealed());
-                if(this.gameboard[row-1][col-1].getIsRevealed() == true){
-                    return "black";
-                }else return "white"
-
-            }
         },
 
-        methods: {
-            clicked(row, col){
-                this.gameboard[row-1][col-1].setIsRevealed();
-                console.log(this.gameboard[row-1][col-1])
-                console.log(this.gameboard)
-                console.log(this.gameboard[row-1])
-            }
-        }
     };
     function createBoard(row, col){
         var a = []
