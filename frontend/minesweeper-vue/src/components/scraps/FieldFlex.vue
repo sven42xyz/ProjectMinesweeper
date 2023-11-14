@@ -34,13 +34,14 @@
                 console.log(this.gameboard)
                 console.log(this.gameboard[row-1])
                 console.log(this.gameboard[col-1])
+                var color = 'grey';
                 var w = row - 1;
                 var h = col - 1;
                 for(const [key, value] of Object.entries(this.$refs)){
                     var check = "["+ row + "," + col + "]";
                     console.log(check);
                     if(key == check){
-                        value[0].color = 'grey';
+                        value[0].color = color;
                         value[0].enabled = 'none';
 
                         if(this.gameboard[row-1][col-1].IsBomb){
@@ -48,12 +49,12 @@
                         }else if(this.gameboard[row-1][col-1].nBombs !=0){
                             value[0].isNumber = this.gameboard[row-1][col-1].nBombs;
                         }else{
-                            this.revealNeighbours(w, h);
+                            this.revealNeighbours(w, h, color);
                         }
                     }
                 }
             },
-            revealNeighbours(row, col){
+            revealNeighbours(row, col, color){
                 const refEntries = Object.entries(this.$refs);
                 for(var i = 0; i < 3; i++){
                     for(var j= 0; j < 3; j++){
@@ -65,19 +66,21 @@
                             var cur = "["+ (x + 1) + "," + (y + 1) + "]";
                             var thisEntry = refEntries.find(i => i[0] === cur);
 
-                                if(thisEntry && thisEntry[1][0].color != 'grey' && this.gameboard[x][y].IsBomb == false){
-                                thisEntry[1][0].color = 'grey';
+                            if(thisEntry && this.gameboard[x][y].IsRevealed != true && this.gameboard[x][y].IsBomb == false){
+                                thisEntry[1][0].color = color;
                                 thisEntry[1][0].enabled = 'none';
+                                this.gameboard[x][y].setIsRevealed();
                                 thisEntry[1][0].isNumber = this.gameboard[x][y].nBombs;
                             }
                         }else{
                             cur = "["+ (x + 1) + "," + (y + 1) + "]";
                             thisEntry = refEntries.find(i => i[0] === cur);
 
-                            if(thisEntry && thisEntry[1][0].color != 'grey' && this.gameboard[x][y].IsBomb == false){
-                                thisEntry[1][0].color = 'grey';
+                            if(thisEntry && this.gameboard[x][y].IsRevealed != true && this.gameboard[x][y].IsBomb == false){
+                                thisEntry[1][0].color = color;
                                 thisEntry[1][0].enabled = 'none';
-                                this.revealNeighbours(x, y);
+                                this.gameboard[x][y].setIsRevealed();
+                                this.revealNeighbours(x, y, color);
                             }
                         }
                         
