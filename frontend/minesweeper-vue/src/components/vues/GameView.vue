@@ -145,9 +145,7 @@ export default {
       margin-bottom: 5%;
     }
 
-    .player-container{
-      
-    }
+  
     .game-container{
       margin: 2vmin;
       width: 70vmin;

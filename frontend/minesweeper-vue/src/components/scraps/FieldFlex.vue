@@ -26,29 +26,34 @@
         data(){
             return{
                 gameboard : createBoard(this.size, this.size),
-                player : new Player(this.$cookies.get('session').userId,  "Anna", 'player', 0, 'pink')
+                player : new Player(this.$cookies.get('session').userId,  "Anna", 'player', 0, 'pink'),
             }
         },
         methods:{
+            disable(){
+                console.log("you are out");
+                for(const [key, value] of Object.entries(this.$refs)){
+                    if(key != ""){
+                        value[0].enabled = 'none';
+                    }
+                }
+            },
             clicked(row, col){
                 this.gameboard[row-1][col-1].setIsRevealed();
-                console.log(row, col);
-                console.log(this.gameboard)
-                console.log(this.gameboard[row-1])
-                console.log(this.gameboard[col-1])
                 var color = this.player.color;
                 var w = row - 1;
                 var h = col - 1;
                 for(const [key, value] of Object.entries(this.$refs)){
                     var check = "["+ row + "," + col + "]";
-                    console.log(check);
                     if(key == check){
                         value[0].color = color;
                         value[0].enabled = 'none';
-                        console.log(value[0]);
 
                         if(this.gameboard[row-1][col-1].IsBomb){
                             value[0].isBomb = 'X';
+                            value[0].color = 'darkred';
+                            console.log(this.player.username + " lost with a score of " + this.player.score);
+                            this.disable();
                         }else if(this.gameboard[row-1][col-1].nBombs !=0){
                             value[0].isNumber = this.gameboard[row-1][col-1].nBombs;
                             this.player.score += 1;
@@ -57,7 +62,10 @@
                         }
                     }
                 }
-                console.log(this.checkIfAllRevealed());
+                var won =this.checkIfAllRevealed();
+                if(won != null){
+                    console.log(won);
+                }
             },
             revealNeighbours(row, col, color){
                 const refEntries = Object.entries(this.$refs);
@@ -109,6 +117,7 @@
                 }
                 return this.player.username + " won with a score of " + this.player.score;
             }
+
         },
         computed:{
         },
@@ -142,18 +151,13 @@
                         var x = (i - 1 + k); // 0 > 1 > 2
                         var y = (j - 1 + t); // -1 > 0 > 1
                         if(x >= 0 && y >= 0 && x < row && y < row && a[x][y].IsBomb == true){
-                            console.log(x, y + "for" + i, j);
                             neighbouringBombs ++;
-                            console.log(neighbouringBombs);
                         }                        
                     }
                 }
-                console.log(a[i]);
                 a[i][j].nBombs = neighbouringBombs;
-                console.log(a[i]);
             }
         }
-        console.log(a);
         return a
     }
 </script>
