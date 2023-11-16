@@ -12,6 +12,7 @@
 
   <script>
     import Button from './/Button.js';
+    import Player from 'C:/Users/Leoyna1/Documents/GitHub/ProjectMinesweeper/backend/models/player.js';
 
     export default {
 
@@ -25,6 +26,7 @@
         data(){
             return{
                 gameboard : createBoard(this.size, this.size),
+                player : new Player(this.$cookies.get('session').userId,  "Anna", 'player', 0, 'pink')
             }
         },
         methods:{
@@ -34,7 +36,7 @@
                 console.log(this.gameboard)
                 console.log(this.gameboard[row-1])
                 console.log(this.gameboard[col-1])
-                var color = 'grey';
+                var color = this.player.color;
                 var w = row - 1;
                 var h = col - 1;
                 for(const [key, value] of Object.entries(this.$refs)){
@@ -43,19 +45,23 @@
                     if(key == check){
                         value[0].color = color;
                         value[0].enabled = 'none';
+                        console.log(value[0]);
 
                         if(this.gameboard[row-1][col-1].IsBomb){
                             value[0].isBomb = 'X';
                         }else if(this.gameboard[row-1][col-1].nBombs !=0){
                             value[0].isNumber = this.gameboard[row-1][col-1].nBombs;
+                            this.player.score += 1;
                         }else{
-                            this.revealNeighbours(w, h, color);
+                            this.player.score += this.revealNeighbours(w, h, color);
                         }
                     }
                 }
+                console.log(this.checkIfAllRevealed());
             },
             revealNeighbours(row, col, color){
                 const refEntries = Object.entries(this.$refs);
+                var score = 0;
                 for(var i = 0; i < 3; i++){
                     for(var j= 0; j < 3; j++){
                         var x = (row - 1 + i);
@@ -71,6 +77,7 @@
                                 thisEntry[1][0].enabled = 'none';
                                 this.gameboard[x][y].setIsRevealed();
                                 thisEntry[1][0].isNumber = this.gameboard[x][y].nBombs;
+                                score += 1;
                             }
                         }else{
                             cur = "["+ (x + 1) + "," + (y + 1) + "]";
@@ -80,16 +87,28 @@
                                 thisEntry[1][0].color = color;
                                 thisEntry[1][0].enabled = 'none';
                                 this.gameboard[x][y].setIsRevealed();
-                                this.revealNeighbours(x, y, color);
+                                score += this.revealNeighbours(x, y, color);
                             }
                         }
                         
                     }
-                } 
+                }
+                return score; 
             },
             ref(i, x) {
                 return("["+ i + "," + x + "]");
             },
+            checkIfAllRevealed(){
+                for(var i = 0; i < this.size; i++){
+                    for(var j=0; j < this.size; j++){
+                        if(!this.gameboard[i][j].IsBomb && !this.gameboard[i][j].IsRevealed){
+                            return null;
+                        }
+                        
+                    }
+                }
+                return this.player.username + " won with a score of " + this.player.score;
+            }
         },
         computed:{
         },
