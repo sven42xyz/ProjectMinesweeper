@@ -1,7 +1,7 @@
 <template>
     <div class="row" v-for="i in size" v-bind:key="i" >
         <div class="col" v-for="x in size" v-bind:key="x" >
-            <FButton :ref="ref(i,x)" class="col-btn" v-on:click ="clicked(i,x)"><h7>.</h7></FButton>
+            <FButton :disabled="this.player.disabled" :ref="ref(i,x)" class="col-btn" v-on:click ="clicked(i,x)"><h7>.</h7></FButton>
         </div>
     </div>
 </template>
@@ -32,11 +32,7 @@
         methods:{
             disable(){
                 console.log("you are out");
-                for(const [key, value] of Object.entries(this.$refs)){
-                    if(key != ""){
-                        value[0].enabled = 'none';
-                    }
-                }
+                this.player.disabled = true;
             },
             clicked(row, col){
                 this.gameboard[row-1][col-1].setIsRevealed();

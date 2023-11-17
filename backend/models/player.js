@@ -5,7 +5,8 @@ class Player {
         this.username = username;
         this.userClass = userClass;
         this.score = score;
-        this.color = color
+        this.color = color;
+        this.disabled = false;
     }
 
 }
