@@ -12,7 +12,9 @@
 
   <script>
     import Button from './/Button.js';
-    import Player from 'C:/Users/Leoyna1/Documents/GitHub/ProjectMinesweeper/backend/models/player.js';
+    //import Player from 'C:/Users/Leoyna1/Documents/GitHub/ProjectMinesweeper/backend/models/player.js';
+    import Player from 'C:/Users/Miche/OneDrive/Dokumente/GitHub/ProjectMinesweeper/backend/models/player.js';
+
 
     export default {
 
@@ -30,8 +32,8 @@
             }
         },
         methods:{
-            disable(){
-                console.log("you are out");
+            disable(message){
+                console.log(message);
                 this.player.disabled = true;
             },
             clicked(row, col){
@@ -49,7 +51,7 @@
                             value[0].isBomb = 'X';
                             value[0].color = 'darkred';
                             console.log(this.player.username + " lost with a score of " + this.player.score);
-                            this.disable();
+                            this.disable("you are out");
                         }else if(this.gameboard[row-1][col-1].nBombs !=0){
                             value[0].isNumber = this.gameboard[row-1][col-1].nBombs;
                             this.player.score += 1;
@@ -60,7 +62,7 @@
                 }
                 var won =this.checkIfAllRevealed();
                 if(won != null){
-                    console.log(won);
+                    this.disable(won);
                 }
             },
             revealNeighbours(row, col, color){
@@ -111,8 +113,26 @@
                         
                     }
                 }
+                const refEntries = Object.entries(this.$refs);
+                for(i = 0; i < this.size; i++){
+                    for(j=0; j < this.size; j++){
+                        if(this.gameboard[i][j].IsBomb){
+                            var cur = "["+ (i + 1) + "," + (j + 1) + "]";
+                            this.reveal(cur, refEntries);
+                            this.gameboard[i][j].setIsRevealed();
+                        }
+                    }
+                }
+
                 return this.player.username + " won with a score of " + this.player.score;
+            },
+            reveal(cur, refEntries){
+                var thisEntry = refEntries.find(i => i[0] === cur);
+                thisEntry[1][0].color = 'darkred';
+                thisEntry[1][0].isBomb = 'X';
+                thisEntry[1][0].enabled = 'none';
             }
+
 
         },
         computed:{

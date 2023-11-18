@@ -18,7 +18,7 @@
       </div>
       <div class="col-4">
         <div class="container-fluid chat-container">
-          <Chat/>
+          <!-- <Chat/> -->
         </div>
       </div>
     </div>
@@ -32,7 +32,7 @@
 </template>
 
 <script setup>
-  import Chat from '../scraps/ChatBox.vue'
+  //import Chat from '../scraps/ChatBox.vue'
   import PlayerCurrent from '../scraps/PlayerIconCurrent.vue'
   import Field from '../scraps/FieldFlex.vue'
 </script>
