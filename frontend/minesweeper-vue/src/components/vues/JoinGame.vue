@@ -3,10 +3,10 @@
     <h1 class="card-header mt-2 mb-2">Join Game</h1>
     <hr style="margin-left: 2vw; margin-right: 2vw;"/>
     <form v-on:submit.prevent class="join-game-form">
-      <div class="d-flex justify-content-center">
+      <div class="d-flex input-group justify-content-center" style="height: 5.5vh; width: 100%;">
         <div class="input-group md-4 w-100 mb-2 mt-2">
-          <span class="input-group-text" id="basic-addon1">room</span>
-                <input type="text" class="form-control" aria-label="Roomcode" v-model="roomId">
+          <span class="input-group-text" id="basic-addon1" style="text-align:left; display:inline-flex;">room</span>
+                <input type="text" class="form-control" style="text-align:center; align-items: center; display: inline-flex;" v-model="roomId">
               </div>
             </div>
             <div class="d-flex justify-content-center">
@@ -85,7 +85,48 @@ export default {
   padding-top: 1%;
   width: 31vw;
 }
+.input-group{
+  width: 100%;
+  padding-left: 0.75vmin;
+  margin-top: 2vmin;
+  margin-bottom: 2.5vmin;
+  height: 100%;
+  flex-wrap: nowrap;
+}
+
+.input-group-text{
+  height: 100%;
+  width: 37.5%;
+  padding: calc(0.5vh + 0.5vw);
+}
+
+.form-control{
+  height: 100%;
+  width: 35%;
+  padding: calc(0.5vh + 0.5vw);
+}
+
 .btn-success{
-  margin-right: 5.5vw;
+  margin-right: 10.5vw;
+  width: 17.5vmin;
+  position: absolute;
+  left: 6vmin;
+  margin-left: 0;
+}
+
+
+.btn-danger{
+  position: absolute;
+  right: 2.75vmin;
+  width: 17.5vmin;
+}
+
+.join-game-form{
+  padding: 1%;
+  margin-left: 2%;
+  width: 92.5%;
+  height: 30vh;
+  max-height: 20vw;
+
 }
 </style>

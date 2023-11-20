@@ -65,18 +65,18 @@
 
 .join-fluid-container{
   position: absolute;
-  top: 0; right: 0; bottom: 0; left: 0;
+  bottom: 0;
   background-color: rgb(240, 240, 255);
   padding-top: 25px;
   padding-bottom: 25px;
   padding-left: 25px;
   padding-right: 25px;
-  width: 35%;
-  height: 40%;
+  width: 55vmin;
+  height: 40vmin;
   border-radius:10px;
   margin: auto;
   top: 35%;
-  left: 37.5%;
+  left: 50%;
   transform: translate(-50%, -50%);
 }
 
