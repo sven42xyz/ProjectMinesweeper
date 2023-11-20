@@ -11,8 +11,8 @@
           <PlayerEmpty :username=getPlayer(i)></PlayerEmpty>
         </div>
 
-        <Difficulty :difficulty-transfer="dif-2"/>
-        <Progress :playercount='4' :playersReadyCount='2'/>
+        <Difficulty class= "media" :difficulty-transfer="dif-2"/>
+        <Progress  class= "media" :playercount='4' :playersReadyCount='2'/>
       </div>
     </div>
     <div class="container-fluid chat-container">
@@ -132,7 +132,17 @@
     top: 0; right: 0; bottom: 0; left: 0;
     }
     
-
+    @media only screen and (max-width: 900px) {
+      .chat-container {
+        display: none;
+      }
+      .lobby-container{
+        width: 100%!important;
+      }
+      .media{
+        width: 45%!important;
+      }
+    }
     .big-fluid-container{
       background-color: rgb(255, 255, 255);
     }

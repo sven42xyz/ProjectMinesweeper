@@ -149,7 +149,7 @@ hr{
 }
 
 hr.bottom{
-  margin-top: 4vh!important;
+  margin-top: 4vmin!important;
 }
 
 .btn-danger{

@@ -39,7 +39,7 @@ export default {
 <style scoped>
     .form-group{      
       margin-top: 1.5vh;
-      margin-right: 2.5vw;
+      margin-right: 2.5vmin;
       margin-left: 2.5vw;
       margin-bottom: 1.5vh;
       width: 22.5vw;
@@ -56,6 +56,8 @@ export default {
     .form-check{
       height: calc(1vh + 1vw);
       min-height: 0;
+      text-align: left;
+      padding-left: 2.5vmin;
     }
 
 </style>

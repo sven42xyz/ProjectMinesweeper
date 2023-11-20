@@ -34,13 +34,16 @@
     .progress{
         padding: 0;
         margin-top: 2vh;
-        width: 22.5vw;
-        margin-right: 2.5vw;
-        margin-left: 2.5vw;
+        width: 90%;
+        margin-right: 2.5vmin;
+        margin-left: 2.5vmin;
     }
 
     .progress-bar-div{
         padding: 0px;
+        align-items: center;
+        padding-left: 5vmin;
+        padding-right: 5vmin;
     }
 
     .progress-bar-animated{
@@ -50,5 +53,6 @@
     h6{
         font-size: 2vh; 
         padding-top: 4vh;
+        text-align: center;
     }
 </style>

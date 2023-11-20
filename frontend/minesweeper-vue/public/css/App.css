@@ -1,5 +1,7 @@
 .App {
     padding: 1rem;
+    min-width:600px!important;
+    min-height: 500px!important;
   }
    
   .box {
@@ -51,9 +53,8 @@
   padding-bottom: 25px;
   padding-left: 25px;
   padding-right: 25px;
-  width: 37.5vw;
-  min-width: 60vh;
-  height: 57.5vh;
+  width: 67.5vmin;
+  height: 62.5vmin;
   min-height: 32.5vw;
   border-radius:10px;
   top: 50vh;
@@ -72,6 +73,8 @@
   padding-left: 25px;
   padding-right: 25px;
   width: 55vmin;
+  min-height: 200px;
+  min-width: 200px;
   height: 40vmin;
   border-radius:10px;
   margin: auto;

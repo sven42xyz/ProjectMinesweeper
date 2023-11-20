@@ -47,7 +47,7 @@ export default {
     return {
       roomId: null,
       userId: null,
-      size: 6,
+      size: 10,
       players: ['Anna', 'Ben','Testi', 'Marie'],
     };
   },
