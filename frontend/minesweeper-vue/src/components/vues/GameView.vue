@@ -18,7 +18,7 @@
       </div>
       <div class="col-4">
         <div class="container-fluid chat-container">
-          <!-- <Chat/> -->
+          <Chat/>
         </div>
       </div>
     </div>
@@ -32,7 +32,7 @@
 </template>
 
 <script setup>
-  //import Chat from '../scraps/ChatBox.vue'
+  import Chat from '../scraps/ChatBox.vue'
   import PlayerCurrent from '../scraps/PlayerIconCurrent.vue'
   import Field from '../scraps/FieldFlex.vue'
 </script>
@@ -145,6 +145,11 @@ export default {
       margin-bottom: 5%;
     }
 
+    @media only screen and (max-width: 1350px) {
+        .chat-col {
+            display: none;
+        }
+    }
   
     .game-container{
       margin: 2vmin;
