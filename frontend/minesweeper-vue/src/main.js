@@ -17,7 +17,7 @@ app.use(VueCookies, {
 });
 app.use(
     new VueSocketIO({
-        connection: 'http://localhost:3000',
+        connection: 'http://192.168.178.38:3000',
     })
 );
 
