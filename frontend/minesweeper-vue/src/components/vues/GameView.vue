@@ -1,9 +1,9 @@
 <template>
-  <div class="container-fluid big-fluid-container">
+  <div class="container-fluid game-fluid-container">
     <div class="row">
       <div class="col player-col">
         <div class="container-fluid player-container">
-          <div class=" row loop-div" v-for="i in players" v-bind:key="i" >
+          <div class=" row loop-div" v-for="i in players" v-bind:key="i" style="margin-top:10%" >
   <!--           <div v-if="players.get(i-1).state == 'NotReady'"><PlayerIcon/></div>
             <div v-else-if="players.get(i-1).state == 'Ready'"><PlayerReady/></div>
             <div v-else><PlayerEmpty/></div>  -->
@@ -16,7 +16,7 @@
           <Field :size="this.size"></Field>
         </div>
       </div>
-      <div class="col-4">
+      <div class="col-4 chat-col">
         <div class="container-fluid chat-container">
           <Chat/>
         </div>
@@ -145,9 +145,18 @@ export default {
       margin-bottom: 5%;
     }
 
-    @media only screen and (max-width: 1350px) {
+    @media only screen and (max-width: 1680px) and (min-height: 950px), 
+    screen and (max-width: 1650px) and (min-height: 925px),
+    screen and (max-width: 1600px) and (min-height: 900px),
+    screen and (max-width: 1500px)
+    {
         .chat-col {
             display: none;
+        }
+    }
+    @media only screen and (max-width: 1100px) {
+        .player-col {
+            display: none!important;
         }
     }
   
@@ -189,12 +198,17 @@ export default {
     }
 
     .row{padding: 0; margin: 0;}
-    .col{padding: 0;  margin: 0;
+    .col{
+      padding: 0;  margin: 0;
       display: flex;
       justify-content: space-around;
     }
     .player-col{
-      width: 20vmin;
+      width: 30vmin;
+      flex: none;
+    }
+    .chat-col{
+      width: 50vmin;
       flex: none;
     }
 

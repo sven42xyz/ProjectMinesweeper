@@ -54,8 +54,8 @@
   padding-left: 25px;
   padding-right: 25px;
   width: 67.5vmin;
-  height: 62.5vmin;
-  min-height: 32.5vw;
+  height: 60vmin;
+  min-height: 30vw;
   border-radius:10px;
   top: 50vh;
   bottom: 50vh;
@@ -85,6 +85,22 @@
 
 
 .big-fluid-container{
+  position: absolute;
+  top: 0; right: 0; bottom: 0; left: 0;
+  background-color: rgb(240, 240, 255);
+  padding-top: 2vh;
+  padding-bottom: 2vh;
+  padding-left: 1.5vw;
+  padding-right: 1.5vw;
+  width: 90%;
+  height: 90%;
+  border-radius:10px;
+  margin: auto;
+  top: 91%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+.game-fluid-container{
   position: absolute;
   top: 0; right: 0; bottom: 0; left: 0;
   background-color: rgb(240, 240, 255);
