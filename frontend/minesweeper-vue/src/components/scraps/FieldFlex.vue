@@ -153,7 +153,7 @@
             var w = Math.floor(Math.random()* col);
             var h = Math.floor(Math.random() * row);
             while(a[w][h].isBomb) { //if this position is a bomb
-                //we get new position
+                //we get a new position
                 w = Math.floor(Math.random()* col);
                 h = Math.floor(Math.random() * row);
             }
@@ -161,7 +161,7 @@
         }
         for(i = 0; i < row; i++){ //1
             for( j=0; j < col; j++){ // 0
-                var neighbouringBombs = 0;
+                var neighbouringBombs = 0;s
                 for(var k = 0; k < 3; k++){ 
                     for(var t= 0; t < 3; t++){  
                         var x = (i - 1 + k); // 0 > 1 > 2

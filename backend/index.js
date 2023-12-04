@@ -67,7 +67,7 @@ io.on('connection', (socket) => {
         console.log(activeUsers);
         console.log('new user ' + socket.username + ' joined the server.');
     });
-
+    
     socket.on('new game', (_, callback) => {
         const gameRoom = utils.randomId();
         socket.join(gameRoom);
@@ -186,7 +186,7 @@ io.on('connection', (socket) => {
         console.log(outgoingMessage);
         console.log(players);
         // send socket to all in room except sender
-        io.to(roomName).emit('message', outgoingMessage);
+        io.emit('message', outgoingMessage);
         callback({
             status: "ok"
         });

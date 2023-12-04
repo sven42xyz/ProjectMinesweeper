@@ -65,7 +65,7 @@
       'join lobby'(userId) {
         this.players.push(userId);
         console.log(this.players);
-      },      
+      }  
     },
 
     methods: {

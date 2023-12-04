@@ -5,13 +5,16 @@
         <form id="WelcomeForm" class="small-center-form" v-on:submit.prevent>
           <h1 class="card-header">Minesweeper.io</h1>
           <hr/>
+          <div class="popover input card" :style=popover1>Bitte Username eingeben!</div>
           <div class="input-group mt-1">
               <span class="input-group-text" id="basic-addon1">username</span>
-              <input type="text" class="form-control" aria-label="Username" v-model="username">
+              <input v-on:mouseover="popover('input')" v-on:mouseleave="nopopover('input')"  type="text" class="form-control" aria-label="Username" v-model="username">
           </div>
           <div class>
-              <button v-on:click="newGame" class="btn btn-primary-lavender w-75" type="Submit" id="new-game" aria-expanded="false">New Game</button>
-              <button v-on:click="joinGame" class="btn btn-secondary-yellow w-75" type="Submit" id="join-game" aria-expanded="false">Join Game</button>
+              <div class="popover card" :style=popover2>Möchtest du ein neues Spiel erstellen?</div>
+              <button v-on:click="newGame" v-on:mouseover="popover('newGame')" v-on:mouseleave="nopopover('newGame')" class="btn btn-primary-lavender w-75" type="Submit" id="new-game" aria-expanded="false">New Game</button>
+              <div class="popover card" :style=popover3>Möchtest du einem Spiel beitreten?</div>
+              <button v-on:click="joinGame" v-on:mouseover="popover('joinGame')" v-on:mouseleave="nopopover('joinGame')" class="btn btn-secondary-yellow w-75" type="Submit" id="join-game" aria-expanded="false">Join Game</button>
            </div>
         </form>
       </div>
@@ -32,6 +35,9 @@ export default {
       username: null,
       intent: null,
       game: null,
+      popover1: "display: none",
+      popover2: "display: none",
+      popover3: "display: none",
     };
   },
 
@@ -49,6 +55,29 @@ export default {
       }
 
       return true;
+    },
+
+    popover(a){
+      if(a == "input"){
+        this.popover1 = "display:flex";
+      }
+      if(a == "newGame"){
+        this.popover2 = "display:flex";
+      }
+      if(a == "joinGame"){
+        this.popover3 = "display:flex";
+      }
+    },
+    nopopover(a){
+      if(a == "input"){
+        this.popover1 = "display:none";
+      }
+      if(a == "newGame"){
+        this.popover2 = "display:none";
+      }
+      if(a == "joinGame"){
+        this.popover3 = "display:none";
+      }
     },
 
     newGame() {
@@ -116,6 +145,18 @@ export default {
       height: 12.5%;
       margin-bottom: 1vh;
       flex-wrap: nowrap;
+    }
+
+    .popover{
+      position: absolute;
+      padding: 1%;
+      margin-top: 3vmin;
+      left: 66.66%;
+    }
+    
+    .popover.input{
+      margin-top: 0.5vmin;
+      left: 70%;
     }
 
     .input-group-text{

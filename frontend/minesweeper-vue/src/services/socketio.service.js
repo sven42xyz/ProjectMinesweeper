@@ -2,10 +2,15 @@ import { io } from 'socket.io-client';
 
 class SocketioService {
 /*     socket = io(process.env.VUE_APP_SOCKET_ENDPOINT); */
-    socket = io('http://192.168.178.38:3000', {
+    /* socket = io('http://192.168.178.38:3000', {
         withCredentials: true,
-    });
-    constructor() { }
+    }); */
+
+    socket = io.connect("http://192.168.178.38:3000", 
+    { upgrade: false, transports: ['websocket'], reconnection: true, forceNew: false});
+    
+    constructor() {
+    }
 
     subscribeToMessages(cb) {
         if (!this.socket) return(true);

@@ -46,7 +46,6 @@
 <script>
   import SocketioService from '../../services/socketio.service.js';
 
-
   export default {
     created() {
       this.roomId = this.$cookies.get('session').roomId;
@@ -69,6 +68,10 @@
     disconnect() {
       console.log('Disconnected...');
     },
+    'message'(msg) {
+        console.log(msg);
+        this.appendMessage(msg)
+     }, 
   },
 
   methods: {
@@ -90,6 +93,14 @@
           this.inputMessageText = "";
       });
       console.log(this.messages);
+    },
+    appendMessage(msg){
+      console.log("appended:");
+        if(msg.id != this.userId){
+          this.messages.push(msg);
+          console.log(this.messages);
+          msg = "";
+        }
     }
   },
   beforeUnmount() {
