@@ -161,7 +161,7 @@
         }
         for(i = 0; i < row; i++){ //1
             for( j=0; j < col; j++){ // 0
-                var neighbouringBombs = 0;s
+                var neighbouringBombs = 0;
                 for(var k = 0; k < 3; k++){ 
                     for(var t= 0; t < 3; t++){  
                         var x = (i - 1 + k); // 0 > 1 > 2
