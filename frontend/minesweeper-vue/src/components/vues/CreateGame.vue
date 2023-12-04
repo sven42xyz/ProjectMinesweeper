@@ -45,9 +45,15 @@
 
 <script>
 import SocketioService from '../../services/socketio.service.js';
+import { usePlayerStore } from '@/store/player';
 
 export default {
   name: 'CreateGame',
+
+  setup() {
+    const playerStore = usePlayerStore();
+    return { playerStore };
+  },
 
   data() {
     return {
@@ -71,6 +77,9 @@ export default {
           console.log('Error: bad request');
           return;
         }
+
+        this.playerStore.setPlayers(res.players);
+        console.log(this.playerStore.players);
 
         this.$router.push('/lobby/');
       });

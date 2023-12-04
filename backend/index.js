@@ -78,14 +78,6 @@ io.on('connection', (socket) => {
 
         activeGames.set(gameRoom, game);
 
-        console.log(activeGames);
-
-        players = getPropertyByRoomId(gameRoom, 'players');
-
-        players.forEach(i => {
-            io.emit('join lobby', i);
-        });
-
         callback({
             status: 200,
             roomId: game.roomId,
@@ -104,32 +96,28 @@ io.on('connection', (socket) => {
         socket.join(data.roomId);
         addPlayerByRoomId(data.roomId, data.userId);
 
-        console.log(activeGames);
-
-        console.log(getPropertyByRoomId(data.roomId, 'players'));
-
         players = getPropertyByRoomId(data.roomId, 'players');
 
-        players.forEach(i => {
-            io.emit('join lobby', i);
-        });
+        io.emit('join lobby', players);
 
         callback({
             status: 200,
             roomId: data.roomId,
             userId: data.userId,
+            players: players,
         });
     }); 
 
     socket.on('set options', (data, callback) => {
         setDifficultyByRoomId(data.roomId, data.difficulty);
 
-        console.log(activeGames);
+        players = getPropertyByRoomId(data.roomId, 'players');
 
         callback({
             status: 200,
             roomId: data.roomId,
             userId: data.userId,
+            players: players,
         });
     });
 

@@ -7,6 +7,7 @@ import VueCookies from 'vue3-cookies'
 import VueSocketIO from 'vue-socket.io'
 import App from './App.vue'
 import router from './router'
+import { createPinia } from "pinia"
 
 const app = createApp(App);
 
@@ -20,5 +21,6 @@ app.use(
         connection: 'http://192.168.178.38:3000',
     })
 );
+app.use(createPinia());
 
 app.mount('#app');
