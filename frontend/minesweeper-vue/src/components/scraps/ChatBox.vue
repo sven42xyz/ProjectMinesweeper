@@ -70,7 +70,16 @@
     },
     'message'(msg) {
         console.log(msg);
-        this.appendMessage(msg)
+        this.appendMessage(msg);
+        var i = this.messages.length;
+        console.log(i);
+        while(i > 8){
+          console.log("more then 2 messages");
+          console.log("removing " + this.messages[0].message);
+          var h = this.messages.splice(0, 1);
+          console.log("removed " + h[0].message);
+          i = this.messages.length
+        }
      }, 
   },
 
@@ -89,6 +98,16 @@
             message,
             ...SENDER,
           });
+
+          var i = this.messages.length;
+          console.log(i);
+          while(i > 8){
+            console.log("more then 2 messages");
+            console.log("removing " + this.messages[0].message);
+            var h = this.messages.splice(0, 1);
+            console.log("removed " + h[0].message);
+            i = this.messages.length
+          }
           // clear the input after the message is sent
           this.inputMessageText = "";
       });
