@@ -7,6 +7,8 @@ import VueCookies from 'vue3-cookies'
 import VueSocketIO from 'vue-socket.io'
 import App from './App.vue'
 import router from './router'
+import PrimeVue from 'primevue/config';
+import ColorPicker from "primevue/colorpicker"
 import { createPinia } from "pinia"
 
 const app = createApp(App);
@@ -22,5 +24,6 @@ app.use(
     })
 );
 app.use(createPinia());
-
+app.use(PrimeVue);
+app.component('ColorPicker', ColorPicker);
 app.mount('#app');

@@ -1,19 +1,28 @@
 <template>
   <div class="col card player-col">
     <h5 class="card-title">{{ username }}</h5>
-    <hr/>
+    <hr style="width: 85%;"/>
     <button class="btn btn-waiting btn-primary" type="button" disabled>
       <span class="spinner-grow spinner-grow-sm float-start" role="status" aria-hidden="true"></span>
       <h6 class="m-0">Waiting...</h6>
     </button>
+    <ColorPicker style="width: 10%;" v-model="colorHEX" inputId="cp-hex" format="hex" class="mb-3" />
   </div>
 </template>
 
+
 <script>
-  export default {
-    props: ['username']
+
+  export default{
+    props:{
+      username: {
+        type: Text,
+        default: 'Anna',
+      }
+    },
   }
 </script>
+
 
 <style scoped>
     .card-header{
@@ -40,8 +49,13 @@
 
     .btn{
       margin-top: 0vw;
-      margin-left: 2.5vw;
-      width: 15.5vw;
+      margin-left: 5%;
+      width: 75%;
+    }
+    .card-title{
+      width: 75%;
+      margin-left: 5%;
+      text-wrap: nowrap;
     }
 
     .spinner-grow{

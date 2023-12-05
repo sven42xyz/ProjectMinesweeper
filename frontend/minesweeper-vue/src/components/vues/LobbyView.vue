@@ -5,10 +5,10 @@
       <hr class="w-100 mb-3"/>
       <div class="row row-cols-2">
         <div class="loop-div" v-for="i in 6" v-bind:key="i" >
-<!--           <div v-if="players.get(i-1).state == 'NotReady'"><PlayerIcon/></div>
-          <div v-else-if="players.get(i-1).state == 'Ready'"><PlayerReady/></div>
-          <div v-else><PlayerEmpty/></div>  -->
-          <PlayerEmpty :username=getPlayer(i)></PlayerEmpty>
+          <div class="player" v-if="getPlayer(i) != null"><PlayerIcon :username=getPlayer(i)></PlayerIcon></div>
+<!--      <div v-else-if="players.get(i-1).state == 'Ready'"><PlayerReady/></div>-->
+          <div class="player" v-else><PlayerEmpty/></div>
+          <!-- <PlayerEmpty :username=getPlayer(i)></PlayerEmpty> -->
         </div>
 
         <Difficulty class= "media" :difficulty-transfer="dif-2"/>
@@ -28,7 +28,7 @@
 
 <script setup>
   //import PlayerReady from '../scraps/PlayerIconReady.vue'
-  //import PlayerIcon from '../scraps/PlayerIcon.vue'
+  import PlayerIcon from '../scraps/PlayerIcon.vue'
   import PlayerEmpty from '../scraps/PlayerIconEmpty.vue'
   import Difficulty from '../scraps/CurrentlySelectedDifficulty.vue'
   import Progress from '../scraps/ProgressBar.vue'
@@ -119,7 +119,27 @@
     top: 0; right: 0; bottom: 0; left: 0;
     }
     
-    @media only screen and (max-width: 900px) {
+    @media only screen and (max-width: 1680px) and (min-height: 950px), 
+    screen and (max-width: 1650px) and (min-height: 925px),
+    screen and (max-width: 1600px) and (min-height: 900px),
+    screen and (max-width: 1500px)
+    {
+      .chat-container {
+            display: none;
+        }
+      .player{
+        width:100%;
+        display: flex;
+      }
+      .lobby-container{
+        width: 100%!important;
+      }
+      .media{
+        width: 45%!important;
+      }
+    }
+
+    @media only screen and (max-width: 900x) {
       .chat-container {
         display: none;
       }
@@ -139,6 +159,10 @@
       margin-bottom: 5%;
     }
 
+    .loop-div{
+      align-items: center;
+      display: flex;
+    }
     .lobby-container{
       position: absolute;
       top: 0; right: 0; bottom: 0; left: 0;

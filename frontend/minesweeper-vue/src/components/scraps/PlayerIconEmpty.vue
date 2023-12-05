@@ -20,6 +20,7 @@
       height: 12vh;
       padding: 10px;
       background-color: rgba(230, 230, 250, 0.599);
+      
     }
 
     .player-col-empty{

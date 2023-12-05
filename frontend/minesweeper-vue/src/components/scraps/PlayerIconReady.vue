@@ -1,7 +1,7 @@
 <template>
   <div class="col card player-col">
     <h5 class="card-title">{{ username }}</h5>
-    <hr/>
+    <hr style="width: 85%;"/>
     <button class="btn btn-light btn-ready" type="button" disabled>
       <span class="spinner-grow spinner-grow-active spinner-grow-sm float-start" role="status" aria-hidden="true"></span>
       <h6 class="m-0">Ready!</h6>
@@ -13,6 +13,7 @@
   export default {
     props: ['username']
   }
+  
 </script>
 
 <style scoped>
@@ -25,18 +26,25 @@
       height: 12vh;
       padding: 10px;
       background-color: rgba(230, 230, 250, 0.599);
+      
     }
 
     .btn-ready{
       background-color: rgb(24, 200, 91);
       border-color: rgb(85, 85, 85);
       color: rgb(0, 0, 0);
+
     }
 
     .btn{
       margin-top: 0vw;
-      margin-left: 2.5vw;
-      width: 15.5vw;
+      margin-left: 5%;
+      width: 75%;
+    }
+    .card-title{
+      width: 75%;
+      margin-left: 5%;
+      text-wrap: nowrap;
     }
 
     .spinner-grow-active{
