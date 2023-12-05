@@ -120,7 +120,23 @@
     top: 0; right: 0; bottom: 0; left: 0;
     }
     
-    @media only screen and (max-width: 900px) {
+    @media only screen and (max-width: 1680px) and (min-height: 950px), 
+    screen and (max-width: 1650px) and (min-height: 925px),
+    screen and (max-width: 1600px) and (min-height: 900px),
+    screen and (max-width: 1500px)
+    {
+      .chat-container {
+            display: none;
+        }
+      .lobby-container{
+        width: 100%!important;
+      }
+      .media{
+        width: 45%!important;
+      }
+    }
+
+    @media only screen and (max-width: 900x) {
       .chat-container {
         display: none;
       }
@@ -140,6 +156,10 @@
       margin-bottom: 5%;
     }
 
+    .loop-div{
+      align-items: center;
+      display: flex;
+    }
     .lobby-container{
       position: absolute;
       top: 0; right: 0; bottom: 0; left: 0;
