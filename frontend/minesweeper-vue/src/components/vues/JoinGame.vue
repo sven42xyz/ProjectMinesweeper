@@ -46,7 +46,6 @@ export default {
       const regex = /^[a-zA-Z0-9]+$/;
 
       if (!this.roomId) {
-        //add error handling -> user input needed
         return;
       }
 

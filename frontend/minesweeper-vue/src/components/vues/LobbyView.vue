@@ -37,6 +37,7 @@
 
 <script>
   import SocketioService from '../../services/socketio.service.js';
+  import { usePlayerStore } from '@/store/player';
 
   export default {
     name: 'LobbyView',
@@ -45,6 +46,7 @@
       return {
         roomId: null,
         userId: null,
+        playerStore: null,
         players: [],
       };
     },
@@ -52,7 +54,7 @@
     created() {
       this.roomId = this.$cookies.get('session').roomId;
       this.userId = this.$cookies.get('session').userId;
-
+      this.playerStore = usePlayerStore();
     },
 
     sockets: {
@@ -62,9 +64,9 @@
       disconnect() {
         console.log('Disconnected...');
       },
-      'join lobby'(userId) {
-        this.players.push(userId);
-        console.log(this.players);
+      'join lobby'(res) {
+        this.playerStore.setPlayers(res)
+        console.log(this.playerStore.players);
       }  
     },
 
@@ -83,8 +85,7 @@
       },
 
       getPlayer(i){
-
-        return this.players[i-1];
+        return this.playerStore.players[i-1];
       },
 
       startGame() {
@@ -105,19 +106,6 @@
       beforeUnmount() {
         SocketioService.disconnect();
       },
-
-      getPlayers() {
-        const data = {roomId: this.roomId}
-
-        console.log("test");
-
-        SocketioService.getPlayers(data, res => {
-          if (res.status !== 200) {
-            console.log(res.data);
-            this.players.push(res.data.players);
-          }
-        })
-      }
     },
   }
 </script>
