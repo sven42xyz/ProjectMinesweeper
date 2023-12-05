@@ -47,7 +47,6 @@
         roomId: null,
         userId: null,
         playerStore: null,
-        players: [],
       };
     },
 
