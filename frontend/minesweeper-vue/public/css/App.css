@@ -117,14 +117,15 @@
   transform: translate(-50%, -50%);
 }
 .p-inputtext{
-  height: 4vmin;
-  width: 4vmin;
+  height: 5vmin;
+  width: 5vmin;
+  border-radius: 2.5vmin;
 }
 .p-colorpicker{
   margin: 0!important;
   display: block;
   align-self: end;
-  bottom: 5vmin;
+  bottom: 6.66vmin;
   right: 1vmin;
 }
 

@@ -6,7 +6,7 @@
       <span class="spinner-grow spinner-grow-sm float-start" role="status" aria-hidden="true"></span>
       <h6 class="m-0">Waiting...</h6>
     </button>
-    <ColorPicker style="width: 10%;" v-model="colorHEX" inputId="cp-hex" format="hex" class="mb-3" />
+    <ColorPicker v-model="colorHEX" inputId="cp-hex" format="hex" class="mb-3" />
   </div>
 </template>
 
@@ -59,8 +59,8 @@
     }
 
     .spinner-grow{
-      margin-left: 0;
-      margin-top: 1%;
+      margin-left: 1%;
+      margin-top: 2.5%;
       animation-duration: 1.5s;
     }
 
