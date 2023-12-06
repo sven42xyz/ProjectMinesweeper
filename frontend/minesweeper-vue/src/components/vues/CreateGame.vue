@@ -88,7 +88,7 @@ export default {
     cancel() {
       const data = {roomId: this.roomId, userId: this.userId}
 
-      SocketioService.killLobby(data, cb => {
+      SocketioService.killGame(data, cb => {
         if (cb.status !== 200) {
           console.log('Error: bad request');
           return;

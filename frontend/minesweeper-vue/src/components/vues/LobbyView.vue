@@ -64,8 +64,12 @@
         console.log('Disconnected...');
       },
       'join lobby'(res) {
-        this.playerStore.setPlayers(res)
+        this.playerStore.setPlayers(res);
         console.log(this.playerStore.players);
+      },
+      'delete game'() {
+        //add store logic (after implementing the game store...)
+        this.leaveGame();
       }  
     },
 
@@ -73,12 +77,17 @@
       cancel() {
         const data = {roomId: this.roomId, userId: this.userId}
 
-        SocketioService.killLobby(data, res => {
+        SocketioService.killGame(data, res => {
           if (res.status !== 200) {
             console.log('Error: bad request');
             return;
           }
         });
+        SocketioService.disconnect();
+        this.$router.push('/');
+      },
+
+      leaveGame() {
         SocketioService.disconnect();
         this.$router.push('/');
       },
