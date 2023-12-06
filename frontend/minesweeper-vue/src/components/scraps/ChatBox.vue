@@ -50,6 +50,7 @@
     created() {
       this.roomId = this.$cookies.get('session').roomId;
       this.userId = this.$cookies.get('session').userId;
+      this.username = this.$cookies.get('session').username;
       this.id     = this.$cookies.get('session').userId;
     },
 
@@ -85,13 +86,12 @@
 
   methods: {
     submitMessage() {
-      const CHAT_ROOM = this.roomId;
       const message = this.inputMessageText;
         const SENDER = {
           id: this.userId,
-          name: this.userId,
+          name: this.username,
         };
-        SocketioService.sendMessage({ message, roomName: CHAT_ROOM }, (cb) => {
+        SocketioService.sendMessage({ message, roomName: this.roomId }, (cb) => {
           // callback is acknowledgement from server
           console.log(cb);
           this.messages.push({

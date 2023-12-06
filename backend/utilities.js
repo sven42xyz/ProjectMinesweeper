@@ -32,6 +32,14 @@ class Utilities {
         return game.host;
     }
 
+    getUsernameOfPlayerByUserId(userId) {
+        const player = this.playerMap.get(userId);
+        if (!player) {
+            return false;
+        }
+        return player.username;
+    }
+
     setDifficultyByRoomId(roomId, difficulty) {
         const game = this.gameMap.get(roomId);
         if (!game) {
