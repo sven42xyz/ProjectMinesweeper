@@ -7,7 +7,7 @@ const server = require('http').createServer(handler);
 const io = require('socket.io')(server, {
     allowEIO3: true, 
     cors: {
-        origin: 'http://172.17.224.127:8080',
+        origin: 'http://192.168.178.38:8080',
         methods: ["GET", "POST"],
         transports: ['websocket', 'polling'],
         credentials: true,
