@@ -151,6 +151,30 @@ io.on('connection', (socket) => {
         });
     });
 
+    socket.on('player ready', (data, callback) => {
+        const res = utils.setPlayerReadyStateByUserId(data.userId);
+        if (!res) {
+            console.log(`Could not set ready state for Player ${data.userId}`);
+            callback({
+                status: 500,
+            });
+        }
+
+        const players = utils.getPlayersOfGameByRoomId(data.roomId);
+        if (!players) {
+            console.log(`Could not get Players of Game ${data.roomId}`);
+            callback({
+                status: 500,
+            });
+        }
+
+        io.emit('player ready', players);
+
+        callback({
+            status: 200,
+        });
+    })
+
 /*     socket.on('disconnect', () => {
         activeUsers.delete(socket.username);
         socket.leave('myRandomChatRoomId');

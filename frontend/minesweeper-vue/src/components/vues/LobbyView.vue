@@ -5,14 +5,14 @@
       <hr class="w-100 mb-3"/>
       <div class="row row-cols-2">
         <div class="loop-div" v-for="i in 6" v-bind:key="i" >
-          <div class="player" v-if="getPlayer(i) != null"><PlayerIcon :username=getPlayer(i)></PlayerIcon></div>
+          <div class="player" v-if="getPlayerUsername(i) != null"><PlayerIcon :username=getPlayerUsername(i)></PlayerIcon></div>
 <!--      <div v-else-if="players.get(i-1).state == 'Ready'"><PlayerReady/></div>-->
           <div class="player" v-else><PlayerEmpty/></div>
           <!-- <PlayerEmpty :username=getPlayer(i)></PlayerEmpty> -->
         </div>
 
         <Difficulty class= "media" :difficulty-transfer="dif-2"/>
-        <Progress  class= "media" :playercount='4' :playersReadyCount='2'/>
+        <Progress  class= "media" :playercount=this.totalPlayers :playersReadyCount=this.readyPlayers />
       </div>
     </div>
     <div class="container-fluid chat-container">
@@ -20,7 +20,8 @@
     </div>
     <hr class="bottom-line"/>
     <form class="lobby-game-form">
-      <button v-on:click="startGame" class="btn btn-success" type="Submit" id="Submit-Button" aria-expanded="false">Ready?</button>
+      <button v-on:click="startGame" class="btn btn-success" type="Submit" id="Submit-Button" aria-expanded="false">Start game</button>
+      <button v-on:click="playerReady" class="btn btn-success" type="Button" id="Submit-Button" aria-expanded="false">Ready?</button>
       <button v-on:click="cancel" class="btn btn-danger" type="Cancel" id="Cancel-Button" aria-expanded="false">Cancel</button>
     </form>
   </div>
@@ -47,6 +48,9 @@
         roomId: null,
         userId: null,
         playerStore: null,
+        totalPlayers: null,
+        readyPlayers: null,
+        playerUsernames: [],
       };
     },
 
@@ -54,6 +58,9 @@
       this.roomId = this.$cookies.get('session').roomId;
       this.userId = this.$cookies.get('session').userId;
       this.playerStore = usePlayerStore();
+      this.totalPlayers = this.playerStore.totalPlayers;
+      this.readyPlayers = this.playerStore.readyPlayers;
+      this.playerUsernames = this.playerStore.playerUsernames;
     },
 
     sockets: {
@@ -65,6 +72,16 @@
       },
       'join lobby'(res) {
         this.playerStore.setPlayers(res);
+        this.totalPlayers = this.playerStore.totalPlayers;
+        this.readyPlayers = this.playerStore.readyPlayers;
+        this.playerUsernames = this.playerStore.playerUsernames;
+        console.log(this.playerStore.players);
+      },
+      'player ready'(res) {
+        this.playerStore.setPlayers(res);
+        this.totalPlayers = this.playerStore.totalPlayers;
+        this.readyPlayers = this.playerStore.readyPlayers;
+        this.playerUsernames = this.playerStore.playerUsernames;
         console.log(this.playerStore.players);
       },
       'delete game'() {
@@ -92,10 +109,6 @@
         this.$router.push('/');
       },
 
-      getPlayer(i){
-        return this.playerStore.players[i-1];
-      },
-
       startGame() {
         const data = {roomId: this.roomId, userId: this.userId}
         this.$router.push('/game/');
@@ -108,6 +121,20 @@
           this.$cookies.set('session', res);
           this.$router.push('/game/');
         });
+      },
+
+      playerReady() {
+        const data = {roomId: this.roomId, userId: this.userId}
+
+        SocketioService.playerReady(data, res => {
+          if (res.status !== 200) {
+            return;
+          }
+        });
+      },
+
+      getPlayerUsername(i) {
+        return this.playerUsernames[i - 1];
       },
 
       //...

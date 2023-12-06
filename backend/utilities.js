@@ -41,6 +41,15 @@ class Utilities {
         return true;
     }
 
+    setPlayerReadyStateByUserId(userId) {
+        const player = this.playerMap.get(userId);
+        if (!player) {
+            return false;
+        }
+        player.setReadyState();
+        return true;
+    }
+
     addPlayerToGameByRoomId(roomId, userId) {
         const game = this.gameMap.get(roomId);
         if (!game) {
