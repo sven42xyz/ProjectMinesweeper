@@ -1,14 +1,13 @@
 const Player = require('./models/player');
 const Game = require('./models/game');
 const Utilities = require('./utilities');
-const utils = new Utilities();
 
 const handler = require('express')();
 const server = require('http').createServer(handler);
 const io = require('socket.io')(server, {
     allowEIO3: true, 
     cors: {
-        origin: 'http://192.168.178.38:8080',
+        origin: 'http://172.17.224.127:8080',
         methods: ["GET", "POST"],
         transports: ['websocket', 'polling'],
         credentials: true,
@@ -22,40 +21,9 @@ handler.get('/', (_, res) => {
 
 
 // set of all active users (in a room)
-const activeUsers = new Set();
 const activeGames = new Map();
-
-function setDifficultyByRoomId(roomId, difficulty) {
-    const instance = activeGames.get(roomId);
-    if (!instance) {
-        return;
-    }
-    instance.setDifficulty(difficulty);
-}
-
-function addPlayerByRoomId(roomId, userId) {
-    const instance = activeGames.get(roomId);
-    if (!instance) {
-        return;
-    }
-    instance.addPlayer(userId);
-}
-
-function getPropertyByRoomId(roomId, property) {
-    const instance = activeGames.get(roomId);
-    if (!instance) {
-        return;
-    }
-    return instance[property];
-}
-
-function killGameByRoomId(roomId, userId) {
-    const instance = activeGames.get(roomId);
-    if (!instance) {
-        return;
-    }
-    return instance[property];
-}
+const activeUsers = new Map();
+const utils = new Utilities(activeGames, activeUsers);
 
 io.on('connection', (socket) => {
     console.log(socket.id + ' wants to sweep some mines!');
@@ -63,19 +31,15 @@ io.on('connection', (socket) => {
     socket.on('new user', (data) => {
         socket.username = data;
         const player = new Player(socket.id, socket.username);
-        activeUsers.add(player);
-        console.log(activeUsers);
+        activeUsers.set(socket.id, player);
         console.log('new user ' + socket.username + ' joined the server.');
     });
     
     socket.on('new game', (_, callback) => {
-        const gameRoom = utils.randomId();
+        const gameRoom = utils.getRandomId();
         socket.join(gameRoom);
-
         const game = new Game(gameRoom, socket.id);
-
         game.addPlayer(socket.id);
-
         activeGames.set(gameRoom, game);
 
         callback({
@@ -94,9 +58,21 @@ io.on('connection', (socket) => {
 
     socket.on('join lobby', (data, callback) => {
         socket.join(data.roomId);
-        addPlayerByRoomId(data.roomId, data.userId);
+        const res = utils.addPlayerToGameByRoomId(data.roomId, data.userId);
+        if (!res) {
+            console.log(`Could not add Player to Game ${data.roomId}`);
+            callback({
+                status: 500,
+            });
+        }
 
-        players = getPropertyByRoomId(data.roomId, 'players');
+        const players = utils.getPlayersOfGameByRoomId(data.roomId);
+        if (!players) {
+            console.log(`Could not get Players of Game ${data.roomId}`);
+            callback({
+                status: 500,
+            });
+        }
 
         io.emit('join lobby', players);
 
@@ -109,9 +85,21 @@ io.on('connection', (socket) => {
     }); 
 
     socket.on('set options', (data, callback) => {
-        setDifficultyByRoomId(data.roomId, data.difficulty);
+        const res = utils.setDifficultyByRoomId(data.roomId, data.difficulty);
+        if (!res) {
+            console.log(`Could not set difficulty for Game ${data.roomId}`);
+            callback({
+                status: 500,
+            });
+        }
 
-        players = getPropertyByRoomId(data.roomId, 'players');
+        const players = utils.getPlayersOfGameByRoomId(data.roomId);
+        if (!players) {
+            console.log(`Could not get Players of Game ${data.roomId}`);
+            callback({
+                status: 500,
+            });
+        }
 
         callback({
             status: 200,
@@ -122,14 +110,29 @@ io.on('connection', (socket) => {
     });
 
     socket.on('delete game', (data, callback) => {
-        const game = new Game(utils.getGameByRoomId(activeGames, data.roomId));
-        if (game.host !== data.userId) {
-            return;
+        const host = utils.getHostOfGameByRoomId(data.roomId);
+        if (!host) {
+            console.log(`Could not get host of Game ${data.roomId}`);
+            callback({
+                status: 500,
+            });
+        }
+        if (host !== data.userId) {
+            console.log(`Player ${data.userId} is not the host`);
+            callback({
+                status: 500,
+            });
         }
 
-        socket.to(game.roomId).emit('game deleted');
-        activeGames.delete(game);
-        console.log(activeGames);
+        io.emit('delete game');
+
+        const res = utils.killGameByRoomId(data.roomId);
+        if (!res) {
+            console.log(`Could not kill Game ${data.roomId}`);
+            callback({
+                status: 500,
+            });
+        }
 
         callback({
             status: 200,
@@ -137,6 +140,10 @@ io.on('connection', (socket) => {
     });
 
     socket.on('start game', (data, callback) => {
+        //check if all players are ready to continue
+
+        io.emit('start game');
+
         callback({
             status: 200,
             roomId: data.roomId,

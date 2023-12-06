@@ -2,22 +2,61 @@ const crypto = require('crypto');
 
 
 class Utilities {
-    constructor() { }
+    constructor(gameMap, playerMap) {
+        this.gameMap = gameMap;
+        this.playerMap = playerMap;
+    }
 
-    randomId() {
+    getRandomId() {
         let randomBytes = crypto.randomBytes(4);
         return randomBytes.toString('hex');
     }
 
-    getGameByRoomId(set, roomId) {
-        let target = null;
-
-        set.forEach((e) => {
-            if (e.roomId === roomId) {
-                return e;
-            }
+    getPlayersOfGameByRoomId(roomId) {
+        let players = [];
+        const game = this.gameMap.get(roomId);
+        if (!game) {
+            return false;
+        }
+        game.players.forEach((player) => {
+            players.push(this.playerMap.get(player))
         });
-        return target;
+        return players;
+    }
+
+    getHostOfGameByRoomId(roomId) {
+        const game = this.gameMap.get(roomId);
+        if (!game) {
+            return false;
+        }
+        return game.host;
+    }
+
+    setDifficultyByRoomId(roomId, difficulty) {
+        const game = this.gameMap.get(roomId);
+        if (!game) {
+            return false;
+        }
+        game.setDifficulty(difficulty);
+        return true;
+    }
+
+    addPlayerToGameByRoomId(roomId, userId) {
+        const game = this.gameMap.get(roomId);
+        if (!game) {
+            return false;
+        }
+        game.addPlayer(userId);
+        return true;
+    }
+
+    killGameByRoomId(roomId) {
+        const game = this.gameMap.get(roomId);
+        if (!game) {
+            return false;
+        }
+        this.gameMap.delete(roomId);
+        return true;
     }
 }
 
