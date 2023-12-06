@@ -6,14 +6,22 @@
       <span class="spinner-grow spinner-grow-active spinner-grow-sm float-start" role="status" aria-hidden="true"></span>
       <h6 class="m-0">Ready!</h6>
     </button>
+    <ColorPicker v-on:change="changeColor" style="width: 10%;" v-model="colorHEX" inputId="cp-hex" format="hex" class="mb-3" />
   </div>
 </template>
 
 <script>
-  export default {
-    props: ['username']
+  export default{
+    props:{
+      username: {
+        type: Text,
+        default: 'Anna',
+      },
+      color:{
+        type: Text,
+      }
+    },
   }
-  
 </script>
 
 <style scoped>
