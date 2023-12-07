@@ -6,8 +6,8 @@
       <div class="row row-cols-2">
         <div class="loop-div" v-for="i in 6" v-bind:key="i" >
           <div class="player" v-if="getPlayerUsername(i) != null && this.returnState(i) != true"><PlayerIcon :username=getPlayerUsername(i)></PlayerIcon></div>
-          <div v-else-if="getPlayerUsername(i) != null && this.returnState(i) == true"><PlayerReady :username=getPlayerUsername(i)></PlayerReady></div>
-          <div v-else-if="getPlayerUsername(i) == null" class="player"><PlayerEmpty/></div>
+          <div class="player" v-else-if="getPlayerUsername(i) != null && this.returnState(i) == true"><PlayerReady :username=getPlayerUsername(i) :color=getPlayerColor(i)></PlayerReady></div>
+          <div class="player" v-else-if="getPlayerUsername(i) == null"><PlayerEmpty/></div>
         </div>
 
         <Difficulty class= "media" :difficulty-transfer="dif-2"/>
@@ -109,9 +109,11 @@
       },
 
       returnState(i){
-        console.log(this.players);
-        console.log(this.players[i-1]);
         return this.players[i-1].ready;
+      },
+
+      getPlayerColor(i){
+        return this.players[i-1].color;
       },
 
       leaveGame() {
@@ -129,7 +131,7 @@
           }
 
           this.$cookies.set('session', res);
-          this.$router.push('/game/');
+          this.$router.push('/game/'); // Kann man hier props übergeben? Sonst einmal alle Messages in das Backend und dann von da emitten
         });
       },
 
