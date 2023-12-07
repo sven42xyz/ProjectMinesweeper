@@ -36,8 +36,9 @@
 </script>
 
 <script>
-  import SocketioService from '../../services/socketio.service.js';
+  import SocketioService from '@/services/socketio.service.js';
   import { usePlayerStore } from '@/store/player';
+  import { useGameStore } from '@/store/game'
 
   export default {
     name: 'LobbyView',
@@ -58,6 +59,8 @@
       this.roomId = this.$cookies.get('session').roomId;
       this.userId = this.$cookies.get('session').userId;
       this.playerStore = usePlayerStore();
+      this.gameStore = useGameStore();
+
       this.totalPlayers = this.playerStore.totalPlayers;
       this.readyPlayers = this.playerStore.readyPlayers;
       this.players = this.playerStore.players;
@@ -77,7 +80,6 @@
         this.readyPlayers = this.playerStore.readyPlayers;
         this.playerUsernames = this.playerStore.playerUsernames;
         this.players = this.playerStore.players;
-        console.log(this.playerStore.players);
       },
       'player ready'(res) {
         this.playerStore.setPlayers(res);
@@ -85,7 +87,6 @@
         this.readyPlayers = this.playerStore.readyPlayers;
         this.playerUsernames = this.playerStore.playerUsernames;
         this.players = this.playerStore.players;
-        console.log(this.playerStore.players);
       },
       'delete game'() {
         //add store logic (after implementing the game store...)
