@@ -3,7 +3,7 @@
     <div class="row">
       <div class="col player-col">
         <div class="container-fluid player-container">
-          <div class=" row loop-div" v-for="i in players" v-bind:key="i" style="margin-top:10%" >
+          <div class=" row loop-div" v-for="i in playerUsernames" v-bind:key="i" style="margin-top:10%" >
   <!--           <div v-if="players.get(i-1).state == 'NotReady'"><PlayerIcon/></div>
             <div v-else-if="players.get(i-1).state == 'Ready'"><PlayerReady/></div>
             <div v-else><PlayerEmpty/></div>  -->
@@ -50,7 +50,7 @@ export default {
       roomId: null,
       userId: null,
       size: 10,
-      players: ['Anna', 'Ben','Testi', 'Marie'],
+      playerUsernames: [],
     };
   },
 
