@@ -39,6 +39,8 @@
 
 <script>
 import SocketioService from '../../services/socketio.service.js';
+import { usePlayerStore } from '@/store/player';
+import { useGameStore } from '@/store/game';
 
 export default {
   name: 'LobbyView',
@@ -55,7 +57,11 @@ export default {
   created() {
     this.roomId = this.$cookies.get('session').roomId;
     this.userId = this.$cookies.get('session').userId;
+    this.playerStore = usePlayerStore();
+    this.gameStore = useGameStore();
 
+    this.players = this.playerStore.players;
+    this.playerUsernames = this.playerStore.playerUsernames;
   },
 
   sockets: {
