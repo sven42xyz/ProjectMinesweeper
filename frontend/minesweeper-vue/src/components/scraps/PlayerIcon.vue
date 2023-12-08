@@ -6,7 +6,7 @@
       <span class="spinner-grow spinner-grow-sm float-start" role="status" aria-hidden="true"></span>
       <h6 class="m-0">Waiting...</h6>
     </button>
-    <ColorPicker v-model="colorHEX" inputId="cp-hex" format="hex" class="mb-3" />
+    <ColorPicker v-model="colorHEX" @change="logColor" inputId="cp-hex" format="hex" class="mb-3" />
   </div>
 </template>
 
@@ -18,6 +18,19 @@
       username: {
         type: Text,
         default: 'Anna',
+      }
+    },
+
+    data() {
+      return {
+        colorHEX: null,
+      };
+    },
+
+    methods: {
+      logColor() {
+        console.log("hello world");
+        console.log(this.colorHEX);
       }
     },
   }

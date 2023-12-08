@@ -90,6 +90,14 @@ io.on('connection', (socket) => {
             });
         }
 
+        const game = utils.getGameByRoomId(data.roomId);
+        if (!game) {
+            console.log(`Could not get Game of room ${data.roomId}`);
+            callback({
+                status: 500,
+            });
+        }
+
         io.emit('join lobby', players);
 
         callback({
@@ -98,6 +106,7 @@ io.on('connection', (socket) => {
             userId: data.userId,
             username: username,
             players: players,
+            game: game,
         });
     }); 
 
@@ -118,11 +127,20 @@ io.on('connection', (socket) => {
             });
         }
 
+        const game = utils.getGameByRoomId(data.roomId);
+        if (!game) {
+            console.log(`Could not get Game of room ${data.roomId}`);
+            callback({
+                status: 500,
+            });
+        }
+
         callback({
             status: 200,
             roomId: data.roomId,
             userId: data.userId,
             players: players,
+            game: game,
         });
     });
 

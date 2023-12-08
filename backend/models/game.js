@@ -4,7 +4,7 @@ class Game {
     state = null;
     difficulty = null;
     players = null;
-    difficultyMap = null;
+    board = null;
 
     constructor(roomId, host) {
         this.roomId = roomId;
@@ -12,6 +12,7 @@ class Game {
         this.state = null;
         this.difficulty = null;
         this.players = [];
+        this.board = [];
     }
 
 /*     difficultyMap = new Map([
@@ -35,6 +36,10 @@ class Game {
 
     setState(state) {
         this.state = state;
+    }
+    
+    setBoard(board) {
+        this.board = board
     }
 }
 

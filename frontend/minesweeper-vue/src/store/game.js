@@ -7,11 +7,17 @@ export const useGameStore = defineStore('game', {
     getters: {
         gameState: (state) => state.game.state,
         gameDifficulty: (state) => state.game.difficulty,
-        gameBoardMap: (state) => state.game,
+        gameBoard: (state) => state.game.board,
     },
     actions: {
         setGame(data) {
             this.game = data;
+        },
+        setGameState(data) {
+            this.game.state = data;
+        },
+        setGameBoard(data) {
+            this.game.board = data;
         }
     }
 });
