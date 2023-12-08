@@ -58,18 +58,9 @@ io.on('connection', (socket) => {
     });
 
     socket.on('join game', (_, callback) => {
-        const username = utils.getUsernameOfPlayerByUserId(socket.id);
-        if (!username) {
-            console.log(`Could not get username of Player ${socket.id}`);
-            callback({
-                status: 500,
-            });
-        }
-
         callback({
             status: 200,
             userId: socket.id,
-            username: username,
         });
     });
 
@@ -78,6 +69,14 @@ io.on('connection', (socket) => {
         const res = utils.addPlayerToGameByRoomId(data.roomId, data.userId);
         if (!res) {
             console.log(`Could not add Player to Game ${data.roomId}`);
+            callback({
+                status: 500,
+            });
+        }
+
+        const username = utils.getUsernameOfPlayerByUserId(socket.id);
+        if (!username) {
+            console.log(`Could not get username of Player ${socket.id}`);
             callback({
                 status: 500,
             });
@@ -97,6 +96,7 @@ io.on('connection', (socket) => {
             status: 200,
             roomId: data.roomId,
             userId: data.userId,
+            username: username,
             players: players,
         });
     }); 
