@@ -79,9 +79,11 @@ class SocketioService {
         return;
     }
 
-    // Handle message receive event
-    sendMessage({ message, roomName }, cb) {
-        if (this.socket) this.socket.emit('message', { message, roomName }, cb);
+    // Handle messages
+    sendMessage({ message, roomName }, res) {
+        this.socket.emit('message', { message, roomName }, res);
+
+        return;
     }
 
 }

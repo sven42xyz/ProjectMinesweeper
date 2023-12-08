@@ -41,18 +41,35 @@ io.on('connection', (socket) => {
         const game = new Game(gameRoom, socket.id);
         game.addPlayer(socket.id);
         activeGames.set(gameRoom, game);
+        const username = utils.getUsernameOfPlayerByUserId(socket.id);
+        if (!username) {
+            console.log(`Could not get username of Player ${socket.id}`);
+            callback({
+                status: 500,
+            });
+        }
 
         callback({
             status: 200,
             roomId: game.roomId,
             userId: socket.id,
+            username: username,
         });
     });
 
     socket.on('join game', (_, callback) => {
+        const username = utils.getUsernameOfPlayerByUserId(socket.id);
+        if (!username) {
+            console.log(`Could not get username of Player ${socket.id}`);
+            callback({
+                status: 500,
+            });
+        }
+
         callback({
             status: 200,
             userId: socket.id,
+            username: username,
         });
     });
 
@@ -183,10 +200,8 @@ io.on('connection', (socket) => {
         console.log('the mines have been swept');
     }); */
 
-    socket.on('my message', (msg) => {
-        io.emit('my broadcast', `server: ${msg}`);
-    });
 
+    //still needed?
     socket.on('join', (roomName) => {
         console.log('join: ' + roomName);
         socket.join(roomName);
@@ -195,15 +210,22 @@ io.on('connection', (socket) => {
     socket.on('message', ({ message, roomName }, callback) => {
         console.log("message: " + message + " in " + roomName);
 
+        const username = utils.getUsernameOfPlayerByUserId(socket.id);
+        if (!username) {
+            console.log(`Could not get username of Player ${socket.id}`);
+            callback({
+                status: 500,
+            });
+        }
+
         // generate data to send to receivers
         const outgoingMessage = {
-            name: socket.id,
+            name: username,
             id: socket.id,
             message,
         };
 
         console.log(outgoingMessage);
-        console.log(players);
         // send socket to all in room except sender
         io.emit('message', outgoingMessage);
         callback({
