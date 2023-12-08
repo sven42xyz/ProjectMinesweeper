@@ -40,6 +40,14 @@ class Utilities {
         return player.username;
     }
 
+    getGameByRoomId(roomId) {
+        const game = this.gameMap.get(roomId);
+        if (!game) {
+            return false;
+        }
+        return game;
+    }
+
     setDifficultyByRoomId(roomId, difficulty) {
         const game = this.gameMap.get(roomId);
         if (!game) {

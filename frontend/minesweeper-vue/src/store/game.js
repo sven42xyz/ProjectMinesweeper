@@ -2,15 +2,16 @@ import { defineStore } from "pinia";
 
 export const useGameStore = defineStore('game', {
     state: () => ({
-        game: [],
+        game: {},
     }),
     getters: {
-        totalPlayers: (state) => state.players.length,
+        gameState: (state) => state.game.state,
+        gameDifficulty: (state) => state.game.difficulty,
+        gameBoardMap: (state) => state.game,
     },
     actions: {
-        setPlayers(data) {
-            this.players.length = 0;
-            this.players = data;
+        setGame(data) {
+            this.game = data;
         }
     }
 });

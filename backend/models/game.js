@@ -14,12 +14,12 @@ class Game {
         this.players = [];
     }
 
-    difficultyMap = new Map([
+/*     difficultyMap = new Map([
         ['dif-1', 'Easy'],
         ['dif-2', 'Medium'],
         ['dif-3', 'Hard'],
         ['dif-4', 'Insane'],
-    ]);
+    ]); */
 
     addPlayer(player) {
         if (this.players.length >= 6) {
@@ -30,7 +30,7 @@ class Game {
     }
 
     setDifficulty(difficulty) {
-        this.difficulty = this.difficultyMap.get(difficulty);
+        this.difficulty = difficulty;
     }
 
     setState(state) {

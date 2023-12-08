@@ -10,8 +10,8 @@
           <div class="player" v-else-if="getPlayerUsername(i) == null"><PlayerEmpty/></div>
         </div>
 
-        <Difficulty class= "media" :difficulty-transfer="dif-2"/>
-        <Progress  class= "media" :playercount=this.totalPlayers :playersReadyCount=this.readyPlayers />
+        <Difficulty class= "media" :difficulty-transfer=this.gameStore.gameDifficulty />
+        <Progress  class= "media" :playercount=this.playerStore.totalPlayers :playersReadyCount=this.playerStore.readyPlayers />
       </div>
     </div>
     <div class="container-fluid chat-container">
@@ -38,20 +38,16 @@
 <script>
   import SocketioService from '@/services/socketio.service.js';
   import { usePlayerStore } from '@/store/player';
-  import { useGameStore } from '@/store/game'
+  import { useGameStore } from '@/store/game';
 
   export default {
     name: 'LobbyView',
 
     data() {
       return {
-        roomId: null,
-        userId: null,
-        players: null,
-        playerStore: null,
-        totalPlayers: null,
-        readyPlayers: null,
-        playerUsernames: [],
+        //fuck this shit is just for
+        //default vals apparently O.O
+        //...and props...
       };
     },
 
@@ -60,11 +56,6 @@
       this.userId = this.$cookies.get('session').userId;
       this.playerStore = usePlayerStore();
       this.gameStore = useGameStore();
-
-      this.totalPlayers = this.playerStore.totalPlayers;
-      this.readyPlayers = this.playerStore.readyPlayers;
-      this.players = this.playerStore.players;
-      this.playerUsernames = this.playerStore.playerUsernames;
     },
 
     sockets: {
@@ -76,17 +67,9 @@
       },
       'join lobby'(res) {
         this.playerStore.setPlayers(res);
-        this.totalPlayers = this.playerStore.totalPlayers;
-        this.readyPlayers = this.playerStore.readyPlayers;
-        this.playerUsernames = this.playerStore.playerUsernames;
-        this.players = this.playerStore.players;
       },
       'player ready'(res) {
         this.playerStore.setPlayers(res);
-        this.totalPlayers = this.playerStore.totalPlayers;
-        this.readyPlayers = this.playerStore.readyPlayers;
-        this.playerUsernames = this.playerStore.playerUsernames;
-        this.players = this.playerStore.players;
       },
       'delete game'() {
         //add store logic (after implementing the game store...)
@@ -109,11 +92,11 @@
       },
 
       returnState(i){
-        return this.players[i-1].ready;
+        return this.playerStore.players[i-1].ready;
       },
 
       getPlayerColor(i){
-        return this.players[i-1].color;
+        return this.playerStore.players[i-1].color;
       },
 
       leaveGame() {
@@ -132,6 +115,8 @@
 
           this.$cookies.set('session', res);
           this.$router.push('/game/'); // Kann man hier props übergeben? Sonst einmal alle Messages in das Backend und dann von da emitten
+          //sollte als prop übergeben werden können, ist ja nur das array mit den messages
+          //wir riskieren natürlich race conditions wenn wir die messages nur lokal halten
         });
       },
 
@@ -146,7 +131,7 @@
       },
 
       getPlayerUsername(i) {
-        return this.playerUsernames[i - 1];
+        return this.playerStore.playerUsernames[i - 1];
       },
 
       //...

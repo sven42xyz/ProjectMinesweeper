@@ -21,13 +21,15 @@
 <script>
 import socketioService from '@/services/socketio.service';
 import { usePlayerStore } from '@/store/player';
+import { useGameStore } from '@/store/game';
 
 export default {
   name: 'JoinGame',
 
   setup() {
     const playerStore = usePlayerStore();
-    return { playerStore };
+    const gameStore = useGameStore();
+    return { playerStore, gameStore };
   },
 
   data() {
@@ -72,7 +74,7 @@ export default {
         }
 
         this.playerStore.setPlayers(res.players);
-        console.log(this.playerStore.players);
+        this.gameStore.setGame(res.game);
 
         this.$cookies.set('session', res);
         this.$router.push('/lobby/');
