@@ -1,7 +1,7 @@
 <template>
   <div class="container-fluid big-fluid-container">
     <div class="container-fluid lobby-container">
-      <h1 class="welcome-label row">Welcome to the Lobby! {{ this.roomId }}</h1>
+      <h1 class="welcome-label row">Welcome to the Lobby!</h1>
       <hr class="w-100 mb-3"/>
       <div class="row row-cols-2">
         <div class="loop-div" v-for="i in 6" v-bind:key="i" >
