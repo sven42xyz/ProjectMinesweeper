@@ -5,10 +5,9 @@
       <hr class="w-100 mb-3"/>
       <div class="row row-cols-2">
         <div class="loop-div" v-for="i in 6" v-bind:key="i" >
-          <div class="player" v-if="getPlayerUsername(i) != null"><PlayerIcon :username=getPlayerUsername(i)></PlayerIcon></div>
-<!--      <div v-else-if="players.get(i-1).state == 'Ready'"><PlayerReady/></div>-->
-          <div class="player" v-else><PlayerEmpty/></div>
-          <!-- <PlayerEmpty :username=getPlayer(i)></PlayerEmpty> -->
+          <div class="player" v-if="getPlayerUsername(i) != null && this.returnState(i) != true"><PlayerIcon :username=getPlayerUsername(i)></PlayerIcon></div>
+          <div v-else-if="getPlayerUsername(i) != null && this.returnState(i) == true"><PlayerReady :username=getPlayerUsername(i)></PlayerReady></div>
+          <div v-else-if="getPlayerUsername(i) == null" class="player"><PlayerEmpty/></div>
         </div>
 
         <Difficulty class= "media" :difficulty-transfer="dif-2"/>
@@ -28,7 +27,7 @@
 </template>
 
 <script setup>
-  //import PlayerReady from '../scraps/PlayerIconReady.vue'
+  import PlayerReady from '../scraps/PlayerIconReady.vue'
   import PlayerIcon from '../scraps/PlayerIcon.vue'
   import PlayerEmpty from '../scraps/PlayerIconEmpty.vue'
   import Difficulty from '../scraps/CurrentlySelectedDifficulty.vue'
@@ -47,6 +46,7 @@
       return {
         roomId: null,
         userId: null,
+        players: null,
         playerStore: null,
         totalPlayers: null,
         readyPlayers: null,
@@ -60,6 +60,7 @@
       this.playerStore = usePlayerStore();
       this.totalPlayers = this.playerStore.totalPlayers;
       this.readyPlayers = this.playerStore.readyPlayers;
+      this.players = this.playerStore.players;
       this.playerUsernames = this.playerStore.playerUsernames;
     },
 
@@ -75,6 +76,7 @@
         this.totalPlayers = this.playerStore.totalPlayers;
         this.readyPlayers = this.playerStore.readyPlayers;
         this.playerUsernames = this.playerStore.playerUsernames;
+        this.players = this.playerStore.players;
         console.log(this.playerStore.players);
       },
       'player ready'(res) {
@@ -82,6 +84,7 @@
         this.totalPlayers = this.playerStore.totalPlayers;
         this.readyPlayers = this.playerStore.readyPlayers;
         this.playerUsernames = this.playerStore.playerUsernames;
+        this.players = this.playerStore.players;
         console.log(this.playerStore.players);
       },
       'delete game'() {
@@ -102,6 +105,12 @@
         });
         SocketioService.disconnect();
         this.$router.push('/');
+      },
+
+      returnState(i){
+        console.log(this.players);
+        console.log(this.players[i-1]);
+        return this.players[i-1].ready;
       },
 
       leaveGame() {

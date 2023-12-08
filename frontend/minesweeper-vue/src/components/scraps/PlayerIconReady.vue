@@ -10,8 +10,14 @@
 </template>
 
 <script>
-  export default {
-    props: ['username']
+
+export default{
+    props:{
+      username: {
+        type: Text,
+        default: 'Anna',
+      }
+    },
   }
   
 </script>
