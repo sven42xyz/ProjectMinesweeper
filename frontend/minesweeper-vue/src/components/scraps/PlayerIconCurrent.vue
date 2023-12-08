@@ -90,7 +90,7 @@
       padding-right: 1vmin;
     }
     .p-colorpicker-overlay{
-      position: flex;
+      position: unset;
     }
 
     .row{
