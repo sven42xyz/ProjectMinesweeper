@@ -6,7 +6,7 @@
       <div class="row row-cols-2">
         <div class="loop-div" v-for="i in 6" v-bind:key="i" >
           <div class="player" v-if="getPlayerUsername(i) != null && this.returnState(i) != true"><PlayerIcon :username=getPlayerUsername(i)></PlayerIcon></div>
-          <div v-else-if="getPlayerUsername(i) != null && this.returnState(i) == true"><PlayerReady :username=getPlayerUsername(i)></PlayerReady></div>
+          <div v-else-if="getPlayerUsername(i) != null && this.returnState(i) == true"><PlayerReady :username=getPlayerUsername(i) :color=getPlayerColor(i)></PlayerReady></div>
           <div v-else-if="getPlayerUsername(i) == null" class="player"><PlayerEmpty/></div>
         </div>
 
@@ -108,9 +108,11 @@
       },
 
       returnState(i){
-        console.log(this.players);
-        console.log(this.players[i-1]);
         return this.players[i-1].ready;
+      },
+
+      getPlayerColor(i){
+        return this.players[i-1].color;
       },
 
       leaveGame() {
