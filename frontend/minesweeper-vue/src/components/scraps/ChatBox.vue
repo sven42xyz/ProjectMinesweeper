@@ -25,7 +25,7 @@
       <div class="form-outline" style="position: absolute; bottom: 0; width: 95%; padding-bottom: 2vmin;">
         <form class="input-div" @submit.prevent="submitMessage" style="width: 100%;">
           <input type="textarea" class="form-control" id="textAreaChat" rows="4" placeholder="Type in text" v-model="inputMessageText"/>
-          <button class="btn btn-outline-secondary" type="submit" style="width:25%; font-size: 2vmin;margin-top: 0; height: 25%;">Submit</button>
+          <button class="btn btn-outline-secondary" type="submit" style="width:25%; font-size: 2vmin;margin-top: 0;height: 4vmin;">Submit</button>
         </form>
       </div>
 
@@ -142,6 +142,6 @@ p{
   padding: 1vw!important;
 }
 .form-control{
-  width: 70%; height: 10%; bottom: 0;
+  width: 70%; height: 4vmin; bottom: 0;
 }
 </style>

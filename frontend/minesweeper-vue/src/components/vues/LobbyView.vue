@@ -6,8 +6,8 @@
       <div class="row row-cols-2">
         <div class="loop-div" v-for="i in 6" v-bind:key="i" >
           <div class="player" v-if="getPlayerUsername(i) != null && this.returnState(i) != true"><PlayerIcon :username=getPlayerUsername(i)></PlayerIcon></div>
-          <div v-else-if="getPlayerUsername(i) != null && this.returnState(i) == true"><PlayerReady :username=getPlayerUsername(i) :color=getPlayerColor(i)></PlayerReady></div>
-          <div v-else-if="getPlayerUsername(i) == null" class="player"><PlayerEmpty/></div>
+          <div class="player" v-else-if="getPlayerUsername(i) != null && this.returnState(i) == true"><PlayerReady :username=getPlayerUsername(i) :color=getPlayerColor(i)></PlayerReady></div>
+          <div class="player" v-else-if="getPlayerUsername(i) == null"><PlayerEmpty/></div>
         </div>
 
         <Difficulty class= "media" :difficulty-transfer="dif-2"/>
