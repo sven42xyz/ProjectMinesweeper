@@ -130,7 +130,7 @@
           }
 
           this.$cookies.set('session', res);
-          this.$router.push('/game/');
+          this.$router.push('/game/'); // Kann man hier props übergeben? Sonst einmal alle Messages in das Backend und dann von da emitten
         });
       },
 
