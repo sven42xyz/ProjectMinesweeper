@@ -3,11 +3,8 @@
     <div class="row">
       <div class="col player-col">
         <div class="container-fluid player-container">
-          <div class=" row loop-div" v-for="i in playerUsernames" v-bind:key="i" style="margin-top:10%" >
-  <!--           <div v-if="players.get(i-1).state == 'NotReady'"><PlayerIcon/></div>
-            <div v-else-if="players.get(i-1).state == 'Ready'"><PlayerReady/></div>
-            <div v-else><PlayerEmpty/></div>  -->
-            <PlayerCurrent :username=i></PlayerCurrent>
+          <div class=" row loop-div" v-for="i in players" v-bind:key="i" style="margin-top:10%" >
+            <PlayerCurrent :username=i.username :score=i.score :active="i.turn" :disabled="i.disabled" :color="i.color"></PlayerCurrent>
           </div>
         </div>
       </div>
@@ -51,6 +48,7 @@ export default {
       userId: null,
       size: 10,
       playerUsernames: [],
+      players: null
     };
   },
 
