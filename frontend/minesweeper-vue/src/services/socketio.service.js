@@ -49,7 +49,7 @@ class SocketioService {
         return;
     }
 
-    killLobby(data, res) {
+    killGame(data, res) {
         this.socket.emit('delete game', data, res);
 
         return;
@@ -73,9 +73,17 @@ class SocketioService {
         return;
     }
 
-    // Handle message receive event
-    sendMessage({ message, roomName }, cb) {
-        if (this.socket) this.socket.emit('message', { message, roomName }, cb);
+    playerReady(data, res) {
+        this.socket.emit('player ready', data, res);
+
+        return;
+    }
+
+    // Handle messages
+    sendMessage({ message, roomName }, res) {
+        this.socket.emit('message', { message, roomName }, res);
+
+        return;
     }
 
 }

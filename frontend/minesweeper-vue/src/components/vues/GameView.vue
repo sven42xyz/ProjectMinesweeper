@@ -4,10 +4,7 @@
       <div class="col player-col">
         <div class="container-fluid player-container">
           <div class=" row loop-div" v-for="i in players" v-bind:key="i" style="margin-top:10%" >
-  <!--           <div v-if="players.get(i-1).state == 'NotReady'"><PlayerIcon/></div>
-            <div v-else-if="players.get(i-1).state == 'Ready'"><PlayerReady/></div>
-            <div v-else><PlayerEmpty/></div>  -->
-            <PlayerCurrent :username=i></PlayerCurrent>
+            <PlayerCurrent :username=i.username :score=i.score :active="i.turn" :disabled="i.disabled" :color="i.color"></PlayerCurrent>
           </div>
         </div>
       </div>
@@ -39,6 +36,8 @@
 
 <script>
 import SocketioService from '../../services/socketio.service.js';
+import { usePlayerStore } from '@/store/player';
+import { useGameStore } from '@/store/game';
 
 export default {
   name: 'LobbyView',
@@ -48,14 +47,19 @@ export default {
       roomId: null,
       userId: null,
       size: 10,
-      players: ['Anna', 'Ben','Testi', 'Marie'],
+      playerUsernames: [],
+      players: null
     };
   },
 
   created() {
     this.roomId = this.$cookies.get('session').roomId;
     this.userId = this.$cookies.get('session').userId;
+    this.playerStore = usePlayerStore();
+    this.gameStore = useGameStore();
 
+    this.players = this.playerStore.players;
+    this.playerUsernames = this.playerStore.playerUsernames;
   },
 
   sockets: {
@@ -75,7 +79,7 @@ export default {
     cancel() {
       const data = {roomId: this.roomId, userId: this.userId}
 
-      SocketioService.killLobby(data, res => {
+      SocketioService.killGame(data, res => {
         if (res.status !== 200) {
           console.log('Error: bad request');
           return;

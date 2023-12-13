@@ -7,6 +7,12 @@ class Player {
         this.score = score;
         this.color = color;
         this.disabled = false;
+        this.turn = false;
+        this.ready = false;
+    }
+
+    setReadyState() {
+        this.ready = true;
     }
 
 }

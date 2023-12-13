@@ -6,24 +6,34 @@
       <span class="spinner-grow spinner-grow-sm float-start" role="status" aria-hidden="true"></span>
       <h6 class="m-0">Waiting...</h6>
     </button>
-    <ColorPicker  style="width: 10%;" v-model="colorHEX" inputId="cp-hex" format="hex" class="mb-3" />
+    <ColorPicker v-model="colorHEX" @change="logColor" inputId="cp-hex" format="hex" class="mb-3" />
   </div>
 </template>
 
 
 <script>
+
   export default{
     props:{
       username: {
         type: Text,
         default: 'Anna',
-      },
-      color:{
-        type: Text,
+      }
+    },
+
+    data() {
+      return {
+        colorHEX: null,
+      };
+    },
+
+    methods: {
+      logColor() {
+        console.log("hello world");
+        console.log(this.colorHEX);
       }
     },
   }
-
 </script>
 
 
@@ -62,8 +72,8 @@
     }
 
     .spinner-grow{
-      margin-left: 0;
-      margin-top: 1%;
+      margin-left: 1%;
+      margin-top: 2.5%;
       animation-duration: 1.5s;
     }
 

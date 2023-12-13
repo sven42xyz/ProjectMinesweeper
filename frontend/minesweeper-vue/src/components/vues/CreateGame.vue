@@ -44,15 +44,17 @@
 </template>
 
 <script>
-import SocketioService from '../../services/socketio.service.js';
+import SocketioService from '@/services/socketio.service.js';
 import { usePlayerStore } from '@/store/player';
+import { useGameStore } from '@/store/game';
 
 export default {
   name: 'CreateGame',
 
   setup() {
     const playerStore = usePlayerStore();
-    return { playerStore };
+    const gameStore = useGameStore();
+    return { playerStore, gameStore };
   },
 
   data() {
@@ -79,7 +81,7 @@ export default {
         }
 
         this.playerStore.setPlayers(res.players);
-        console.log(this.playerStore.players);
+        this.gameStore.setGame(res.game);
 
         this.$router.push('/lobby/');
       });
@@ -88,7 +90,7 @@ export default {
     cancel() {
       const data = {roomId: this.roomId, userId: this.userId}
 
-      SocketioService.killLobby(data, cb => {
+      SocketioService.killGame(data, cb => {
         if (cb.status !== 200) {
           console.log('Error: bad request');
           return;

@@ -4,7 +4,7 @@ class Game {
     state = null;
     difficulty = null;
     players = null;
-    difficultyMap = null;
+    board = null;
 
     constructor(roomId, host) {
         this.roomId = roomId;
@@ -12,14 +12,15 @@ class Game {
         this.state = null;
         this.difficulty = null;
         this.players = [];
+        this.board = [];
     }
 
-    difficultyMap = new Map([
+/*     difficultyMap = new Map([
         ['dif-1', 'Easy'],
         ['dif-2', 'Medium'],
         ['dif-3', 'Hard'],
         ['dif-4', 'Insane'],
-    ]);
+    ]); */
 
     addPlayer(player) {
         if (this.players.length >= 6) {
@@ -30,11 +31,15 @@ class Game {
     }
 
     setDifficulty(difficulty) {
-        this.difficulty = this.difficultyMap.get(difficulty);
+        this.difficulty = difficulty;
     }
 
     setState(state) {
         this.state = state;
+    }
+    
+    setBoard(board) {
+        this.board = board
     }
 }
 
