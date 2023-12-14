@@ -46,7 +46,7 @@ export default {
     return {
       roomId: null,
       userId: null,
-      size: 10,
+      size: 15,
       playerUsernames: [],
       players: null
     };
@@ -90,7 +90,6 @@ export default {
     },
 
     getPlayer(i){
-
       return this.players[i-1];
     },
 
