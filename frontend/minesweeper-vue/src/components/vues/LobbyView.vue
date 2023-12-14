@@ -21,12 +21,12 @@
     <form class="lobby-game-form" v-on:submit.prevent>
       <Toast-Toast />
       <ConfirmPopup group="headless">
-        <template #container="{ message, startGame, rejectCallback }">
+        <template #container="{ message, rejectCallback }">
             <div class="bg-gray-900 text-white border-round p-3">
                 <span>{{ message.message }}</span>
                 <div class="flex align-items-center gap-2 mt-3">
-                    <Button label="Save" @click="startGame" size="small" outlined></Button>
-                    <Button label="Cancel" outlined @click="rejectCallback" size="small" text></Button>
+                    <button label="Accept" @click="startGame"></button>
+                    <button label="Cancel" @click="rejectCallback"></button>
                 </div>
             </div>
         </template>
@@ -57,9 +57,6 @@
           target: event.currentTarget,
           group: 'headless',
           message: 'Are you sure? You cannot undo this.',
-          accept: () => {
-              toast.add({severity:'info', summary:'Confirmed', detail:'You have accepted', life: 3000});
-          },
           reject: () => {
               toast.add({severity:'error', summary:'Rejected', detail:'You have rejected', life: 3000});
           }
@@ -72,7 +69,6 @@
   import SocketioService from '@/services/socketio.service.js';
   import { usePlayerStore } from '@/store/player';
   import { useGameStore } from '@/store/game';
-import { start } from '@popperjs/core'
 
   export default {
     name: 'LobbyView',
