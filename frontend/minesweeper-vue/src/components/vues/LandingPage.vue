@@ -115,14 +115,14 @@ export default {
 
     .input-group{
       width: 95%;
-      padding-left: 0.75vw;
+      padding-left: 2vmin;
       height: 12.5%;
-      margin-bottom: 1vh;
+      margin-bottom: 1vmin;
       flex-wrap: nowrap;
     }
 
     .input-group-text{
-      font-size: 2vh;
+      font-size: 2vmin;
       height: 100%;
       width: 35%;
       padding: calc(0.5vh + 0.5vw);
@@ -139,18 +139,13 @@ export default {
       padding-top: 5%;
     }
 
-    .WelcomeDiv{
-      position: absolute;
-      top: 0; right: 0; bottom: 0; left: 0;
-    }
-
     .text-center{
       padding: 2.5%;
     }
 
     hr{
       margin: 5%;
-      margin-bottom: 4vh;
+      margin-bottom: 4vmin;
     }
 
     .btn{

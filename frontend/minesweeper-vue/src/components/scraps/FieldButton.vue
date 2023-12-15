@@ -1,5 +1,5 @@
 <template>
-    <button class="col-btn" :style="cssProps" @click="$emit('clicked')"><h6>{{ isBomb }}{{ isNumber }}</h6></button>
+    <button class="col-btn" :style="cssProps" @click="$emit('clicked')"><h7>{{ isBomb }}{{ isNumber }}</h7></button>
 </template>
   
   <script>
@@ -21,6 +21,8 @@
                 return {
                     'background-color': this.color,
                     'pointer-events': this.enabled,
+                    'margin': '0!important',
+                    'padding': '0!important'
                 }
             },
         },

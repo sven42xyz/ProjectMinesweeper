@@ -20,13 +20,13 @@
     <hr class="bottom-line"/>
     <form class="lobby-game-form" v-on:submit.prevent>
       <Toast-Toast />
-      <ConfirmPopup group="headless">
+      <ConfirmPopup group="headless" class="popup">
         <template #container="{ message, rejectCallback }">
             <div class="bg-gray-900 text-white border-round p-3">
                 <span>{{ message.message }}</span>
                 <div class="flex align-items-center gap-2 mt-3">
-                    <button label="Accept" @click="startGame"></button>
-                    <button label="Cancel" @click="rejectCallback"></button>
+                    <button class="btn btn-success btn-accept" label="Accept" @click="startGame">Accept</button>
+                    <button class="btn btn-danger btn-cancel" label="Cancel" @click="rejectCallback">Cancel</button>
                 </div>
             </div>
         </template>
@@ -56,7 +56,7 @@
       confirm.require({
           target: event.currentTarget,
           group: 'headless',
-          message: 'Are you sure? You cannot undo this.',
+          message: 'Are you sure you want to play alone?',
           reject: () => {
               toast.add({severity:'error', summary:'Rejected', detail:'You have rejected', life: 3000});
           }
@@ -217,6 +217,26 @@
       background-color: rgb(255, 255, 255);
     }
 
+    .btn-accept{
+      color:black;
+      margin-top: 0vw!important;
+      margin-left: 0!important;
+      margin-right: 0!important;
+      font-size: 1.5vmin;
+      height: 3.5vmin!important;
+      width: 10vmin!important;
+      align-self:flex-start;
+    }
+    .btn-cancel{
+      color:black;
+      margin-left: 0!important;
+      margin-right: 2vmin!important;
+      font-size: 1.5vmin;
+      height: 3.5vmin!important;
+      width: 10vmin!important;
+      align-self:flex-end;
+    }
+
     hr{
       margin: 1%;
       margin-bottom: 5%;
@@ -225,6 +245,7 @@
     .loop-div{
       align-items: center;
       display: flex;
+      height: 90%;
     }
     .lobby-container{
       position: absolute;

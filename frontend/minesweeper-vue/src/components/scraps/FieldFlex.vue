@@ -184,10 +184,4 @@
     width: 100%;
     aspect-ratio : 1 / 1;
    }   
-   .h7{
-        color: transparent;
-   }
-   .isRevealed{
-        background-color: red;
-   }
 </style>

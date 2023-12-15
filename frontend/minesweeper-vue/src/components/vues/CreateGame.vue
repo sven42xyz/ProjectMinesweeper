@@ -111,9 +111,9 @@ export default {
 <style scoped>
 .input-group{
   width: 75%;
-  padding-left: 0.75vw;
+  padding-left: 2vmin;
   height: 12.5%;
-  margin-bottom: 1vh;
+  margin-bottom: 1vmin;
   flex-wrap: nowrap;
 }
 
@@ -124,10 +124,10 @@ export default {
 }
 .form-group{      
   margin: 0;
-  width: 22.5vw;
-  height: 12vh;
-  padding-left: 1vw;
-  padding-right: 6vw;
+  width: 50vmin;
+  height: 12vmin;
+  padding-left: 2vmin;
+  padding-right: 6vmin;
   text-align: left;
   }
 .form-check-input{
@@ -147,11 +147,12 @@ export default {
 }
 
 .btn-success{
-  margin-right: 10.5vw;
-  margin-left: 2vw;
-  width: 10.5vw;
+  margin-right: 10.5vmin;
+  margin-top: 3vmin;
+  margin-left: 4vmin;
+  width: 21vmin;
   position: absolute;
-  left: 2vw;
+  left: 2vmin;
 }
 
 hr{
@@ -161,11 +162,15 @@ hr{
 
 hr.bottom{
   margin-top: 4vmin!important;
+  margin-left: 2vmin!important;
+  width: 97%!important;
 }
 
 .btn-danger{
   position: absolute;
-  right: 2.5vw;
+  margin-top: 3vmin!important;
+  width: 21vmin;
+  right: 2.5vmin;
 }
 
 .create-game-form{

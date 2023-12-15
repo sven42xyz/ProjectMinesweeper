@@ -186,19 +186,19 @@
 }
 
 h1{
-  font-size: calc(2.5vh + 1.5vw)!important;
+  font-size: 5vmin!important;
 }
 
 h5{
-  font-size: calc(1vh + 1vw)!important;
+  font-size: 3vmin!important;
 }
 
 h6{
-  font-size: calc(0.9vh + 0.9vw)!important;
+  font-size: 2.5vmin!important;
 }
 
 h7{
-  font-size: calc(0.7vh + 0.7vw)!important;
+  font-size: 2vmin!important;
 }
 
 .chat-container{

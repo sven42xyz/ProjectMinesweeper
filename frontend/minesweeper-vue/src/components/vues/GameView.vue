@@ -46,7 +46,7 @@ export default {
     return {
       roomId: null,
       userId: null,
-      size: 15,
+      size: 20,
       playerUsernames: [],
       players: null
     };
@@ -175,17 +175,8 @@ export default {
     }
     .btn{
       margin-top: 0vw;
-      margin-left: 2.5vw;
-      width: 15.5vw;
-    }
-    .welcome-label{
-      margin: 1%;
-      margin-top: 2vh;
-      margin-bottom: 2vh;
-    }
-    .bottom-line{
-      margin-top: 72.5vh;
-      margin-bottom: 4vh;
+      margin-left: 2.5vmin;
+      width: 15.5vmin;
     }
 
     .btn-danger{
