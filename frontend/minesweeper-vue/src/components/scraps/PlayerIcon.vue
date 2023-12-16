@@ -62,22 +62,22 @@ export default {
 
 
 <style scoped>
-.card-header {
-  width: 110%;
-  transform: translate(-5%, -5%);
-  padding-top: 5%;
-}
+    .card-header{
+      width: 110%;
+      transform: translate(-5%, -5%);
+      padding-top: 5%;
+    }
 
-.player-col {
-  margin-top: 1.5vh;
-  margin-right: 2.5vw;
-  margin-left: 2.5vw;
-  margin-bottom: 1.5vh;
-  width: 22.5vw;
-  height: 12vh;
-  padding: 10px;
-  background-color: rgba(230, 230, 250, 0.599);
-}
+    .player-col{
+      margin-top: 1.5vh;
+      margin-right: 2.5vw;
+      margin-left: 2.5vw;
+      margin-bottom: 1.5vh;
+      width: 22.5vw;
+      height: 12vh;
+      padding: 10px;
+      background-color: rgba(230, 230, 250, 0.599);
+    }
 
 .btn-waiting {
   background-color: rgb(149, 149, 197);

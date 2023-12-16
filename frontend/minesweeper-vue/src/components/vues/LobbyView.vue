@@ -18,8 +18,20 @@
       <Chat/>
     </div>
     <hr class="bottom-line"/>
-    <form class="lobby-game-form">
-      <button v-on:click="startGame" class="btn btn-success" type="Submit" id="Submit-Button" aria-expanded="false">Start game</button>
+    <form class="lobby-game-form" v-on:submit.prevent>
+      <Toast-Toast />
+      <ConfirmPopup group="headless" class="popup">
+        <template #container="{ message, rejectCallback }">
+            <div class="bg-gray-900 text-white border-round p-3">
+                <span>{{ message.message }}</span>
+                <div class="flex align-items-center gap-2 mt-3">
+                    <button class="btn btn-success btn-accept" label="Accept" @click="startGame">Accept</button>
+                    <button class="btn btn-danger btn-cancel" label="Cancel" @click="rejectCallback">Cancel</button>
+                </div>
+            </div>
+        </template>
+      </ConfirmPopup>
+      <button v-on:accept="startGame" @click="requireConfirmation($event)" class="btn btn-success" type="Submit" id="Submit-Button" aria-expanded="false">Start game</button>
       <button v-on:click="playerReady" class="btn btn-success" type="Button" id="Submit-Button" aria-expanded="false">Ready?</button>
       <button v-on:click="cancel" class="btn btn-danger" type="Cancel" id="Cancel-Button" aria-expanded="false">Cancel</button>
     </form>
@@ -33,6 +45,24 @@
   import Difficulty from '../scraps/CurrentlySelectedDifficulty.vue'
   import Progress from '../scraps/ProgressBar.vue'
   import Chat from '../scraps/ChatBox.vue'
+  import { useConfirm } from "primevue/useconfirm";
+  import { useToast } from "primevue/usetoast";
+  //v-on:click="startGame"
+
+  const confirm = useConfirm();
+  const toast = useToast();
+
+  const requireConfirmation = (event) => {
+      confirm.require({
+          target: event.currentTarget,
+          group: 'headless',
+          message: 'Are you sure you want to play alone?',
+          reject: () => {
+              toast.add({severity:'error', summary:'Rejected', detail:'You have rejected', life: 3000});
+          }
+      });
+  }
+
 </script>
 
 <script>
@@ -154,10 +184,7 @@
     top: 0; right: 0; bottom: 0; left: 0;
     }
     
-    @media only screen and (max-width: 1680px) and (min-height: 950px), 
-    screen and (max-width: 1650px) and (min-height: 925px),
-    screen and (max-width: 1600px) and (min-height: 900px),
-    screen and (max-width: 1500px)
+    @media only screen and (max-aspect-ratio: 5/3)
     {
       .chat-container {
             display: none;
@@ -189,6 +216,26 @@
       background-color: rgb(255, 255, 255);
     }
 
+    .btn-accept{
+      color:black;
+      margin-top: 0vw!important;
+      margin-left: 0!important;
+      margin-right: 0!important;
+      font-size: 1.5vmin;
+      height: 3.5vmin!important;
+      width: 10vmin!important;
+      align-self:flex-start;
+    }
+    .btn-cancel{
+      color:black;
+      margin-left: 0!important;
+      margin-right: 2vmin!important;
+      font-size: 1.5vmin;
+      height: 3.5vmin!important;
+      width: 10vmin!important;
+      align-self:flex-end;
+    }
+
     hr{
       margin: 1%;
       margin-bottom: 5%;
@@ -197,6 +244,7 @@
     .loop-div{
       align-items: center;
       display: flex;
+      height: 90%;
     }
     .lobby-container{
       position: absolute;

@@ -43,13 +43,13 @@ export default{
 
 <style scoped>
      .player-col{
-      margin-top: 1.5vh;
-      margin-right: 2.5vw;
-      margin-left: 2.5vw;
-      margin-bottom: 1.5vh;
-      width: 22.5vw;
-      height: 12vh;
-      padding: 10px;
+      margin-top: 1.5vmin;
+      margin-right: 2.5vmin;
+      margin-left: 5vmin;
+      margin-bottom: 1.5vmin;
+      width: 45vmin;
+      height: 12.5vmin;
+      padding: 1vmin;
       background-color: rgba(230, 230, 250, 0.599);
       
     }
@@ -70,6 +70,7 @@ export default{
       width: 75%;
       margin-left: 5%;
       text-wrap: nowrap;
+      margin-bottom: 1vmin!important;
     }
 
     .spinner-grow-active{
@@ -84,7 +85,7 @@ export default{
     }
 
     hr{
-      margin-bottom: 0.75vh;
+      margin-bottom: 0.75vmin;
       margin-top: 0vh;
     }
 

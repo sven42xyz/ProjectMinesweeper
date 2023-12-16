@@ -5,16 +5,15 @@
         <form id="WelcomeForm" class="small-center-form" v-on:submit.prevent>
           <h1 class="card-header">Minesweeper.io</h1>
           <hr/>
-          <div class="popover input card" :style=popover1>Bitte Username eingeben!</div>
           <div class="input-group mt-1">
               <span class="input-group-text" id="basic-addon1">username</span>
-              <input v-on:mouseover="popover('input')" v-on:mouseleave="nopopover('input')"  type="text" class="form-control" aria-label="Username" v-model="username">
+              <input type="text" class="form-control" v-tooltip="{ value: 'Enter a Username', showDelay: 1000, hideDelay: 300}" aria-label="Username" v-model="username">
           </div>
           <div class>
-              <div class="popover card" :style=popover2>Möchtest du ein neues Spiel erstellen?</div>
-              <button v-on:click="newGame" v-on:mouseover="popover('newGame')" v-on:mouseleave="nopopover('newGame')" class="btn btn-primary-lavender w-75" type="Submit" id="new-game" aria-expanded="false">New Game</button>
-              <div class="popover card" :style=popover3>Möchtest du einem Spiel beitreten?</div>
-              <button v-on:click="joinGame" v-on:mouseover="popover('joinGame')" v-on:mouseleave="nopopover('joinGame')" class="btn btn-secondary-yellow w-75" type="Submit" id="join-game" aria-expanded="false">Join Game</button>
+            <button v-if="this.validateInput() == true" v-on:click="newGame" v-tooltip="{ value: 'Create a new Game', showDelay: 1000, hideDelay: 300 }" class="btn btn-primary-lavender w-75" type="Submit" id="new-game" aria-expanded="false">New Game</button>
+            <button v-else v-on:click="newGame" v-tooltip="{ value: 'Please enter username',pt: {text: 'text-danger'}}" class="btn btn-primary-lavender w-75" type="Submit" id="new-game" aria-expanded="false">New Game</button>
+            <button v-if="this.validateInput() == true" v-on:click="joinGame" v-tooltip="{ value: 'Join a Game', showDelay: 1000, hideDelay: 300 }" class="btn btn-secondary-yellow w-75" type="Submit" id="join-game" aria-expanded="false">Join Game</button>
+            <button v-else v-on:click="joinGame" v-tooltip="{ value: 'Please enter username',pt: {text: 'text-danger'}}" class="btn btn-secondary-yellow w-75" type="Submit" id="join-game" aria-expanded="false">Join Game</button>
            </div>
         </form>
       </div>
@@ -24,8 +23,6 @@
 
 <script>
 import SocketioService from '../../services/socketio.service.js';
-
-//https://getbootstrap.com/docs/5.0/components/popovers/
 
 export default {
   name: 'LandingPage',
@@ -55,29 +52,6 @@ export default {
       }
 
       return true;
-    },
-
-    popover(a){
-      if(a == "input"){
-        this.popover1 = "display:flex";
-      }
-      if(a == "newGame"){
-        this.popover2 = "display:flex";
-      }
-      if(a == "joinGame"){
-        this.popover3 = "display:flex";
-      }
-    },
-    nopopover(a){
-      if(a == "input"){
-        this.popover1 = "display:none";
-      }
-      if(a == "newGame"){
-        this.popover2 = "display:none";
-      }
-      if(a == "joinGame"){
-        this.popover3 = "display:none";
-      }
     },
 
     newGame() {
@@ -118,7 +92,7 @@ export default {
         this.$cookies.set('session', res);
         this.$router.push('/' + this.intent);
       });
-    },
+    }
 
     /*     //not in use
         beforeUnmount() {
@@ -141,26 +115,14 @@ export default {
 
     .input-group{
       width: 95%;
-      padding-left: 0.75vw;
+      padding-left: 2vmin;
       height: 12.5%;
-      margin-bottom: 1vh;
+      margin-bottom: 1vmin;
       flex-wrap: nowrap;
     }
 
-    .popover{
-      position: absolute;
-      padding: 1%;
-      margin-top: 3vmin;
-      left: 66.66%;
-    }
-    
-    .popover.input{
-      margin-top: 0.5vmin;
-      left: 70%;
-    }
-
     .input-group-text{
-      font-size: 2vh;
+      font-size: 2vmin;
       height: 100%;
       width: 35%;
       padding: calc(0.5vh + 0.5vw);
@@ -177,18 +139,13 @@ export default {
       padding-top: 5%;
     }
 
-    .WelcomeDiv{
-      position: absolute;
-      top: 0; right: 0; bottom: 0; left: 0;
-    }
-
     .text-center{
       padding: 2.5%;
     }
 
     hr{
       margin: 5%;
-      margin-bottom: 4vh;
+      margin-bottom: 4vmin;
     }
 
     .btn{

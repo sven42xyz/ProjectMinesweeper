@@ -12,11 +12,11 @@
 
 <style scoped>
     .player-col{
-      margin-top: 1.5vh;
-      margin-right: 2.5vw;
-      margin-left: 2.5vw;
-      margin-bottom: 1.5vh;
-      width: 22.5vw;
+      margin-top: 1.5vmin;
+      margin-right: 2.5vmin;
+      margin-left: 5vmin;
+      margin-bottom: 1.5vmin;
+      width: 45vmin;
       height: 12vh;
       padding: 10px;
       background-color: rgba(230, 230, 250, 0.599);

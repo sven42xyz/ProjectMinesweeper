@@ -1,6 +1,6 @@
 <template>
-    <div class="row" v-for="i in size" v-bind:key="i" >
-        <div class="col" v-for="x in size" v-bind:key="x" >
+    <div class="row" v-for="i in size" v-bind:key="i" :style="cssProps">
+        <div class="col" v-for="x in size" v-bind:key="x" style="height: 100%" :style="cssPropsW">
             <FButton :disabled="this.player.disabled" :ref="ref(i,x)" class="col-btn" v-on:click ="clicked(i,x)"><h7>.</h7></FButton>
         </div>
     </div>
@@ -28,6 +28,7 @@
             return{
                 gameboard : createBoard(this.size, this.size),
                 player : new Player(this.$cookies.get('session').userId,  "Anna", 'player', 0, 'pink'),
+                CSSsize : 100/this.size + '%'
             }
         },
         methods:{
@@ -134,13 +135,24 @@
 
 
         },
-        computed:{
+        computed: {
+          cssProps() {
+            return {
+                'height': this.CSSsize,
+            }
+         },
+         cssPropsW() {
+            return {
+                'width': this.CSSsize,
+            }
+         }
         },
 
     };
+
     function createBoard(row, col){
         var a = []
-        var bombs = (row + col)/2;
+        var bombs = row * col / 5;
         for(var i = 0; i < row; i++){
             a[i] = []
             for(var j=0; j < col; j++){
@@ -184,10 +196,4 @@
     width: 100%;
     aspect-ratio : 1 / 1;
    }   
-   .h7{
-        color: transparent;
-   }
-   .isRevealed{
-        background-color: red;
-   }
 </style>

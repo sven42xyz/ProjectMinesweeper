@@ -46,7 +46,7 @@ export default {
     return {
       roomId: null,
       userId: null,
-      size: 10,
+      size: 20,
       playerUsernames: [],
       players: null
     };
@@ -90,7 +90,6 @@ export default {
     },
 
     getPlayer(i){
-
       return this.players[i-1];
     },
 
@@ -149,10 +148,7 @@ export default {
       margin-bottom: 5%;
     }
 
-    @media only screen and (max-width: 1680px) and (min-height: 950px), 
-    screen and (max-width: 1650px) and (min-height: 925px),
-    screen and (max-width: 1600px) and (min-height: 900px),
-    screen and (max-width: 1500px)
+    @media only screen and (max-aspect-ratio: 5/3)
     {
         .chat-col {
             display: none;
@@ -176,17 +172,8 @@ export default {
     }
     .btn{
       margin-top: 0vw;
-      margin-left: 2.5vw;
-      width: 15.5vw;
-    }
-    .welcome-label{
-      margin: 1%;
-      margin-top: 2vh;
-      margin-bottom: 2vh;
-    }
-    .bottom-line{
-      margin-top: 72.5vh;
-      margin-bottom: 4vh;
+      margin-left: 2.5vmin;
+      width: 15.5vmin;
     }
 
     .btn-danger{
