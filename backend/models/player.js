@@ -1,11 +1,11 @@
 class Player {
 
-    constructor(userId, username, userClass = 'player', score = 0, color = 'grey') {
+    constructor(userId, username, userClass = 'player', score = 0) {
         this.userId = userId;
         this.username = username;
         this.userClass = userClass;
         this.score = score;
-        this.color = color;
+        this.color = null;
         this.disabled = false;
         this.turn = false;
         this.ready = false;
@@ -15,6 +15,9 @@ class Player {
         this.ready = true;
     }
 
+    setColorByHEX(colorHEX) {
+        this.color = colorHEX;
+    }
 }
 
 module.exports = Player;

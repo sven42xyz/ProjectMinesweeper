@@ -5,7 +5,7 @@
       <hr class="w-100 mb-3"/>
       <div class="row row-cols-2">
         <div class="loop-div" v-for="i in 6" v-bind:key="i" >
-          <div class="player" v-if="getPlayerUsername(i) != null && this.returnState(i) != true"><PlayerIcon :username=getPlayerUsername(i)></PlayerIcon></div>
+          <div class="player" v-if="getPlayerUsername(i) != null && this.returnState(i) != true"><PlayerIcon :username=getPlayerUsername(i) :userId="this.userId" :roomId="this.roomId" :color=getPlayerColor(i)></PlayerIcon></div>
           <div class="player" v-else-if="getPlayerUsername(i) != null && this.returnState(i) == true"><PlayerReady :username=getPlayerUsername(i) :color=getPlayerColor(i)></PlayerReady></div>
           <div class="player" v-else-if="getPlayerUsername(i) == null"><PlayerEmpty/></div>
         </div>
@@ -45,9 +45,6 @@
 
     data() {
       return {
-        //fuck this shit is just for
-        //default vals apparently O.O
-        //...and props...
       };
     },
 
@@ -56,6 +53,7 @@
       this.userId = this.$cookies.get('session').userId;
       this.playerStore = usePlayerStore();
       this.gameStore = useGameStore();
+      this.player = this.playerStore.playerByUserId(this.userId);
     },
 
     sockets: {
@@ -69,6 +67,10 @@
         this.playerStore.setPlayers(res);
       },
       'player ready'(res) {
+        this.playerStore.setPlayers(res);
+      },
+      'update playerStore'(res) {
+        console.log(this.player.color);
         this.playerStore.setPlayers(res);
       },
       'delete game'() {
@@ -93,10 +95,6 @@
 
       returnState(i){
         return this.playerStore.players[i-1].ready;
-      },
-
-      getPlayerColor(i){
-        return this.playerStore.players[i-1].color;
       },
 
       leaveGame() {
@@ -132,6 +130,10 @@
 
       getPlayerUsername(i) {
         return this.playerStore.playerUsernames[i - 1];
+      },
+
+      getPlayerColor(i) {
+        return this.playerStore.playerColors[i - 1];
       },
 
       //...

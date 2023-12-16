@@ -1,5 +1,5 @@
-const Player = require('./models/player');
 const Game = require('./models/game');
+const Player = require('./models/player');
 const Utilities = require('./utilities');
 
 const handler = require('express')();
@@ -7,7 +7,7 @@ const server = require('http').createServer(handler);
 const io = require('socket.io')(server, {
     allowEIO3: true, 
     cors: {
-        origin: 'http://192.168.178.38:8080',
+        origin: 'http://172.17.224.127:8080',
         methods: ["GET", "POST"],
         transports: ['websocket', 'polling'],
         credentials: true,
@@ -204,6 +204,32 @@ io.on('connection', (socket) => {
         }
 
         io.emit('player ready', players);
+
+        callback({
+            status: 200,
+        });
+    });
+
+    socket.on('change color', (data, callback) => {
+        const res = utils.setPlayerColorByUserId(data.userId, data.color);
+        if (!res) {
+            console.log(`Could not set color for Player ${data.userId}`);
+            callback({
+                status: 500,
+            });
+        }
+
+        const players = utils.getPlayersOfGameByRoomId(data.roomId);
+        console.log(players);
+
+        if (!players) {
+            console.log(`Could not get Players of Game ${data.roomId}`);
+            callback({
+                status: 500,
+            });
+        }
+
+        io.emit('update playerStore', players);
 
         callback({
             status: 200,

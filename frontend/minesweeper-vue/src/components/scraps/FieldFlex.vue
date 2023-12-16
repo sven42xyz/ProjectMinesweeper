@@ -12,7 +12,6 @@
 
   <script>
     import Button from './/Button.js';
-/*     import Player from 'C:/Users/Leoyna1/Documents/GitHub/ProjectMinesweeper/backend/models/player.js'; */
     import Player from './../../../../../../ProjectMinesweeper/backend/models/player.js';
 
 

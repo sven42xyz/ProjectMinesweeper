@@ -6,7 +6,7 @@ class SocketioService {
         withCredentials: true,
     }); */
 
-    socket = io.connect("http://192.168.178.38:3000", 
+    socket = io.connect("http://172.17.224.127:3000", 
     { upgrade: false, transports: ['websocket'], reconnection: true, forceNew: false});
     
     constructor() {
@@ -79,9 +79,14 @@ class SocketioService {
         return;
     }
 
-    // Handle messages
     sendMessage({ message, roomName }, res) {
         this.socket.emit('message', { message, roomName }, res);
+
+        return;
+    }
+
+    setPlayerColor(data, res) {
+        this.socket.emit('change color', data, res);
 
         return;
     }

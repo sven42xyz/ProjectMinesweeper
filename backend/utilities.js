@@ -66,6 +66,15 @@ class Utilities {
         return true;
     }
 
+    setPlayerColorByUserId(userId, color) {
+        const player = this.playerMap.get(userId);
+        if (!player) {
+            return false;
+        }
+        player.setColorByHEX(color);
+        return true;
+    }
+
     addPlayerToGameByRoomId(roomId, userId) {
         const game = this.gameMap.get(roomId);
         if (!game) {
@@ -82,6 +91,15 @@ class Utilities {
         }
         this.gameMap.delete(roomId);
         return true;
+    }
+
+    //privates
+    _colorIsUnique(roomId, color) {
+        const game = this.gameMap.get(roomId);
+        if (!game) {
+            return false;
+        }
+        game.players
     }
 }
 
