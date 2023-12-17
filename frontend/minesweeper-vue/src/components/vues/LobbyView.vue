@@ -5,7 +5,7 @@
       <hr class="w-100 mb-3"/>
       <div class="row row-cols-2">
         <div class="loop-div" v-for="i in 6" v-bind:key="i" >
-          <div class="player" v-if="getPlayerUsername(i) != null && this.returnState(i) != true"><PlayerIcon :username=getPlayerUsername(i) :userId="this.userId" :roomId="this.roomId" :color=getPlayerColor(i)></PlayerIcon></div>
+          <div class="player" v-if="getPlayerUsername(i) != null && this.returnState(i) != true"><PlayerIcon :username=getPlayerUsername(i) :userId="userId" :roomId="roomId" :color=getPlayerColor(i)></PlayerIcon></div>
           <div class="player" v-else-if="getPlayerUsername(i) != null && this.returnState(i) == true"><PlayerReady :username=getPlayerUsername(i) :color=getPlayerColor(i)></PlayerReady></div>
           <div class="player" v-else-if="getPlayerUsername(i) == null"><PlayerEmpty/></div>
         </div>
@@ -100,7 +100,8 @@
         this.playerStore.setPlayers(res);
       },
       'update playerStore'(res) {
-        console.log(this.player.color);
+        console.log("here");
+        console.log(res);
         this.playerStore.setPlayers(res);
       },
       'delete game'() {
@@ -163,6 +164,9 @@
       },
 
       getPlayerColor(i) {
+        console.log("i am ehre");
+        console.log(this.playerStore.playerColors[i - 1]);
+        console.log(this.playerStore);
         return this.playerStore.playerColors[i - 1];
       },
 

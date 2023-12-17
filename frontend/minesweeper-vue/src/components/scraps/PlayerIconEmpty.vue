@@ -14,7 +14,7 @@
     .player-col{
       margin-top: 1.5vmin;
       margin-right: 2.5vmin;
-      margin-left: 5vmin;
+      margin-left: 2.5vmin;
       margin-bottom: 1.5vmin;
       width: 45vmin;
       height: 12vh;
