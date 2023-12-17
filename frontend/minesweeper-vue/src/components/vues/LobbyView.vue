@@ -31,7 +31,8 @@
             </div>
         </template>
       </ConfirmPopup>
-      <button v-on:accept="startGame" @click="requireConfirmation($event)" class="btn btn-success" type="Submit" id="Submit-Button" aria-expanded="false">Start game</button>
+      <button v-if="playerStore.playerUsernames.length < 2" v-on:accept="startGame" @click="requireConfirmation($event)" class="btn btn-success" type="Submit" id="Submit-Button" aria-expanded="false">Start game</button>
+      <button v-else @click="startGame" class="btn btn-success" type="Submit" id="Submit-Button" aria-expanded="false">Start game</button>
       <button v-on:click="playerReady" class="btn btn-success" type="Button" id="Submit-Button" aria-expanded="false">Ready?</button>
       <button v-on:click="cancel" class="btn btn-danger" type="Cancel" id="Cancel-Button" aria-expanded="false">Cancel</button>
     </form>
