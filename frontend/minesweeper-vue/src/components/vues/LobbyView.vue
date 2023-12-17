@@ -94,21 +94,16 @@
       disconnect() {
         console.log('Disconnected...');
       },
-      'join lobby'(res) {
-        this.playerStore.setPlayers(res);
-      },
-      'player ready'(res) {
-        this.playerStore.setPlayers(res);
-      },
       'update playerStore'(res) {
-        console.log("here");
-        console.log(res);
         this.playerStore.setPlayers(res);
       },
       'delete game'() {
         //add store logic (after implementing the game store...)
         this.leaveGame();
-      }  
+      },
+      'start game'() {
+        this.startGame();
+      }
     },
 
     methods: {
@@ -136,7 +131,6 @@
 
       startGame() {
         const data = {roomId: this.roomId, userId: this.userId}
-        this.$router.push('/game/');
 
         SocketioService.startGame(data, res => {
           if (res.status !== 200) {
@@ -158,6 +152,8 @@
             return;
           }
         });
+
+        this.startGame();
       },
 
       getPlayerUsername(i) {

@@ -93,6 +93,19 @@ class Utilities {
         return true;
     }
 
+    checkReadyPlayersByRoomId(roomId) {
+        const players = this.getPlayersOfGameByRoomId(roomId);
+        if (!players) {
+            return false;
+        }
+        const totalPlayers = players.length;
+        const readyPlayers = players.filter(obj => obj.ready === true).length;
+        if (totalPlayers !== readyPlayers) {
+            return false;
+        }
+        return true;
+    }
+
     //privates
     _colorIsUnique(roomId, color) {
         const game = this.gameMap.get(roomId);
