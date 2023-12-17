@@ -10,7 +10,7 @@
       </div>
       <div class="col">
         <div class="container-fluid game-container">
-          <Field :size="this.size"></Field>
+          <Field :size="size"></Field>
         </div>
       </div>
       <div class="col-4 chat-col">

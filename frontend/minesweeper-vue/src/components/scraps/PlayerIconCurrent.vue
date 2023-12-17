@@ -1,5 +1,5 @@
 <template>
-  <div v-if="this.active == true && this.disabled == false" class="col card player-col">
+  <div v-if="active == true && disabled == false" class="col card player-col">
     <div data-v-7bbc1d28="" class="p-colorpicker p-component p-colorpicker-overlay mb-3" data-pc-name="colorpicker" data-pc-section="root" inputid="cp-hex">
       <input type="text" class="p-colorpicker-preview p-inputtext p-disabled" readonly="" disabled="" data-pc-section="input" :style="cssProps">
       <!--teleport start--><!--teleport end-->
@@ -7,7 +7,7 @@
     <h7 class="card-title">{{ username }}</h7>
     <h7 class="score">{{ score }}</h7>
   </div>
-  <div v-else-if="this.active == false && this.disabled == false" class="col card player-col no-turn">
+  <div v-else-if="active == false && disabled == false" class="col card player-col no-turn">
     <div data-v-7bbc1d28="" class="p-colorpicker p-component p-colorpicker-overlay mb-3" data-pc-name="colorpicker" data-pc-section="root" inputid="cp-hex">
       <input type="text" class="p-colorpicker-preview p-inputtext p-disabled" readonly="" disabled="" data-pc-section="input" :style="cssProps">
       <!--teleport start--><!--teleport end-->
@@ -15,7 +15,7 @@
     <h7 class="card-title no-turn">{{ username }}</h7>
     <h7 class="score">{{ score }}</h7>
   </div>
-  <div v-else-if="this.disabled == true" class="col card player-col disabled">
+  <div v-else-if="disabled == true" class="col card player-col disabled">
     <div data-v-7bbc1d28="" class="p-colorpicker p-component p-colorpicker-overlay mb-3" data-pc-name="colorpicker" data-pc-section="root" inputid="cp-hex">
       <input type="text" class="p-colorpicker-preview p-inputtext p-disabled" readonly="" disabled="" data-pc-section="input" :style="cssProps">
       <!--teleport start--><!--teleport end-->
