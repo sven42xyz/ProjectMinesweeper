@@ -6,7 +6,7 @@
         <span class="spinner-grow spinner-grow-sm float-start" role="status" aria-hidden="true"></span>
         <h6 class="m-0">Waiting...</h6>
       </button>
-      <ColorPicker v-if="username == this.$cookies.get('session').username" v-model="colorHEX" @change="setColor" inputId="cp-hex" format="hex" class="mb-3" />
+      <ColorPicker v-if="username == $cookies.get('session').username" v-model="colorHEX" @change="setColor" inputId="cp-hex" format="hex" class="mb-3" />
       <div v-else data-v-7bbc1d28="" class="p-colorpicker p-component p-colorpicker-overlay mb-3" data-pc-name="colorpicker" data-pc-section="root" inputid="cp-hex">
         <input type="text" class="p-colorpicker-preview p-inputtext p-disabled" readonly="" disabled="" data-pc-section="input" :style="cssProps">
         <!--teleport start--><!--teleport end-->
