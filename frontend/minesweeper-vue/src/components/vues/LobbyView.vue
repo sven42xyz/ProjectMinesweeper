@@ -25,15 +25,14 @@
             <div class="bg-gray-900 text-white border-round p-3">
                 <span>{{ message.message }}</span>
                 <div class="flex align-items-center gap-2 mt-3">
-                    <button class="btn btn-success btn-accept" label="Accept" @click="startGame">Accept</button>
+                    <button class="btn btn-success btn-accept" label="Accept" @click="playerReady">Accept</button>
                     <button class="btn btn-danger btn-cancel" label="Cancel" @click="rejectCallback">Cancel</button>
                 </div>
             </div>
         </template>
       </ConfirmPopup>
-      <button v-if="playerStore.playerUsernames.length < 2" v-on:accept="startGame" @click="requireConfirmation($event)" class="btn btn-success" type="Submit" id="Submit-Button" aria-expanded="false">Start game</button>
-      <button v-else @click="startGame" class="btn btn-success" type="Submit" id="Submit-Button" aria-expanded="false">Start game</button>
-      <button v-on:click="playerReady" class="btn btn-success" type="Button" id="Submit-Button" aria-expanded="false">Ready?</button>
+      <button v-if="playerStore.playerUsernames.length <= 1" v-on:accept="playerReady" @click="requireConfirmation($event)" class="btn btn-success" type="Button" id="Submit-Button" aria-expanded="false">Ready?</button>
+      <button v-else v-on:click="playerReady" class="btn btn-success" type="Button" id="Submit-Button" aria-expanded="false">Ready?</button>
       <button v-on:click="cancel" class="btn btn-danger" type="Cancel" id="Cancel-Button" aria-expanded="false">Cancel</button>
     </form>
   </div>
