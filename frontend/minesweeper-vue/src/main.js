@@ -27,7 +27,7 @@ app.use(VueCookies, {
 });
 app.use(
     new VueSocketIO({
-        connection: 'http://192.168.178.38:3000',
+        connection: process.env.VUE_APP_SOCKET_ENDPOINT
     })
 );
 app.use(createPinia());
