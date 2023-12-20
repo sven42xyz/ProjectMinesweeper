@@ -10,153 +10,155 @@
   import FButton from './FieldButton.vue';
 </script>
 
-  <script>
-    import Button from './/Button.js';
-    import Player from './../../../../../../ProjectMinesweeper/backend/models/player.js';
+<script>
+import Button from './/Button.js';
+import Player from './../../../../../../ProjectMinesweeper/backend/models/player.js';
 
-    //notes:
-    //%refs% -> client side
-    //pure js -> server
+//notes:
+//%refs% -> client side
+//pure js -> server
 
-
-    export default {
-
-        props: {
-            size: {
-                type: Number,
-                default: 6
-            }
+export default {
+    props: {
+        size: {
+            type: Number,
+            default: 6
         },
+        color: {
+            type: String,
+            default: 'rgb(255, 0, 0)',
+        }
+    },
 
-        data(){
-            return{
-                gameboard : createBoard(this.size, this.size),
-                player : new Player(this.$cookies.get('session').userId,  "Anna", 'player', 0, 'pink'),
-                CSSsize : 100/this.size + '%'
-            }
+    data(){
+        return{
+            gameboard : createBoard(this.size, this.size),
+            player : new Player(this.$cookies.get('session').userId,  "Anna", 'player', 0, 'pink'),
+            CSSsize : 100/this.size + '%',
+            refEntries: null,
+        }
+    },
+
+    mounted() {
+        this.refEntries = Object.entries(this.$refs);
+    },
+
+    methods:{
+        disable(message){
+            console.log(message);
+            this.player.disabled = true;
         },
-        methods:{
-            disable(message){
-                console.log(message);
-                this.player.disabled = true;
-            },
-            clicked(row, col){
-                //vue ist dumm
-                var w = row - 1;
-                var h = col - 1;
-                //array startet mit 1 o.0
-                this.gameboard[w][h].setIsRevealed();
-                var color = this.player.color;
-                const refEntries = Object.entries(this.$refs);
+        clicked(row, col){
+            var w = row - 1;
+            var h = col - 1;
+            this.gameboard[w][h].setIsRevealed();
+            var check = "["+ row + "," + col + "]";
+            var thisEntry = this.refEntries.find(i => i[0] === check);
 
-                var check = "["+ row + "," + col + "]";
-                var thisEntry = refEntries.find(i => i[0] === check);
+            //bug: thisEntry.color doesnt take hex
+            thisEntry[1][0].color = this.color;
+            thisEntry[1][0].enabled = 'none';
 
-                thisEntry[1][0].color = color;
-                thisEntry[1][0].enabled = 'none';
-
-                if(this.gameboard[w][h].IsBomb){
-                    thisEntry[1][0].isBomb = 'X';
-                    thisEntry[1][0].color = 'darkred';
-                    console.log(this.player.username + " lost with a score of " + this.player.score);
-                    this.disable("you are out");
-                }else if(this.gameboard[w][h].nBombs !=0){
-                    thisEntry[1][0].isNumber = this.gameboard[w][h].nBombs;
-                    this.player.score += 1;
-                }else{
-                    this.player.score += this.revealNeighbours(w, h, color);
-                }
-            
-            
-                var won =this.checkIfAllRevealed();
-                if(won != null){
-                    this.disable(won);
-                }
-            },
-            revealNeighbours(row, col, color){
-                const refEntries = Object.entries(this.$refs);
-                var score = 0;
-                for(var i = 0; i < 3; i++){
-                    for(var j= 0; j < 3; j++){
-                        var x = (row - 1 + i);
-                        var y = (col - 1 + j);
-                        if(x >= 0 && y >= 0 && x < this.size && y < this.size && this.gameboard[x][y].IsBomb){
-                            //do nothing
-                        }else if(x >= 0 && y >= 0 && x < this.size && y < this.size && this.gameboard[x][y].nBombs != 0 ){
-                            var cur = "["+ (x + 1) + "," + (y + 1) + "]";
-                            var thisEntry = refEntries.find(i => i[0] === cur);
-
-                            if(thisEntry && this.gameboard[x][y].IsRevealed != true && this.gameboard[x][y].IsBomb == false){
-                                thisEntry[1][0].color = color;
-                                thisEntry[1][0].enabled = 'none';
-                                this.gameboard[x][y].setIsRevealed();
-                                thisEntry[1][0].isNumber = this.gameboard[x][y].nBombs;
-                                score += 1;
-                            }
-                        }else{
-                            cur = "["+ (x + 1) + "," + (y + 1) + "]";
-                            thisEntry = refEntries.find(i => i[0] === cur);
-
-                            if(thisEntry && this.gameboard[x][y].IsRevealed != true && this.gameboard[x][y].IsBomb == false){
-                                thisEntry[1][0].color = color;
-                                thisEntry[1][0].enabled = 'none';
-                                this.gameboard[x][y].setIsRevealed();
-                                score += this.revealNeighbours(x, y, color);
-                            }
-                        }
-                        
-                    }
-                }
-                return score; 
-            },
-            ref(i, x) {
-                return("["+ i + "," + x + "]");
-            },
-            checkIfAllRevealed(){
-                for(var i = 0; i < this.size; i++){
-                    for(var j=0; j < this.size; j++){
-                        if(!this.gameboard[i][j].IsBomb && !this.gameboard[i][j].IsRevealed){
-                            return null;
-                        }
-                        
-                    }
-                }
-                const refEntries = Object.entries(this.$refs);
-                for(i = 0; i < this.size; i++){
-                    for(j=0; j < this.size; j++){
-                        if(this.gameboard[i][j].IsBomb){
-                            var cur = "["+ (i + 1) + "," + (j + 1) + "]";
-                            this.reveal(cur, refEntries);
-                            this.gameboard[i][j].setIsRevealed();
-                        }
-                    }
-                }
-
-                return this.player.username + " won with a score of " + this.player.score;
-            },
-            reveal(cur, refEntries){
-                var thisEntry = refEntries.find(i => i[0] === cur);
-                thisEntry[1][0].color = 'darkred';
+            if(this.gameboard[w][h].IsBomb){
                 thisEntry[1][0].isBomb = 'X';
-                thisEntry[1][0].enabled = 'none';
+                thisEntry[1][0].color = 'darkred';
+                console.log(this.player.username + " lost with a score of " + this.player.score);
+                this.disable("you are out");
+            }else if(this.gameboard[w][h].nBombs !=0){
+                thisEntry[1][0].isNumber = this.gameboard[w][h].nBombs;
+                this.player.score += 1;
+            }else{
+                this.player.score += this.revealNeighbours(w, h, this.color);
             }
-
-
+        
+        
+            var won =this.checkIfAllRevealed();
+            if(won != null){
+                this.disable(won);
+            }
         },
-        computed: {
-          cssProps() {
-            return {
-                'height': this.CSSsize,
-            }
-         },
-         cssPropsW() {
-            return {
-                'width': this.CSSsize,
-            }
-         }
-        },
+        revealNeighbours(row, col, color){
+            var score = 0;
+            for(var i = 0; i < 3; i++){
+                for(var j= 0; j < 3; j++){
+                    var x = (row - 1 + i);
+                    var y = (col - 1 + j);
+                    if(x >= 0 && y >= 0 && x < this.size && y < this.size && this.gameboard[x][y].IsBomb){
+                        //do nothing
+                    }else if(x >= 0 && y >= 0 && x < this.size && y < this.size && this.gameboard[x][y].nBombs != 0 ){
+                        var cur = "["+ (x + 1) + "," + (y + 1) + "]";
+                        var thisEntry = this.refEntries.find(i => i[0] === cur);
 
-    };
+                        if(thisEntry && this.gameboard[x][y].IsRevealed != true && this.gameboard[x][y].IsBomb == false){
+                            thisEntry[1][0].color = color;
+                            thisEntry[1][0].enabled = 'none';
+                            this.gameboard[x][y].setIsRevealed();
+                            thisEntry[1][0].isNumber = this.gameboard[x][y].nBombs;
+                            score += 1;
+                        }
+                    }else{
+                        cur = "["+ (x + 1) + "," + (y + 1) + "]";
+                        thisEntry = this.refEntries.find(i => i[0] === cur);
+
+                        if(thisEntry && this.gameboard[x][y].IsRevealed != true && this.gameboard[x][y].IsBomb == false){
+                            thisEntry[1][0].color = color;
+                            thisEntry[1][0].enabled = 'none';
+                            this.gameboard[x][y].setIsRevealed();
+                            score += this.revealNeighbours(x, y, color);
+                        }
+                    }
+                    
+                }
+            }
+            return score; 
+        },
+        ref(i, x) {
+            return("["+ i + "," + x + "]");
+        },
+        checkIfAllRevealed(){
+            for(var i = 0; i < this.size; i++){
+                for(var j=0; j < this.size; j++){
+                    if(!this.gameboard[i][j].IsBomb && !this.gameboard[i][j].IsRevealed){
+                        return null;
+                    }
+                    
+                }
+            }
+            for(i = 0; i < this.size; i++){
+                for(j=0; j < this.size; j++){
+                    if(this.gameboard[i][j].IsBomb){
+                        var cur = "["+ (i + 1) + "," + (j + 1) + "]";
+                        this.reveal(cur);
+                        this.gameboard[i][j].setIsRevealed();
+                    }
+                }
+            }
+
+            return this.player.username + " won with a score of " + this.player.score;
+        },
+        reveal(cur){
+            var thisEntry = this.refEntries.find(i => i[0] === cur);
+            thisEntry[1][0].color = 'darkred';
+            thisEntry[1][0].isBomb = 'X';
+            thisEntry[1][0].enabled = 'none';
+        }
+
+
+    },
+    computed: {
+        cssProps() {
+        return {
+            'height': this.CSSsize,
+        }
+        },
+        cssPropsW() {
+        return {
+            'width': this.CSSsize,
+        }
+        }
+    },
+
+};
 
     function createBoard(row, col){
         var a = []

@@ -10,7 +10,7 @@
       </div>
       <div class="col">
         <div class="container-fluid game-container">
-          <Field :size="size"></Field>
+          <Field :size="size" :color=getMyColor()></Field>
         </div>
       </div>
       <div class="col-4 chat-col">
@@ -100,6 +100,10 @@ export default {
     getPlayerColor(i) {
       console.log(this.playerStore.playerColors);
       return this.playerStore.playerColors.at(i - 1);
+    },
+
+    getMyColor() {
+      return this.playerStore.playerByUserId(this.userId).color;
     },
 
     //...
