@@ -14,6 +14,10 @@
     import Button from './/Button.js';
     import Player from './../../../../../../ProjectMinesweeper/backend/models/player.js';
 
+    //notes:
+    //%refs% -> client side
+    //pure js -> server
+
 
     export default {
 
@@ -37,23 +41,25 @@
                 this.player.disabled = true;
             },
             clicked(row, col){
-                this.gameboard[row-1][col-1].setIsRevealed();
-                var color = this.player.color;
+                //vue ist dumm
                 var w = row - 1;
                 var h = col - 1;
+                //array startet mit 1 o.0
+                this.gameboard[w][h].setIsRevealed();
+                var color = this.player.color;
                 for(const [key, value] of Object.entries(this.$refs)){
                     var check = "["+ row + "," + col + "]";
                     if(key == check){
                         value[0].color = color;
                         value[0].enabled = 'none';
 
-                        if(this.gameboard[row-1][col-1].IsBomb){
+                        if(this.gameboard[w][h].IsBomb){
                             value[0].isBomb = 'X';
                             value[0].color = 'darkred';
                             console.log(this.player.username + " lost with a score of " + this.player.score);
                             this.disable("you are out");
-                        }else if(this.gameboard[row-1][col-1].nBombs !=0){
-                            value[0].isNumber = this.gameboard[row-1][col-1].nBombs;
+                        }else if(this.gameboard[w][h].nBombs !=0){
+                            value[0].isNumber = this.gameboard[w][h].nBombs;
                             this.player.score += 1;
                         }else{
                             this.player.score += this.revealNeighbours(w, h, color);
