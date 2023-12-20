@@ -16,10 +16,10 @@ class Game {
     }
 
     difficultyMap = new Map([
-        ['dif-1', {rows: 1, cols: 1}],
-        ['dif-2', {rows: 1, cols: 1}],
-        ['dif-3', {rows: 1, cols: 1}],
-        ['dif-4', {rows: 1, cols: 1}],
+        ['dif-1', {size:  5}],
+        ['dif-2', {size: 10}],
+        ['dif-3', {size: 15}],
+        ['dif-4', {size: 20}],
     ]);
 
     addPlayer(player) {
@@ -38,46 +38,44 @@ class Game {
         this.state = state;
     }
     
-    setBoard(board) {
-        this.board = board
-    }
+    setGameboard(difficulty) {
+        const dimension = this.difficultyMap.get(difficulty);
+        const bombs = Math.sqrt(dimension) / 5;
+        var res = [];
 
-    createBoard(row, col) {
-        var a = []
-        var bombs = row * col / 5;
-        for (var i = 0; i < row; i++) {
-            a[i] = []
-            for (var j = 0; j < col; j++) {
-                a[i][j] = new Button();
+        for (var i = 0; i < dimension; i++) {
+            res[i] = []
+            for (var j = 0; j < dimension; j++) {
+                res[i][j] = new Button();
             }
         }
         for (i = 0; i < bombs; i++) {
             //Get random position for the next bomb
-            var w = Math.floor(Math.random() * col);
-            var h = Math.floor(Math.random() * row);
-            while (a[w][h].isBomb) { //if this position is a bomb
+            var w = Math.floor(Math.random() * dimension);
+            var h = Math.floor(Math.random() * dimension);
+            while (res[w][h].isBomb) { //if this position is a bomb
                 //we get a new position
-                w = Math.floor(Math.random() * col);
-                h = Math.floor(Math.random() * row);
+                w = Math.floor(Math.random() * dimension);
+                h = Math.floor(Math.random() * dimension);
             }
-            a[w][h].IsBomb = true; //make new position is a bomb
+            res[w][h].IsBomb = true; //make new position is a bomb
         }
-        for (i = 0; i < row; i++) { //1
-            for (j = 0; j < col; j++) { // 0
+        for (i = 0; i < dimension; i++) { //1
+            for (j = 0; j < dimension; j++) { // 0
                 var neighbouringBombs = 0;
                 for (var k = 0; k < 3; k++) {
                     for (var t = 0; t < 3; t++) {
                         var x = (i - 1 + k); // 0 > 1 > 2
                         var y = (j - 1 + t); // -1 > 0 > 1
-                        if (x >= 0 && y >= 0 && x < row && y < row && a[x][y].IsBomb == true) {
+                        if (x >= 0 && y >= 0 && x < dimension && y < dimension && res[x][y].IsBomb == true) {
                             neighbouringBombs++;
                         }
                     }
                 }
-                a[i][j].nBombs = neighbouringBombs;
+                res[i][j].nBombs = neighbouringBombs;
             }
         }
-        return a
+        this.gameboard = res;
     }
 }
 
