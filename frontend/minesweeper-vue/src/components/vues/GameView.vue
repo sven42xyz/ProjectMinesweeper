@@ -3,8 +3,8 @@
     <div class="row">
       <div class="col player-col">
         <div class="container-fluid player-container">
-          <div class=" row loop-div" v-for="i in players" v-bind:key="i" style="margin-top:10%" >
-            <PlayerCurrent :username=i.username :score=i.score :active="i.turn" :disabled="i.disabled" :color="i.color"></PlayerCurrent>
+          <div class=" row loop-div" v-for="i in this.playerStore.readyPlayers" v-bind:key="i" style="margin-top:10%" >
+            <PlayerCurrent :username=i.username :score=i.score :active="i.turn" :disabled="i.disabled" :color=getPlayerColor(i)></PlayerCurrent>
           </div>
         </div>
       </div>
@@ -93,18 +93,10 @@ export default {
       return this.players[i-1];
     },
 
-    startGame() {
-      const data = {roomId: this.roomId, userId: this.userId}
-      this.$router.push('/game/');
-
-      SocketioService.startGame(data, res => {
-        if (res.status !== 200) {
-          return;
-        }
-
-        this.$cookies.set('session', res);
-        this.$router.push('/game/');
-      });
+    getPlayerColor(i) {
+      console.log(i);
+      console.log(this.playerStore.readyPlayers);
+      return this.playerStore.playerColors[i - 1];
     },
 
     //...

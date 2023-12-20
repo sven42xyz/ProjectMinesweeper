@@ -56,15 +56,10 @@ export default {
   },
 
   methods: {
-    logColor() {
-      console.log(this.colorHEX);
-    },
-
     setColor() {
       const data = { userId: this.userId, roomId: this.roomId, color: this.colorHEX }
 
-      this.playerStore.setColor(data);
-      console.log(this.colorHEX);
+      this.playerStore.setColor(data.color);
 
       SocketioService.setPlayerColor(data, res => {
         if (res.status !== 200) {

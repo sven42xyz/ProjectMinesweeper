@@ -176,19 +176,20 @@ io.on('connection', (socket) => {
 
     socket.on('start game', (data, callback) => {
         const res = utils.checkReadyPlayersByRoomId(data.roomId);
-        if (!res) {
-            console.log(`Not all players are ready yet in Game ${data.roomId}`);
+        if (res) {
+            io.emit('start game');
+
             callback({
-                status: 500,
+                status: 200,
+                roomId: data.roomId,
+                userId: data.userId,
             });
+            return;
         }
 
-        io.emit('start game');
-
+        console.log(`Not all players are ready yet in Game ${data.roomId}`);
         callback({
-            status: 200,
-            roomId: data.roomId,
-            userId: data.userId,
+            status: 500,
         });
     });
 

@@ -137,10 +137,7 @@
             return;
           }
 
-          this.$cookies.set('session', res);
-          this.$router.push('/game/'); // Kann man hier props übergeben? Sonst einmal alle Messages in das Backend und dann von da emitten
-          //sollte als prop übergeben werden können, ist ja nur das array mit den messages
-          //wir riskieren natürlich race conditions wenn wir die messages nur lokal halten
+          this.$router.push('/game/'); 
         });
       },
 
@@ -161,9 +158,6 @@
       },
 
       getPlayerColor(i) {
-        console.log("i am ehre");
-        console.log(this.playerStore.playerColors[i - 1]);
-        console.log(this.playerStore);
         return this.playerStore.playerColors[i - 1];
       },
 
