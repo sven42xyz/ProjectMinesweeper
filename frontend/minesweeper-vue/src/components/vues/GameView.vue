@@ -3,14 +3,14 @@
     <div class="row">
       <div class="col player-col">
         <div class="container-fluid player-container">
-          <div class=" row loop-div" v-for="i in this.playerStore.readyPlayers" v-bind:key="i" style="margin-top:10%" >
-            <PlayerCurrent :username=i.username :score=i.score :active="i.turn" :disabled="i.disabled" :color=getPlayerColor(i)></PlayerCurrent>
+          <div class=" row loop-div" v-for="i in players" v-bind:key="i" style="margin-top:10%" >
+            <PlayerCurrent :username=getPlayerUsername(i) :score=i.score :active="i.turn" :disabled="i.disabled" :color=getPlayerColor(i)></PlayerCurrent>
           </div>
         </div>
       </div>
       <div class="col">
         <div class="container-fluid game-container">
-          <Field :size="this.size"></Field>
+          <Field :size="size"></Field>
         </div>
       </div>
       <div class="col-4 chat-col">
@@ -96,6 +96,13 @@ export default {
     getPlayerColor(i) {
       console.log(i);
       console.log(this.playerStore.readyPlayers);
+      return this.playerStore.playerColors[i - 1];
+    },
+    getPlayerUsername(i) {
+        return this.playerStore.playerUsernames[i - 1];
+    },
+
+    getPlayerColor(i) {
       return this.playerStore.playerColors[i - 1];
     },
 

@@ -38,4 +38,7 @@ app.component('ColorPicker', ColorPicker);
 app.directive('tooltip', Tooltip);
 app.component('ConfirmPopup', ConfirmPopup);
 app.component('Toast-Toast', Toast);
+app.config.compilerOptions.isCustomElement = (tag) => {
+    return tag.startsWith('h7-')
+}
 app.mount('#app');

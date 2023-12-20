@@ -23,7 +23,7 @@
 export default {
   props:{
     difficultyTransfer: {
-      type: Text,
+      type: String,
       default: 'dif-1',
     }
   },
