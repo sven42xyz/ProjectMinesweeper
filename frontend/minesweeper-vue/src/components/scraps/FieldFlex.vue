@@ -26,7 +26,7 @@ export default {
         },
         color: {
             type: String,
-            default: 'rgb(255, 0, 0)',
+            default: '#ff0000',
         }
     },
 
@@ -54,9 +54,9 @@ export default {
             this.gameboard[w][h].setIsRevealed();
             var check = "["+ row + "," + col + "]";
             var thisEntry = this.refEntries.find(i => i[0] === check);
+            const color = '#' + this.color;
 
-            //bug: thisEntry.color doesnt take hex
-            thisEntry[1][0].color = this.color;
+            thisEntry[1][0].color = color;
             thisEntry[1][0].enabled = 'none';
 
             if(this.gameboard[w][h].IsBomb){
@@ -68,7 +68,7 @@ export default {
                 thisEntry[1][0].isNumber = this.gameboard[w][h].nBombs;
                 this.player.score += 1;
             }else{
-                this.player.score += this.revealNeighbours(w, h, this.color);
+                this.player.score += this.revealNeighbours(w, h, color);
             }
         
         
