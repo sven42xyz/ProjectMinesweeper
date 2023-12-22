@@ -47,25 +47,27 @@
                 //array startet mit 1 o.0
                 this.gameboard[w][h].setIsRevealed();
                 var color = this.player.color;
-                for(const [key, value] of Object.entries(this.$refs)){
-                    var check = "["+ row + "," + col + "]";
-                    if(key == check){
-                        value[0].color = color;
-                        value[0].enabled = 'none';
+                const refEntries = Object.entries(this.$refs);
 
-                        if(this.gameboard[w][h].IsBomb){
-                            value[0].isBomb = 'X';
-                            value[0].color = 'darkred';
-                            console.log(this.player.username + " lost with a score of " + this.player.score);
-                            this.disable("you are out");
-                        }else if(this.gameboard[w][h].nBombs !=0){
-                            value[0].isNumber = this.gameboard[w][h].nBombs;
-                            this.player.score += 1;
-                        }else{
-                            this.player.score += this.revealNeighbours(w, h, color);
-                        }
-                    }
+                var check = "["+ row + "," + col + "]";
+                var thisEntry = refEntries.find(i => i[0] === check);
+
+                thisEntry[1][0].color = color;
+                thisEntry[1][0].enabled = 'none';
+
+                if(this.gameboard[w][h].IsBomb){
+                    thisEntry[1][0].isBomb = 'X';
+                    thisEntry[1][0].color = 'darkred';
+                    console.log(this.player.username + " lost with a score of " + this.player.score);
+                    this.disable("you are out");
+                }else if(this.gameboard[w][h].nBombs !=0){
+                    thisEntry[1][0].isNumber = this.gameboard[w][h].nBombs;
+                    this.player.score += 1;
+                }else{
+                    this.player.score += this.revealNeighbours(w, h, color);
                 }
+            
+            
                 var won =this.checkIfAllRevealed();
                 if(won != null){
                     this.disable(won);
