@@ -1,7 +1,7 @@
 <template>
     <div class="row" v-for="i in size" v-bind:key="i" :style="cssProps">
         <div class="col" v-for="x in size" v-bind:key="x" style="height: 100%" :style="cssPropsW">
-            <FButton :disabled="this.player.disabled" :ref="ref(i,x)" class="col-btn" v-on:click ="clicked(i,x)"><h7>.</h7></FButton>
+            <FButton :disabled="player.disabled" :ref="ref(i,x)" class="col-btn" v-on:click ="clicked(i,x)"><h7>.</h7></FButton>
         </div>
     </div>
 </template>
