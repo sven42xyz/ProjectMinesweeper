@@ -93,17 +93,13 @@ export default {
       return this.players[i-1];
     },
 
-    getPlayerColor(i) {
-      console.log(i);
-      console.log(this.playerStore.readyPlayers);
-      return this.playerStore.playerColors[i - 1];
-    },
     getPlayerUsername(i) {
-        return this.playerStore.playerUsernames[i - 1];
+      return this.playerStore.playerUsernames.at(i - 1);
     },
 
     getPlayerColor(i) {
-      return this.playerStore.playerColors[i - 1];
+      console.log(this.playerStore.playerColors);
+      return this.playerStore.playerColors.at(i - 1);
     },
 
     //...

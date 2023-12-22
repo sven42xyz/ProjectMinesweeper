@@ -44,8 +44,8 @@
           default: false,
       },
       color: {
-        type: Text,
-        default: '#AA0000',
+        type: String,
+        default: 'rgb(255, 0, 0)',
       },
     },
     data(){
@@ -56,7 +56,8 @@
     computed: {
       cssProps() {
           return {
-              'background-color': this.fixedcolor,
+              'background-color': '#' + this.color,
+              'opacity': '100%'
           }
       }
   }
