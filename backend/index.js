@@ -98,7 +98,7 @@ io.on('connection', (socket) => {
             });
         }
 
-        io.emit('join lobby', players);
+        io.emit('update playerStore', players);
 
         callback({
             status: 200,
@@ -175,7 +175,13 @@ io.on('connection', (socket) => {
     });
 
     socket.on('start game', (data, callback) => {
-        //check if all players are ready to continue
+        const res = utils.checkReadyPlayersByRoomId(data.roomId);
+        if (!res) {
+            console.log(`Not all players are ready yet in Game ${data.roomId}`);
+            callback({
+                status: 500,
+            });
+        }
 
         io.emit('start game');
 
@@ -203,7 +209,7 @@ io.on('connection', (socket) => {
             });
         }
 
-        io.emit('player ready', players);
+        io.emit('update playerStore', players);
 
         callback({
             status: 200,

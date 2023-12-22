@@ -6,7 +6,7 @@ class SocketioService {
         withCredentials: true,
     }); */
 
-    socket = io.connect("http://192.168.178.38:3000", 
+    socket = io.connect(process.env.VUE_APP_SOCKET_ENDPOINT, 
     { upgrade: false, transports: ['websocket'], reconnection: true, forceNew: false});
     
     constructor() {
