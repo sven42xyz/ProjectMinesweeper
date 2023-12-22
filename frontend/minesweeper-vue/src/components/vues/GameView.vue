@@ -4,7 +4,7 @@
       <div class="col player-col">
         <div class="container-fluid player-container">
           <div class=" row loop-div" v-for="i in players" v-bind:key="i" style="margin-top:10%" >
-            <PlayerCurrent :username=i.username :score=i.score :active="i.turn" :disabled="i.disabled" :color="i.color"></PlayerCurrent>
+            <PlayerCurrent :username=getPlayerUsername(i) :score=i.score :active="i.turn" :disabled="i.disabled" :color=getPlayerColor(i)></PlayerCurrent>
           </div>
         </div>
       </div>
@@ -105,6 +105,13 @@ export default {
         this.$cookies.set('session', res);
         this.$router.push('/game/');
       });
+    },
+    getPlayerUsername(i) {
+        return this.playerStore.playerUsernames[i - 1];
+    },
+
+    getPlayerColor(i) {
+      return this.playerStore.playerColors[i - 1];
     },
 
     //...
