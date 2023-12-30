@@ -11,8 +11,8 @@
 </script>
 
 <script>
-import Button from './/Button.js';
 import Player from './../../../../../../ProjectMinesweeper/backend/models/player.js';
+import SocketioService from '../../services/socketio.service.js';
 
 //notes:
 //%refs% -> client side
@@ -27,14 +27,22 @@ export default {
         color: {
             type: String,
             default: '#ff0000',
-        }
+        },
+        gameboard: {
+            type: Array,
+        },
+        userId: {
+            type: String,
+        },
+        roomId: {
+            type: String,
+        },
     },
 
-    data(){
-        return{
-            gameboard : createBoard(this.size, this.size),
-            player : new Player(this.$cookies.get('session').userId,  "Anna", 'player', 0, 'pink'),
-            CSSsize : 100/this.size + '%',
+    data() {
+        return {
+            player: new Player(this.$cookies.get('session').userId, "Anna", 'player', 0, 'pink'),
+            CSSsize: 100 / this.size + '%',
             refEntries: null,
         }
     },
@@ -48,162 +56,133 @@ export default {
             console.log(message);
             this.player.disabled = true;
         },
-        clicked(row, col){
-            var w = row - 1;
-            var h = col - 1;
-            this.gameboard[w][h].setIsRevealed();
-            var check = "["+ row + "," + col + "]";
-            var thisEntry = this.refEntries.find(i => i[0] === check);
-            const color = '#' + this.color;
 
-            thisEntry[1][0].color = color;
-            thisEntry[1][0].enabled = 'none';
+        clicked(row, col) {
+            const coordinates = {row: row, col: col};
+            console.log(coordinates);
+            const data = {userId: this.userId, roomId: this.roomId, coordinates: coordinates, refs: this.refEntries};
+        
+            SocketioService.handleGameboardClick(data, res => {
+                if (res.status !== 200) {
+                    console.log('Error: bad request');
+                    return;
+                }
 
-            if(this.gameboard[w][h].IsBomb){
-                thisEntry[1][0].isBomb = 'X';
-                thisEntry[1][0].color = 'darkred';
-                console.log(this.player.username + " lost with a score of " + this.player.score);
-                this.disable("you are out");
-            }else if(this.gameboard[w][h].nBombs !=0){
-                thisEntry[1][0].isNumber = this.gameboard[w][h].nBombs;
-                this.player.score += 1;
-            }else{
-                this.player.score += this.revealNeighbours(w, h, color);
-            }
-        
-        
-            var won =this.checkIfAllRevealed();
-            if(won != null){
-                this.disable(won);
-            }
+                console.log(res);
+            });
         },
-        revealNeighbours(row, col, color){
-            var score = 0;
-            for(var i = 0; i < 3; i++){
-                for(var j= 0; j < 3; j++){
-                    var x = (row - 1 + i);
-                    var y = (col - 1 + j);
-                    if(x >= 0 && y >= 0 && x < this.size && y < this.size && this.gameboard[x][y].IsBomb){
-                        //do nothing
-                    }else if(x >= 0 && y >= 0 && x < this.size && y < this.size && this.gameboard[x][y].nBombs != 0 ){
-                        var cur = "["+ (x + 1) + "," + (y + 1) + "]";
-                        var thisEntry = this.refEntries.find(i => i[0] === cur);
 
-                        if(thisEntry && this.gameboard[x][y].IsRevealed != true && this.gameboard[x][y].IsBomb == false){
-                            thisEntry[1][0].color = color;
-                            thisEntry[1][0].enabled = 'none';
-                            this.gameboard[x][y].setIsRevealed();
-                            thisEntry[1][0].isNumber = this.gameboard[x][y].nBombs;
+        clickedTest() {
+            const data = {hello: 'world'};
+
+            SocketioService.testEmit(data, res => {
+                if (res.status === 200) {
+                    console.log('success');
+                    return;
+                }
+            })
+        },
+
+/*         revealNeighbours(row, col, color) {
+            let score = 0;
+            for (let i = -1; i <= 1; i++) {
+                for (let j = -1; j <= 1; j++) {
+                    const x = row + i;
+                    const y = col + j;
+
+                    if (x >= 0 && y >= 0 && x < this.size && y < this.size) {
+                        const cur = `[${x + 1},${y + 1}]`;
+                        const thisEntry = this.refEntries.find(entry => entry[0] === cur);
+                        const currentCell = this.gameboard[x][y];
+
+                        if (currentCell.IsBomb) {
+                            continue;
+                        } else if (currentCell.nBombs !== 0 && !currentCell.IsRevealed) {
+                            this.updateEntry(thisEntry, color);
+                            currentCell.setIsRevealed();
+                            thisEntry[1][0].isNumber = currentCell.nBombs;
                             score += 1;
-                        }
-                    }else{
-                        cur = "["+ (x + 1) + "," + (y + 1) + "]";
-                        thisEntry = this.refEntries.find(i => i[0] === cur);
-
-                        if(thisEntry && this.gameboard[x][y].IsRevealed != true && this.gameboard[x][y].IsBomb == false){
-                            thisEntry[1][0].color = color;
-                            thisEntry[1][0].enabled = 'none';
-                            this.gameboard[x][y].setIsRevealed();
+                        } else if (!currentCell.IsRevealed) {
+                            this.updateEntry(thisEntry, color);
+                            currentCell.setIsRevealed();
                             score += this.revealNeighbours(x, y, color);
                         }
                     }
-                    
                 }
             }
-            return score; 
-        },
+            return score;
+        }, */
+
+/*         updateEntry(entry, color) {
+            entry[1][0].color = color;
+            entry[1][0].enabled = 'none';
+        }, */
+
         ref(i, x) {
-            return("["+ i + "," + x + "]");
+            return ("[" + i + "," + x + "]");
         },
-        checkIfAllRevealed(){
-            for(var i = 0; i < this.size; i++){
-                for(var j=0; j < this.size; j++){
-                    if(!this.gameboard[i][j].IsBomb && !this.gameboard[i][j].IsRevealed){
+
+/*         checkIfAllRevealed() {
+            for (let i = 0; i < this.size; i++) {
+                for (let j = 0; j < this.size; j++) {
+                    const cell = this.gameboard[i][j];
+
+                    if (!cell.IsBomb && !cell.IsRevealed) {
                         return null;
-                    }
-                    
-                }
-            }
-            for(i = 0; i < this.size; i++){
-                for(j=0; j < this.size; j++){
-                    if(this.gameboard[i][j].IsBomb){
-                        var cur = "["+ (i + 1) + "," + (j + 1) + "]";
-                        this.reveal(cur);
-                        this.gameboard[i][j].setIsRevealed();
                     }
                 }
             }
 
-            return this.player.username + " won with a score of " + this.player.score;
+            for (let i = 0; i < this.size; i++) {
+                for (let j = 0; j < this.size; j++) {
+                    const cell = this.gameboard[i][j];
+
+                    if (cell.IsBomb && !cell.IsRevealed) {
+                        const cur = `[${i + 1},${j + 1}]`;
+                        this.reveal(cur);
+                        cell.setIsRevealed();
+                    }
+                }
+            }
+
+            return `${this.player.username} won with a score of ${this.player.score}`;
         },
-        reveal(cur){
-            var thisEntry = this.refEntries.find(i => i[0] === cur);
+
+        reveal(cur) {
+            const thisEntry = this.refEntries.find(entry => entry[0] === cur);
             thisEntry[1][0].color = 'darkred';
             thisEntry[1][0].isBomb = 'X';
             thisEntry[1][0].enabled = 'none';
-        }
-
-
+        } */
     },
     computed: {
         cssProps() {
-        return {
-            'height': this.CSSsize,
-        }
+            return {
+                'height': this.CSSsize,
+            }
         },
         cssPropsW() {
-        return {
-            'width': this.CSSsize,
-        }
+            return {
+                'width': this.CSSsize,
+            }
         }
     },
 
 };
-
-    function createBoard(row, col){
-        var a = []
-        var bombs = row * col / 5;
-        for(var i = 0; i < row; i++){
-            a[i] = []
-            for(var j=0; j < col; j++){
-                a[i][j] = new Button();
-            }
-        }
-        for (i = 0; i < bombs; i++) {
-            //Get random position for the next bomb
-            var w = Math.floor(Math.random()* col);
-            var h = Math.floor(Math.random() * row);
-            while(a[w][h].isBomb) { //if this position is a bomb
-                //we get a new position
-                w = Math.floor(Math.random()* col);
-                h = Math.floor(Math.random() * row);
-            }
-            a[w][h].IsBomb = true; //make new position is a bomb
-        }
-        for(i = 0; i < row; i++){ //1
-            for( j=0; j < col; j++){ // 0
-                var neighbouringBombs = 0;
-                for(var k = 0; k < 3; k++){ 
-                    for(var t= 0; t < 3; t++){  
-                        var x = (i - 1 + k); // 0 > 1 > 2
-                        var y = (j - 1 + t); // -1 > 0 > 1
-                        if(x >= 0 && y >= 0 && x < row && y < row && a[x][y].IsBomb == true){
-                            neighbouringBombs ++;
-                        }                        
-                    }
-                }
-                a[i][j].nBombs = neighbouringBombs;
-            }
-        }
-        return a
-    }
 </script>
   
 <style scoped>
-  .row{padding: 0; margin: 0;}
-  .col{padding: 0;  margin: 0;}
-  .col-btn{ 
+.row {
+    padding: 0;
+    margin: 0;
+}
+
+.col {
+    padding: 0;
+    margin: 0;
+}
+
+.col-btn {
     width: 100%;
-    aspect-ratio : 1 / 1;
-   }   
-</style>
+    aspect-ratio: 1 / 1;
+}</style>

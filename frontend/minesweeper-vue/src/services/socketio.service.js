@@ -91,6 +91,18 @@ class SocketioService {
         return;
     }
 
+    handleGameboardClick(data, res) {
+        //this line has no real significance to the flow of operations
+        //but removing it will cause the emit to not be fired unless hot updating
+        //my guess is that it reloads the socket instance...
+        //i hate this shit, fuck socketio
+        this.socket.connect();
+        
+        this.socket.emit("field click", data, res);
+
+        return;
+    }
+
 }
 
 export default new SocketioService();

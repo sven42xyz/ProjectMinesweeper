@@ -1,5 +1,6 @@
-const Game = require('./models/game');
-const Player = require('./models/player');
+const GameModel = require('./models/game');
+const PlayerModel = require('./models/player');
+const GameLogic = require('./game/game');
 const Utilities = require('./utilities');
 
 const handler = require('express')();
@@ -7,7 +8,7 @@ const server = require('http').createServer(handler);
 const io = require('socket.io')(server, {
     allowEIO3: true, 
     cors: {
-        origin: 'http://10.52.49.197:8080',
+        origin: 'http://172.17.224.127:8080',
         methods: ["GET", "POST"],
         transports: ['websocket', 'polling'],
         credentials: true,
@@ -24,13 +25,15 @@ handler.get('/', (_, res) => {
 const activeGames = new Map();
 const activeUsers = new Map();
 const utils = new Utilities(activeGames, activeUsers);
+const gameLogic = new GameLogic(activeGames, activeUsers);
+
 
 io.on('connection', (socket) => {
     console.log(socket.id + ' wants to sweep some mines!');
 
     socket.on('new user', (data) => {
         socket.username = data;
-        const player = new Player(socket.id, socket.username);
+        const player = new PlayerModel(socket.id, socket.username);
         activeUsers.set(socket.id, player);
         console.log('new user ' + socket.username + ' joined the server.');
     });
@@ -38,7 +41,7 @@ io.on('connection', (socket) => {
     socket.on('new game', (_, callback) => {
         const gameRoom = utils.getRandomId();
         socket.join(gameRoom);
-        const game = new Game(gameRoom, socket.id);
+        const game = new GameModel(gameRoom, socket.id);
         game.addPlayer(socket.id);
         activeGames.set(gameRoom, game);
         const username = utils.getUsernameOfPlayerByUserId(socket.id);
@@ -114,6 +117,14 @@ io.on('connection', (socket) => {
         const res = utils.setDifficultyByRoomId(data.roomId, data.difficulty);
         if (!res) {
             console.log(`Could not set difficulty for Game ${data.roomId}`);
+            callback({
+                status: 500,
+            });
+        }
+
+        const gameboard = utils.setGameboardByRoomId(data.roomId);
+        if (!gameboard) {
+            console.log(`Could not set gameboard for Game ${data.roomId}`);
             callback({
                 status: 500,
             });
@@ -241,7 +252,15 @@ io.on('connection', (socket) => {
         callback({
             status: 200,
         });
-    })
+    });
+
+    socket.on("field click", (data, callback) => {
+        gameLogic.handleGameboardClickByUserId(data.userId, data.roomId, data.coordinates, data.refs);
+    
+        callback({
+            status: 200,
+        });
+    });
 
 /*     socket.on('disconnect', () => {
         activeUsers.delete(socket.username);

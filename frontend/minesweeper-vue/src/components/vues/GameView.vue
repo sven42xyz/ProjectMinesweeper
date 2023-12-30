@@ -10,7 +10,7 @@
       </div>
       <div class="col">
         <div class="container-fluid game-container">
-          <Field :size="size" :color=getMyColor()></Field>
+          <Field :size="size" :color=getMyColor() :gameboard=gameStore.gameBoard :userId=userId :roomId=roomId></Field>
         </div>
       </div>
       <div class="col-4 chat-col">
@@ -46,7 +46,7 @@ export default {
     return {
       roomId: null,
       userId: null,
-      size: 20,
+      size: 5,
       playerUsernames: [],
       players: null
     };
@@ -57,6 +57,9 @@ export default {
     this.userId = this.$cookies.get('session').userId;
     this.playerStore = usePlayerStore();
     this.gameStore = useGameStore();
+    
+
+    console.log(this.gameStore);
 
     this.players = this.playerStore.players;
     this.playerUsernames = this.playerStore.playerUsernames;

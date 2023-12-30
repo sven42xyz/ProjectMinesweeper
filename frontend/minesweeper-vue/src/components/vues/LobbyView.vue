@@ -47,7 +47,6 @@
   import Chat from '../scraps/ChatBox.vue'
   import { useConfirm } from "primevue/useconfirm";
   import { useToast } from "primevue/usetoast";
-  //v-on:click="startGame"
 
   const confirm = useConfirm();
   const toast = useToast();

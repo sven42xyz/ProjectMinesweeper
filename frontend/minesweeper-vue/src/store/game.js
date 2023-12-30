@@ -7,7 +7,7 @@ export const useGameStore = defineStore('game', {
     getters: {
         gameState: (state) => state.game.state,
         gameDifficulty: (state) => state.game.difficulty,
-        gameBoard: (state) => state.game.board,
+        gameBoard: (state) => state.game.gameboard,
     },
     actions: {
         setGame(data) {
@@ -17,7 +17,7 @@ export const useGameStore = defineStore('game', {
             this.game.state = data;
         },
         setGameBoard(data) {
-            this.game.board = data;
+            this.game.gameboard = data;
         }
     }
 });

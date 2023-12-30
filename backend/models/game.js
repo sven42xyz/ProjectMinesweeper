@@ -1,10 +1,12 @@
+const Button = require('./button');
+
 class Game {
     roomId = null;
     host = null;
     state = null;
     difficulty = null;
     players = null;
-    board = null;
+    gameboard = null;
 
     constructor(roomId, host) {
         this.roomId = roomId;
@@ -30,6 +32,17 @@ class Game {
         this.players.push(player);
     }
 
+    getGameboardSize() {
+        const size = this.difficultyMap.get(this.difficulty).size;
+        return size;
+    }
+
+    getGameboardCell(coordinates) {
+        const row = coordinates.row - 1;
+        const col = coordinates.col - 1;
+        return this.gameboard[row][col];
+    }
+
     setDifficulty(difficulty) {
         this.difficulty = difficulty;
     }
@@ -38,21 +51,21 @@ class Game {
         this.state = state;
     }
     
-    setGameboard(difficulty) {
-        const dimension = this.difficultyMap.get(difficulty);
-        const bombs = Math.sqrt(dimension) / 5;
-        var res = [];
+    setGameboard() {
+        const dimension = this.difficultyMap.get(this.difficulty).size;
+        const bombs = Math.pow(dimension, 2) / 5;
+        let res = [];
 
-        for (var i = 0; i < dimension; i++) {
+        for (let i = 0; i < dimension; i++) {
             res[i] = []
-            for (var j = 0; j < dimension; j++) {
+            for (let j = 0; j < dimension; j++) {
                 res[i][j] = new Button();
             }
         }
-        for (i = 0; i < bombs; i++) {
+        for (let i = 0; i < bombs; i++) {
             //Get random position for the next bomb
-            var w = Math.floor(Math.random() * dimension);
-            var h = Math.floor(Math.random() * dimension);
+            let w = Math.floor(Math.random() * dimension);
+            let h = Math.floor(Math.random() * dimension);
             while (res[w][h].isBomb) { //if this position is a bomb
                 //we get a new position
                 w = Math.floor(Math.random() * dimension);
@@ -60,13 +73,13 @@ class Game {
             }
             res[w][h].IsBomb = true; //make new position is a bomb
         }
-        for (i = 0; i < dimension; i++) { //1
-            for (j = 0; j < dimension; j++) { // 0
-                var neighbouringBombs = 0;
-                for (var k = 0; k < 3; k++) {
-                    for (var t = 0; t < 3; t++) {
-                        var x = (i - 1 + k); // 0 > 1 > 2
-                        var y = (j - 1 + t); // -1 > 0 > 1
+        for (let i = 0; i < dimension; i++) { //1
+            for (let j = 0; j < dimension; j++) { // 0
+                let neighbouringBombs = 0;
+                for (let k = 0; k < 3; k++) {
+                    for (let t = 0; t < 3; t++) {
+                        let x = (i - 1 + k); // 0 > 1 > 2
+                        let y = (j - 1 + t); // -1 > 0 > 1
                         if (x >= 0 && y >= 0 && x < dimension && y < dimension && res[x][y].IsBomb == true) {
                             neighbouringBombs++;
                         }
@@ -77,6 +90,10 @@ class Game {
         }
         this.gameboard = res;
     }
+
+
+
+
 }
 
 module.exports = Game

@@ -57,6 +57,15 @@ class Utilities {
         return true;
     }
 
+    setGameboardByRoomId(roomId) {
+        const game = this.gameMap.get(roomId);
+        if (!game) {
+            return false;
+        }
+        game.setGameboard();
+        return game.gameboard;
+    }
+
     setPlayerReadyStateByUserId(userId) {
         const player = this.playerMap.get(userId);
         if (!player) {
