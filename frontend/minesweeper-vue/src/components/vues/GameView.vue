@@ -3,7 +3,7 @@
     <div class="row">
       <div class="col player-col">
         <div class="container-fluid player-container">
-          <div class=" row loop-div" v-for="i in players" v-bind:key="i" style="margin-top:10%" >
+          <div class=" row loop-div" v-for="i in playerStore.readyPlayers" v-bind:key="i" style="margin-top:10%" >
             <PlayerCurrent :username=getPlayerUsername(i) :score=i.score :active="i.turn" :disabled="i.disabled" :color=getPlayerColor(i)></PlayerCurrent>
           </div>
         </div>
@@ -47,8 +47,6 @@ export default {
       roomId: null,
       userId: null,
       size: 5,
-      playerUsernames: [],
-      players: null
     };
   },
 

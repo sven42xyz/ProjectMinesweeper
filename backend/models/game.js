@@ -24,6 +24,12 @@ class Game {
         ['dif-4', {size: 20}],
     ]);
 
+    stateMap = new Map([
+        [0, "created"],
+        [1, "started"],
+        [2, "terminated"],
+    ])
+
     addPlayer(player) {
         if (this.players.length >= 6) {
             console.log('Game room already maxed out (6/6)');
@@ -49,6 +55,10 @@ class Game {
 
     setState(state) {
         this.state = state;
+    }
+
+    setStateByStateId(stateId) {
+        this.state = this.stateMap.get(stateId)
     }
     
     setGameboard() {

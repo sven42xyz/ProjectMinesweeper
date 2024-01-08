@@ -1,7 +1,7 @@
 <template>
     <div class="row" v-for="i in size" v-bind:key="i" :style="cssProps">
         <div class="col" v-for="x in size" v-bind:key="x" style="height: 100%" :style="cssPropsW">
-            <FButton :disabled="player.disabled" :ref="ref(i,x)" class="col-btn" v-on:click ="clicked(i,x)"><h7>.</h7></FButton>
+            <FButton :disabled="false" :ref="ref(i,x)" class="col-btn" v-on:click ="clicked(i,x)"><h7>.</h7></FButton>
         </div>
     </div>
 </template>
@@ -11,7 +11,6 @@
 </script>
 
 <script>
-import Player from './../../../../../../ProjectMinesweeper/backend/models/player.js';
 import SocketioService from '../../services/socketio.service.js';
 
 //notes:
@@ -41,7 +40,6 @@ export default {
 
     data() {
         return {
-            player: new Player(this.$cookies.get('session').userId, "Anna", 'player', 0, 'pink'),
             CSSsize: 100 / this.size + '%',
             refEntries: null,
         }
@@ -70,17 +68,6 @@ export default {
 
                 console.log(res);
             });
-        },
-
-        clickedTest() {
-            const data = {hello: 'world'};
-
-            SocketioService.testEmit(data, res => {
-                if (res.status === 200) {
-                    console.log('success');
-                    return;
-                }
-            })
         },
 
 /*         revealNeighbours(row, col, color) {

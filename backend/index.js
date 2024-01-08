@@ -257,9 +257,13 @@ io.on('connection', (socket) => {
     socket.on("field click", (data, callback) => {
         gameLogic.handleGameboardClickByUserId(data.userId, data.roomId, data.coordinates, data.refs);
     
+/*         console.log("Hello World")
+ */
         callback({
             status: 200,
         });
+
+        return
     });
 
 /*     socket.on('disconnect', () => {
