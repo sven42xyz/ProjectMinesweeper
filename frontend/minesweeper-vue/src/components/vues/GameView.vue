@@ -56,8 +56,8 @@ export default {
     this.playerStore = usePlayerStore();
     this.gameStore = useGameStore();
     
-
-    console.log(this.gameStore);
+    // temporär!!!
+    this.size = this.gameStore.gameDifficulty.substring(4) * 5;
 
     this.players = this.playerStore.players;
     this.playerUsernames = this.playerStore.playerUsernames;
@@ -72,8 +72,13 @@ export default {
     },
     'join lobby'(userId) {
       this.players.push(userId);
-      console.log(this.players);
-    },      
+    },
+/*     'update playerStore'(res) {
+      this.playerStore.setPlayers(res);
+    },
+    'update gameStore'(res) {
+      console.log(res);
+    },  */     
   },
 
   methods: {

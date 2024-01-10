@@ -36,6 +36,10 @@ class Player {
     setScore(score) {
         this.score += score
     }
+
+    setUserClass(userClass) {
+        this.userClass = userClass
+    }
 }
 
 module.exports = Player 

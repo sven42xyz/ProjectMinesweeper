@@ -44,6 +44,15 @@ io.on('connection', (socket) => {
         const game = new GameModel(gameRoom, socket.id);
         game.addPlayer(socket.id);
         activeGames.set(gameRoom, game);
+
+        const setHost = utils.setPlayerUserClassByUserId("host", socket.id);
+        if (!setHost) {
+            console.log(`Could not set userClass "host" of Player ${socket.id}`);
+            callback({
+                status: 500,
+            });
+        }
+
         const username = utils.getUsernameOfPlayerByUserId(socket.id);
         if (!username) {
             console.log(`Could not get username of Player ${socket.id}`);
@@ -188,7 +197,7 @@ io.on('connection', (socket) => {
     socket.on('start game', (data, callback) => {
         const res = utils.checkReadyPlayersByRoomId(data.roomId);
         if (res) {
-            io.emit('start game');
+            io.emit('enter game');
 
             callback({
                 status: 200,
@@ -202,6 +211,15 @@ io.on('connection', (socket) => {
         callback({
             status: 500,
         });
+    });
+
+    socket.on('enter game', (data, callback) => {
+        callback({
+            status: 200,
+            roomId: data.roomId,
+            userId: data.userId,
+        });
+        return;
     });
 
     socket.on('player ready', (data, callback) => {
@@ -238,8 +256,6 @@ io.on('connection', (socket) => {
         }
 
         const players = utils.getPlayersOfGameByRoomId(data.roomId);
-        console.log(players);
-
         if (!players) {
             console.log(`Could not get Players of Game ${data.roomId}`);
             callback({
@@ -255,15 +271,33 @@ io.on('connection', (socket) => {
     });
 
     socket.on("field click", (data, callback) => {
-        gameLogic.handleGameboardClickByUserId(data.userId, data.roomId, data.coordinates, data.refs);
-    
-/*         console.log("Hello World")
- */
+        const gameboard = gameLogic.handleGameboardClickByUserId(data.userId, data.roomId, data.coordinates, data.refs);
+
+        // ToDo: update the player and game stores, but only the parts that have changed...
+        const players = utils.getPlayersOfGameByRoomId(data.roomId);
+        if (!players) {
+            console.log(`Could not get Players of Game ${data.roomId}`);
+            callback({
+                status: 500,
+            });
+        }
+
+        const game = utils.getGameByRoomId(data.roomId);
+        if (!game) {
+            console.log(`Could not get Game of room ${data.roomId}`);
+            callback({
+                status: 500,
+            });
+        }
+
+        io.emit("update gameboard", gameboard);
+        io.emit("update playerStore", players);
+        io.emit("update gameStore", game);
+
         callback({
+            game: gameboard,
             status: 200,
         });
-
-        return
     });
 
 /*     socket.on('disconnect', () => {

@@ -66,6 +66,15 @@ class Utilities {
         return game.gameboard;
     }
 
+    setPlayerUserClassByUserId(userClass, userId) {
+        const player = this.playerMap.get(userId);
+        if (!player) {
+            return false;
+        }
+        player.setUserClass(userClass);
+        return true;
+    }
+
     setPlayerReadyStateByUserId(userId) {
         const player = this.playerMap.get(userId);
         if (!player) {
@@ -112,7 +121,9 @@ class Utilities {
         if (totalPlayers !== readyPlayers) {
             return false;
         }
-        return true;
+        if (totalPlayers === readyPlayers) {
+            return true;
+        }
     }
 
     //privates

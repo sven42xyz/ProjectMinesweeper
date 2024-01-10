@@ -73,6 +73,12 @@ class SocketioService {
         return;
     }
 
+    enterGame(data, res) {
+        this.socket.emit('enter game', data, res);
+
+        return;
+    }
+
     playerReady(data, res) {
         this.socket.emit('player ready', data, res);
 
@@ -92,7 +98,7 @@ class SocketioService {
     }
 
     handleGameboardClick(data, res) {
-        //this line has no real significance to the flow of operations
+        //this line has no "real" significance to the flow of operations
         //but removing it will cause the emit to not be fired unless hot updating
         //my guess is that it reloads the socket instance...
         //i hate this shit, fuck socketio

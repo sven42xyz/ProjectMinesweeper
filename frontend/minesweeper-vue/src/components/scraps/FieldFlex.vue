@@ -12,6 +12,7 @@
 
 <script>
 import SocketioService from '../../services/socketio.service.js';
+import { usePlayerStore } from '@/store/player';
 
 //notes:
 //%refs% -> client side
@@ -49,6 +50,36 @@ export default {
         this.refEntries = Object.entries(this.$refs);
     },
 
+    created() {
+        this.playerStore = usePlayerStore();
+    },
+
+    computed: {
+        cssProps() {
+            return {
+                'height': this.CSSsize,
+            }
+        },
+        cssPropsW() {
+            return {
+                'width': this.CSSsize,
+            }
+        }
+    },
+
+    sockets: {
+        connect() {
+            console.log('Connected...');
+        },
+        disconnect() {
+            console.log('Disconnected...');
+        },
+        "update gameboard"(res) {
+            console.log(res)
+            this.updateGameboard(this.refEntries, res.refEntries)
+        },
+    },
+
     methods:{
         disable(message){
             console.log(message);
@@ -66,95 +97,25 @@ export default {
                     return;
                 }
 
-                console.log(res);
-            });
+                // handle the gameboard in the DOM
+/*                 this.updateGameboard(this.refEntries, res.game.refEntries)
+ */            });
         },
 
-/*         revealNeighbours(row, col, color) {
-            let score = 0;
-            for (let i = -1; i <= 1; i++) {
-                for (let j = -1; j <= 1; j++) {
-                    const x = row + i;
-                    const y = col + j;
-
-                    if (x >= 0 && y >= 0 && x < this.size && y < this.size) {
-                        const cur = `[${x + 1},${y + 1}]`;
-                        const thisEntry = this.refEntries.find(entry => entry[0] === cur);
-                        const currentCell = this.gameboard[x][y];
-
-                        if (currentCell.IsBomb) {
-                            continue;
-                        } else if (currentCell.nBombs !== 0 && !currentCell.IsRevealed) {
-                            this.updateEntry(thisEntry, color);
-                            currentCell.setIsRevealed();
-                            thisEntry[1][0].isNumber = currentCell.nBombs;
-                            score += 1;
-                        } else if (!currentCell.IsRevealed) {
-                            this.updateEntry(thisEntry, color);
-                            currentCell.setIsRevealed();
-                            score += this.revealNeighbours(x, y, color);
-                        }
-                    }
-                }
-            }
-            return score;
-        }, */
-
-/*         updateEntry(entry, color) {
-            entry[1][0].color = color;
-            entry[1][0].enabled = 'none';
-        }, */
+        updateGameboard(localRef, remoteRef) {
+            localRef.forEach(element => {
+                element[1][0].color     = remoteRef[localRef.indexOf(element)][1][0].color   
+                element[1][0].enabled   = remoteRef[localRef.indexOf(element)][1][0].enabled 
+                element[1][0].isBomb    = remoteRef[localRef.indexOf(element)][1][0].isBomb  
+                element[1][0].isNumber  = remoteRef[localRef.indexOf(element)][1][0].isNumber
+                element[1][0].sockets   = remoteRef[localRef.indexOf(element)][1][0].sockets                 
+            });
+        },
 
         ref(i, x) {
             return ("[" + i + "," + x + "]");
         },
-
-/*         checkIfAllRevealed() {
-            for (let i = 0; i < this.size; i++) {
-                for (let j = 0; j < this.size; j++) {
-                    const cell = this.gameboard[i][j];
-
-                    if (!cell.IsBomb && !cell.IsRevealed) {
-                        return null;
-                    }
-                }
-            }
-
-            for (let i = 0; i < this.size; i++) {
-                for (let j = 0; j < this.size; j++) {
-                    const cell = this.gameboard[i][j];
-
-                    if (cell.IsBomb && !cell.IsRevealed) {
-                        const cur = `[${i + 1},${j + 1}]`;
-                        this.reveal(cur);
-                        cell.setIsRevealed();
-                    }
-                }
-            }
-
-            return `${this.player.username} won with a score of ${this.player.score}`;
-        },
-
-        reveal(cur) {
-            const thisEntry = this.refEntries.find(entry => entry[0] === cur);
-            thisEntry[1][0].color = 'darkred';
-            thisEntry[1][0].isBomb = 'X';
-            thisEntry[1][0].enabled = 'none';
-        } */
     },
-    computed: {
-        cssProps() {
-            return {
-                'height': this.CSSsize,
-            }
-        },
-        cssPropsW() {
-            return {
-                'width': this.CSSsize,
-            }
-        }
-    },
-
 };
 </script>
   

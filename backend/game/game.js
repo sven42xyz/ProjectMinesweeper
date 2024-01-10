@@ -46,11 +46,6 @@ class Game {
         return game.gameboard[row][col];
     }
 
-    handlePlayerGameOver(player, message) {
-        console.log(message);
-        player.disabled = true;
-    }
-
     handlePlayer(player, score = 0, bomb = true) {
         player.setScore(score)
         player.setStateByStateId(2)
@@ -60,8 +55,7 @@ class Game {
     }
 
     handleGame(game, currentPlayer, bomb = true) {
-/*         const players = this.getPlayersOfGameByRoomId(game.roomId)
-        console.log(players)
+        const players = this.getPlayersOfGameByRoomId(game.roomId)
         const total = players.length
         //single player -> game condition term
         if (total === 1 && bomb) {
@@ -76,17 +70,14 @@ class Game {
         }
         //switch to next player if game condition term isn't met
         const currentIndex = players.findIndex(player => player.userId === currentPlayer)
-        console.log(`CurrentIndex: ${currentIndex}`)
         const nextIndex = (currentIndex + 1) % total
-        console.log(`NextIndex: ${nextIndex}`)
         const nextPlayer = players[nextIndex]
-        console.log(nextPlayer) */
-
-        console.log(`Next round :) - ${currentPlayer}`)
+        nextPlayer.setStateByStateId(3)
         return
     }
 
     handleGameboardClickByUserId(userId, roomId, coordinates, refs) {
+        let res = null;
         const player = this.getPlayerByUserId(userId);
         const game = this.getGameByRoomId(roomId);
         const gameboardSize = this.getSizeByRoomId(roomId);
@@ -95,8 +86,6 @@ class Game {
         const gameboardRow = coordinates.row - 1;
         const gameboardCol = coordinates.col - 1;
 
-/*         console.log(`refs beginning: ${JSON.stringify(refs)}`);
- */
         const check = `[${coordinates.row},${coordinates.col}]`;
         const refEntry = refs.find(entry => entry[0] === check);
         const entryData = refEntry[1][0];
@@ -125,18 +114,16 @@ class Game {
             this.handleGame(game, userId, false)
         }
 
-        console.log(player)
-
-
-        let won = this.gameboardCheckIfAllRevealed(game.gameboard, gameboardSize, refs);
-        if (won != null) {
-            this.handlePlayerGameOver(player, won);
+        const won = this.gameboardCheckIfAllRevealed(game.gameboard, gameboardSize, refs);
+        if (won) {
+            this.handlePlayer(player);
+            game.setStateByStateId(2);
         }
 
-        return
+        res = { refEntries: refs };
 
-/*         console.log(`refs ending: ${JSON.stringify(refs)}`);
- */    }
+        return res;
+    }
 
     gameboardRevealNeighbours(gameboard, gameboardSize, row, col, color, refs) {
         let score = 0;
@@ -189,7 +176,7 @@ class Game {
 
                 if (cell.IsBomb && !cell.IsRevealed) {
                     const cur = `[${i + 1},${j + 1}]`;
-                    gameboardReveal(refs, cur);
+                    this.gameboardReveal(refs, cur);
                     cell.setIsRevealed();
                 }
             }
