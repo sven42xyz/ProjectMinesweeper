@@ -1,28 +1,29 @@
 <template>
-    <button class="col-btn btn" :style="cssProps" @click="$emit('clicked')"><h6>{{ isBomb }}{{ isNumber }}</h6></button>
+                <button class="col-btn btn" :style="cssProps" @click="$emit('clicked')"><h4>{{ isBomb }}{{ isNumber }}</h4></button>
 </template>
   
-  <script>
-    export default {
+<script>
+export default {
 
-        props: {
-        },
+    props: {
+    },
 
-        data(){
-            return{
-                color: "#FFFFFF",
-                enabled: null,
-                isBomb: null,
-                isNumber: null,
-            }
-        },
-        computed: {
-            cssProps() {
-                return {
-                    'background-color': this.color,
-                    'pointer-events': this.enabled,
-                    'margin': '0!important',
-                    'padding': '0!important'
+    data() {
+        return {
+            color: "#FFFFFF",
+            enabled: null,
+            isBomb: null,
+            isNumber: null,
+        }
+    },
+    computed: {
+        cssProps() {
+            return {
+                'background-color': this.color,
+                'pointer-events': this.enabled,
+                'margin': '0!important',
+                'padding': '0!important',
+                'font-size': '20px',
                 }
             },
         },

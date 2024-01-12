@@ -3,14 +3,14 @@
     <div class="row">
       <div class="col player-col">
         <div class="container-fluid player-container">
-          <div class=" row loop-div" v-for="i in playerStore.readyPlayers" v-bind:key="i" style="margin-top:10%" >
-            <PlayerCurrent :username=getPlayerUsername(i) :score=i.score :active="i.turn" :disabled="i.disabled" :color=getPlayerColor(i)></PlayerCurrent>
+          <div class=" row loop-div" v-for="player in playerStore.getPlayers" v-bind:key="player" style="margin-top:10%" >
+            <PlayerCurrent :username=player.username :score=player.score :active=player.turn :disabled=player.disabled :color=player.color></PlayerCurrent>
           </div>
         </div>
       </div>
       <div class="col">
         <div class="container-fluid game-container">
-          <Field :size="size" :color=getMyColor() :gameboard=gameStore.gameBoard :userId=userId :roomId=roomId></Field>
+          <Field :size="size" :gameboard=gameStore.gameBoard :userId=userId :roomId=roomId></Field>
         </div>
       </div>
       <div class="col-4 chat-col">
@@ -61,6 +61,12 @@ export default {
 
     this.players = this.playerStore.players;
     this.playerUsernames = this.playerStore.playerUsernames;
+
+    this.playerStore.getPlayers.forEach(element => {
+      console.log(element.username)
+    });
+    
+    console.log(this.playerStore.getPlayers)
   },
 
   sockets: {
@@ -73,12 +79,12 @@ export default {
     'join lobby'(userId) {
       this.players.push(userId);
     },
-/*     'update playerStore'(res) {
+    'update playerStore'(res) {
       this.playerStore.setPlayers(res);
     },
     'update gameStore'(res) {
       console.log(res);
-    },  */     
+    },    
   },
 
   methods: {
@@ -104,15 +110,9 @@ export default {
     },
 
     getPlayerColor(i) {
-      console.log(this.playerStore.playerColors);
       return this.playerStore.playerColors.at(i - 1);
     },
 
-    getMyColor() {
-      return this.playerStore.playerByUserId(this.userId).color;
-    },
-
-    //...
     beforeUnmount() {
       SocketioService.disconnect();
     },

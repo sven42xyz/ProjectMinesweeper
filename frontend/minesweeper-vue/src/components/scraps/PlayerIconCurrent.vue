@@ -30,10 +30,11 @@
     props: {
       username: {
           type: String,
+          default: "Anna"
       },
       score: {
           type: Number,
-          default: 0,
+          default: 42,
       },
       active: {
           type: Boolean,

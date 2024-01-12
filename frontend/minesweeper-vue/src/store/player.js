@@ -5,13 +5,15 @@ export const usePlayerStore = defineStore('players', {
         players: [],
     }),
     getters: {
+        getPlayers: (state) => state.players,
         totalPlayers: (state) => state.players.length,
-        readyPlayers: (state) => state.players.filter(obj => obj.ready === true).length,
-        playerUsernames: (state) => state.players.map(obj => obj.username),
-        playerColors: (state) => state.players.map(obj => obj.color),
+        readyPlayers: (state) => state.players.filter(player => player.ready === true).length,
+        playerUsernames: (state) => state.players.map(player => player.username),
+        playerColors: (state) => state.players.map(player => player.color),
         playerByUserId: (state) => {
-            return (userId) => state.players.find(obj => obj.userId === userId);
+            return (userId) => state.players.find(player => player.userId === userId);
         },
+
     },
     actions: {
         setPlayers(data) {
@@ -20,7 +22,7 @@ export const usePlayerStore = defineStore('players', {
         },
         setColor(data) {
             this.players = this.players.map(
-                obj => (obj.userId === data.userId ? {...obj, color: data.color} : obj)
+                player => (player.userId === data.userId ? {...player, color: data.color} : player)
             );
         },
     }

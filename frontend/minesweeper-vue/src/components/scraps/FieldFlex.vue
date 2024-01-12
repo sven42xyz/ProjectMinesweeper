@@ -24,10 +24,6 @@ export default {
             type: Number,
             default: 6
         },
-        color: {
-            type: String,
-            default: '#ff0000',
-        },
         gameboard: {
             type: Array,
         },
@@ -75,7 +71,6 @@ export default {
             console.log('Disconnected...');
         },
         "update gameboard"(res) {
-            console.log(res)
             this.updateGameboard(this.refEntries, res.refEntries)
         },
     },
@@ -88,7 +83,6 @@ export default {
 
         clicked(row, col) {
             const coordinates = {row: row, col: col};
-            console.log(coordinates);
             const data = {userId: this.userId, roomId: this.roomId, coordinates: coordinates, refs: this.refEntries};
         
             SocketioService.handleGameboardClick(data, res => {
