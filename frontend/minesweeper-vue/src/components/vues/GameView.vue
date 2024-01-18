@@ -9,21 +9,19 @@
         </div>
       </div>
       <div class="col">
-        <div class="floaty-center-div" v-if="won()">
-          <div class="container-fluid small-fluid-container">
-            <div class="text-center">
-              <form id="WelcomeForm" class="small-center-form" v-on:submit.prevent>
-                <h1 class="card-header">User won!</h1>
-                <hr/>
-                <div class>
-                  <button v-on:click="Retry" class="btn btn-primary-lavender w-75" type="Submit" id="new-game" aria-expanded="false">Retry</button>
-                </div>
-              </form>
+        <!-- hier ob Spiel gewonnen wurde -->
+        <div class="container-fluid small-floaty-container" v-if="won()">
+          <form id="Retry Form" class="small-floaty-form" v-on:submit.prevent>
+            <h1 class="card-header">User {{ winner }} won!</h1>
+            <hr/>
+            <div class>
+              <!-- hier ob der Spieler der Lobbybesitzer ist -->
+              <button v-on:click="Retry" v-if="isOwner()" class="btn btn-primary-lavender w-75" type="Submit" id="RedoGame" aria-expanded="false" style="margin-top: 2vmin; margin-left: 0;">Retry?</button>
             </div>
-          </div>
+          </form>
         </div>
         <div class="container-fluid game-container">
-          <Field :size="size" :gameboard=gameStore.gameBoard :userId=userId :roomId=roomId></Field>
+          <Field :disabled="disabled" :size="size" :gameboard=gameStore.gameBoard :userId=userId :roomId=roomId></Field>
         </div>
       </div>
       <div class="col-4 chat-col">
@@ -59,6 +57,8 @@ export default {
     return {
       roomId: null,
       userId: null,
+      winner: null,
+      disabled: false,
       size: 5,
     };
   },
@@ -135,7 +135,13 @@ export default {
     },
 
     won(){
-      return true;
+      //wenn gewonnen dann:
+      this.disabled = false;
+      return false;
+    },
+
+    isOwner(){
+      return false;
     },
 
     getPlayers() {
@@ -163,11 +169,31 @@ export default {
     position: absolute;
     top: 0; right: 0; bottom: 0; left: 0;
     }
-    
 
-    .big-fluid-container{
-      background-color: rgb(255, 255, 255);
+    .small-floaty-container{
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      width: 50%;
+      align-items: center;
+      height: 86.66%;
+      display: flex;
+      z-index: 1000;
     }
+
+    .small-floaty-form {
+      background-color: rgb(240, 240, 255);
+      border-color: rgb(163, 163, 163);
+      border-style:groove;
+      padding-top: 1.5vh;
+      padding-bottom: 0.75;
+      padding-left: 1.5vw;
+      padding-right: 1.5vw;
+      width: 40vmin;
+      height: 20vmin;
+      border-radius: 10px;
+      margin: auto;
+  }
 
     hr{
       margin: 1%;

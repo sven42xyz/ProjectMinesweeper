@@ -1,7 +1,8 @@
 <template>
     <div class="row" v-for="i in size" v-bind:key="i" :style="cssProps">
         <div class="col" v-for="x in size" v-bind:key="x" style="height: 100%" :style="cssPropsW">
-            <FButton :disabled="false" :ref="ref(i,x)" class="col-btn" v-on:click ="clicked(i,x)"><h7>.</h7></FButton>
+            <!-- hier muss dann der disabled state rein -->
+            <FButton :disabled="this.disabled" :ref="ref(i,x)" class="col-btn" v-on:click ="clicked(i,x)"><h7>.</h7></FButton>
         </div>
     </div>
 </template>
@@ -31,6 +32,9 @@ export default {
             type: String,
         },
         roomId: {
+            type: String,
+        },
+        disabled: {
             type: String,
         },
     },
