@@ -9,6 +9,19 @@
         </div>
       </div>
       <div class="col">
+        <div class="floaty-center-div" v-if="won()">
+          <div class="container-fluid small-fluid-container">
+            <div class="text-center">
+              <form id="WelcomeForm" class="small-center-form" v-on:submit.prevent>
+                <h1 class="card-header">User won!</h1>
+                <hr/>
+                <div class>
+                  <button v-on:click="Retry" class="btn btn-primary-lavender w-75" type="Submit" id="new-game" aria-expanded="false">Retry</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
         <div class="container-fluid game-container">
           <Field :size="size" :gameboard=gameStore.gameBoard :userId=userId :roomId=roomId></Field>
         </div>
@@ -101,6 +114,10 @@ export default {
       this.$router.push('/');
     },
 
+    Retry(){
+      console.log("Hier müsste alles neu geladen werden");
+    },
+
     getPlayer(i){
       return this.players[i-1];
     },
@@ -115,6 +132,10 @@ export default {
 
     beforeUnmount() {
       SocketioService.disconnect();
+    },
+
+    won(){
+      return true;
     },
 
     getPlayers() {

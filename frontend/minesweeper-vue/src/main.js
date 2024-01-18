@@ -13,6 +13,7 @@ import ColorPicker from "primevue/colorpicker"
 import Tooltip from 'primevue/tooltip';
 import ConfirmPopup from 'primevue/confirmpopup';
 import ConfirmationService from 'primevue/confirmationservice';
+import OverlayPanel from 'primevue/overlaypanel';
 import { createPinia } from "pinia"
 import Toast from 'primevue/toast';
 import ToastService from 'primevue/toastservice';
@@ -34,6 +35,7 @@ app.use(createPinia());
 app.use(PrimeVue);
 app.use(ToastService);
 app.use(ConfirmationService);
+app.component('OverlayPanel', OverlayPanel);
 app.component('ColorPicker', ColorPicker);
 app.directive('tooltip', Tooltip);
 app.component('ConfirmPopup', ConfirmPopup);
