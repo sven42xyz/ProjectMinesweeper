@@ -40,6 +40,10 @@ class Player {
     setUserClass(userClass) {
         this.userClass = userClass
     }
+
+    setDisabled(bool) {
+        this.disabled = bool
+    }
 }
 
 module.exports = Player 

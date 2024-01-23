@@ -15,10 +15,6 @@
 import SocketioService from '../../services/socketio.service.js';
 import { usePlayerStore } from '@/store/player';
 
-//notes:
-//%refs% -> client side
-//pure js -> server
-
 export default {
     props: {
         size: {
@@ -94,10 +90,7 @@ export default {
                     console.log('Error: bad request');
                     return;
                 }
-
-                // handle the gameboard in the DOM
-/*                 this.updateGameboard(this.refEntries, res.game.refEntries)
- */            });
+            });
         },
 
         updateGameboard(localRef, remoteRef) {

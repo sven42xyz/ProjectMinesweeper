@@ -48,6 +48,7 @@ class Game {
 
     handlePlayer(player, score = 0, bomb = true) {
         player.setScore(score)
+        player.setDisabled(true)
         player.setStateByStateId(2)
         if (bomb) {
             player.setStateByStateId(4)
@@ -73,6 +74,7 @@ class Game {
         const nextIndex = (currentIndex + 1) % total
         const nextPlayer = players[nextIndex]
         nextPlayer.setStateByStateId(3)
+        nextPlayer.setDisabled(false)
         return
     }
 
