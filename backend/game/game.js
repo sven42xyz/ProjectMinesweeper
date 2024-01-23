@@ -59,8 +59,12 @@ class Game {
         const players = this.getPlayersOfGameByRoomId(game.roomId)
         const total = players.length
         //single player -> game condition term
-        if (total === 1 && bomb) {
-            game.setStateByStateId(2)
+        if (total == 1) {
+            if (bomb) {
+                console.log(`total: ${total} && bomb: ${bomb}`)
+                game.setStateByStateId(2)
+                return
+            }
             return
         }
         const totalLost = players.filter(player => player.state === "lost").length
@@ -103,16 +107,22 @@ class Game {
             entryData.color = 'darkred';
 
             this.handlePlayer(player)
+            console.log("hello there, bomb")
+
             this.handleGame(game)
         } else if (gameboardCell.nBombs != 0) {
             entryData.isNumber = gameboardCell.nBombs;
 
             this.handlePlayer(player, 1, false)
+            console.log("hello there, neighbor")
+
             this.handleGame(game, userId, false)
         } else {
             const score = this.gameboardRevealNeighbours(game.gameboard, gameboardSize, gameboardRow, gameboardCol, color, refs);
 
             this.handlePlayer(player, score, false)
+            console.log("hello there, bastard")
+
             this.handleGame(game, userId, false)
         }
 

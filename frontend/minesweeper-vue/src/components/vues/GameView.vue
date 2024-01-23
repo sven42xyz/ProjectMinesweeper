@@ -96,7 +96,7 @@ export default {
       this.playerStore.setPlayers(res);
     },
     'update gameStore'(res) {
-      console.log(res);
+      this.gameStore.setGame(res);
     },    
   },
 
@@ -135,7 +135,10 @@ export default {
     },
 
     won(){
-      //wenn gewonnen dann:
+      if (this.gameStore.gameState === "terminated") {
+        return true;
+      }
+      console.log(this.gameStore.gameState);
       this.disabled = false;
       return false;
     },
