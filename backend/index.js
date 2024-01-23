@@ -281,7 +281,7 @@ io.on('connection', (socket) => {
                 status: 500,
             });
         }
-
+        
         const game = utils.getGameByRoomId(data.roomId);
         if (!game) {
             console.log(`Could not get Game of room ${data.roomId}`);
@@ -291,7 +291,7 @@ io.on('connection', (socket) => {
         }
 
         io.emit("update gameboard", gameboard);
-        io.emit("update playerStore", players);
+        io.emit("update scoreboard", players);
         io.emit("update gameStore", game);
 
         callback({

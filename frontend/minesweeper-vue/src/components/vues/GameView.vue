@@ -92,7 +92,7 @@ export default {
     'join lobby'(userId) {
       this.players.push(userId);
     },
-    'update playerStore'(res) {
+    'update scoreboard'(res) {
       this.playerStore.setPlayers(res);
     },
     'update gameStore'(res) {
