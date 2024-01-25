@@ -374,6 +374,7 @@ io.on('connection', (socket) => {
         }
 
         io.emit("reset gameboard", "hello there");
+        io.emit("restart");
         io.emit("update scoreboard", players);
         io.emit("update gameStore", game);
 

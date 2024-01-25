@@ -118,6 +118,10 @@ export default {
     'delete game'() {
       this.leaveGame();
     },
+    'restart'() {
+      this.showLost = false;
+      this.showWon = false;
+    }
   },
 
   methods: {
@@ -159,6 +163,7 @@ export default {
       if (winningPlayer) {
         this.winner = winningPlayer.username;
         this.showWon = true;
+        this.showLost = false;
         return true;
       }
 
@@ -186,11 +191,8 @@ export default {
       const player = this.playerStore.playerByUserId(this.userId)
       if (player.state !== "active") {
         this.disabled = true;
-        console.log("disabled")
         return true;
       }
-
-              console.log("not disabled")
 
       this.disabled = false;
       return false;

@@ -76,7 +76,8 @@ class Game {
             return
         }
         //switch to next player if game condition term isn't met
-        const currentIndex = players.findIndex(player => player.userId === currentPlayer)
+        const activePlayers = players.filter(player => player.state !== "lost")
+        const currentIndex = activePlayers.findIndex(player => player.userId === currentPlayer)
         const nextIndex = (currentIndex + 1) % total
         const nextPlayer = players[nextIndex]
         nextPlayer.setStateByStateId(3)
