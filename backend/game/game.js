@@ -162,7 +162,7 @@ class Game {
                     } else if (!currentCell.IsRevealed) {
                         this.gameboardUpdateEntry(refEntry, color);
                         currentCell.setIsRevealed();
-                        score += this.gameboardRevealNeighbours(gameboard, x, y, color, refs);
+                        score += this.gameboardRevealNeighbours(gameboard, gameboardSize, x , y, color, refs);
                     }
                 }
             }
