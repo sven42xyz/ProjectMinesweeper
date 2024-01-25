@@ -64,7 +64,6 @@ class Game {
         //single player -> game condition term
         if (total == 1) {
             if (bomb) {
-                console.log(`total: ${total} && bomb: ${bomb}`)
                 game.setStateByStateId(2)
                 return
             }

@@ -108,8 +108,8 @@ class Utilities {
             return false;
         }
         game.setStateByStateId(1);
-        game.players.forEach(element => {
-            const player = this.playerMap.get(element.userId);
+        game.players.forEach(userId => {
+            const player = this.playerMap.get(userId);
             if (!player) {
                 return false;
             }

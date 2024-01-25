@@ -94,7 +94,9 @@ export default {
       this.players.push(userId);
     },
     'update scoreboard'(res) {
+      console.log(res)
       this.playerStore.setPlayers(res);
+      console.log(this.playerStore)
     },
     'update gameStore'(res) {
       this.gameStore.setGame(res);
