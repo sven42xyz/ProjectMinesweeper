@@ -110,6 +110,7 @@ export default {
     'update gameStore'(res) {
       this.gameStore.setGame(res);
       this.lost();
+      this.disable();
       if (this.gameStore.gameState === "terminated") {
         this.won();
       }
@@ -146,7 +147,7 @@ export default {
       });
     },
 
-    won () {
+    won() {
       if (!this.gameStore.gameState === "terminated") {
         console.log(this.gameStore.gameState)
         this.disabled = false;
@@ -164,7 +165,7 @@ export default {
       return false;
     },
 
-    lost () {
+    lost() {
       if (!this.gameStore.gameState === "terminated") {
         console.log(this.gameStore.gameState)
         this.disabled = false;
@@ -181,7 +182,21 @@ export default {
       return false;
     },
 
-    isOwner () {
+    disable() {
+      const player = this.playerStore.playerByUserId(this.userId)
+      if (player.state !== "active") {
+        this.disabled = true;
+        console.log("disabled")
+        return true;
+      }
+
+              console.log("not disabled")
+
+      this.disabled = false;
+      return false;
+    },
+
+    isOwner() {
       if (!this.gameStore.gameState === "terminated") {
         return false;
       }
