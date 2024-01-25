@@ -168,18 +168,22 @@ export default {
     playerReady() {
       const data = { roomId: this.roomId, userId: this.userId }
 
+      console.log(data);
+      console.log(this.$cookies.get('session'))
+
       SocketioService.playerReady(data, res => {
         if (res.status !== 200) {
           return;
         }
       });
 
-
       this.startGame();
 
     },
 
     getPlayerUsername(i) {
+      console.log(this.playerStore.players[i - 1]);
+      console.log(this.$cookies.get('session'));
       return this.playerStore.playerUsernames[i - 1];
     },
 

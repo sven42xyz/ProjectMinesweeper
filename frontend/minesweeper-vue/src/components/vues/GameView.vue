@@ -19,6 +19,9 @@
           </form>
         </div>
         <div class="container-fluid game-container">
+          <!-- hier fehlt die disabled logik 
+            Wenn turn = true dann player.disabled == false hier rein, sonst true
+          -->
           <Field :disabled="disabled" :size="size" :gameboard=gameStore.gameBoard :userId=userId :roomId=roomId></Field>
         </div>
       </div>
@@ -38,7 +41,6 @@
 </template>
 
 <script setup>
-  import Chat from '../scraps/ChatBox.vue'
   import PlayerCurrent from '../scraps/PlayerIconCurrent.vue'
   import Field from '../scraps/FieldFlex.vue'
 </script>

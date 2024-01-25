@@ -75,8 +75,14 @@ export default {
 
         this.playerStore.setPlayers(res.players);
         this.gameStore.setGame(res.game);
-
+        
+        //Dieser Step geht bei Medium nicht
+        
         this.$cookies.set('session', res);
+        console.log("Setting the Session");
+        console.log(res);
+        console.log(this.$cookies.get('session'));
+
         this.$router.push('/lobby/');
       })
     },
