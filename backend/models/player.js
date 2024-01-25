@@ -37,6 +37,10 @@ class Player {
         this.score += score
     }
 
+    nilScore() {
+        this.score = 0
+    }
+
     setUserClass(userClass) {
         this.userClass = userClass
     }

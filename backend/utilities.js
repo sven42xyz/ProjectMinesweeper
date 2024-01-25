@@ -102,6 +102,23 @@ class Utilities {
         return true;
     }
 
+    resetGameByRoomId(roomId) {
+        const game = this.gameMap.get(roomId);
+        if (!game) {
+            return false;
+        }
+        game.setStateByStateId(1);
+        game.players.forEach(element => {
+            const player = this.playerMap.get(element.userId);
+            if (!player) {
+                return false;
+            }
+            player.setStateByStateId(1);
+            player.nilScore();
+        })
+        return true;    
+    }
+
     killGameByRoomId(roomId) {
         const game = this.gameMap.get(roomId);
         if (!game) {

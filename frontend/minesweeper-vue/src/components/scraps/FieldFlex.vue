@@ -73,6 +73,10 @@ export default {
         "update gameboard"(res) {
             this.updateGameboard(this.refEntries, res.refEntries)
         },
+        "reset gameboard"(res) {
+            console.log(res)
+            this.resetGameboard(this.refEntries)
+        },
     },
 
     methods:{
@@ -100,6 +104,16 @@ export default {
                 element[1][0].isBomb    = remoteRef[localRef.indexOf(element)][1][0].isBomb  
                 element[1][0].isNumber  = remoteRef[localRef.indexOf(element)][1][0].isNumber
                 element[1][0].sockets   = remoteRef[localRef.indexOf(element)][1][0].sockets                 
+            });
+        },
+
+        resetGameboard(localRef) {
+            localRef.forEach(element => {
+                element[1][0].color     = "#FFFFFF"
+                element[1][0].enabled   = null
+                element[1][0].isBomb    = null
+                element[1][0].isNumber  = null
+                element[1][0].sockets   = null
             });
         },
 

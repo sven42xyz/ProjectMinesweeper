@@ -46,12 +46,15 @@ class Game {
         return game.gameboard[row][col];
     }
 
-    handlePlayer(player, score = 0, bomb = true) {
+    handlePlayer(player, score = 0, bomb = true, won = false) {
         player.setScore(score)
         player.setDisabled(true)
         player.setStateByStateId(2)
         if (bomb) {
             player.setStateByStateId(4)
+        }
+        if (won) {
+            player.setStateByStateId(5)
         }
     }
 
@@ -128,7 +131,7 @@ class Game {
 
         const won = this.gameboardCheckIfAllRevealed(game.gameboard, gameboardSize, refs);
         if (won) {
-            this.handlePlayer(player);
+            this.handlePlayer(player, 0, false, true);
             game.setStateByStateId(2);
         }
 

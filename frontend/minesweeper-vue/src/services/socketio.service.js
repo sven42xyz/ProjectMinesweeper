@@ -109,6 +109,12 @@ class SocketioService {
         return;
     }
 
+    restartGame(data, res) {
+        this.socket.emit("restart game", data, res);
+
+        return;
+    }
+
 }
 
 export default new SocketioService();

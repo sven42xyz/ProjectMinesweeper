@@ -273,7 +273,6 @@ io.on('connection', (socket) => {
     socket.on("field click", (data, callback) => {
         const gameboard = gameLogic.handleGameboardClickByUserId(data.userId, data.roomId, data.coordinates, data.refs);
 
-        // ToDo: update the player and game stores, but only the parts that have changed...
         const players = utils.getPlayersOfGameByRoomId(data.roomId);
         if (!players) {
             console.log(`Could not get Players of Game ${data.roomId}`);
@@ -338,6 +337,48 @@ io.on('connection', (socket) => {
         io.emit('message', outgoingMessage);
         callback({
             status: "ok"
+        });
+    });
+
+    socket.on("restart game", (data, callback) => {
+        const gameboard = utils.setGameboardByRoomId(data.roomId)
+        if (!gameboard) {
+            console.log(`Could not set gameboard for Game ${data.roomId}`);
+            callback({
+                status: 500,
+            });
+        }
+
+        const res = utils.resetGameByRoomId(data.roomId)
+        if (!res) {
+            console.log(`Could not reset Game ${data.roomId}`);
+            callback({
+                status: 500,
+            });
+        }
+
+        const players = utils.getPlayersOfGameByRoomId(data.roomId);
+        if (!players) {
+            console.log(`Could not get Players of Game ${data.roomId}`);
+            callback({
+                status: 500,
+            });
+        }
+
+        const game = utils.getGameByRoomId(data.roomId);
+        if (!game) {
+            console.log(`Could not get Game of room ${data.roomId}`);
+            callback({
+                status: 500,
+            });
+        }
+
+        io.emit("reset gameboard", "hello there");
+        io.emit("update scoreboard", players);
+        io.emit("update gameStore", game);
+
+        callback({
+            status: 200,
         });
     });
 });

@@ -9,14 +9,12 @@
         </div>
       </div>
       <div class="col">
-        <!-- hier ob Spiel gewonnen wurde -->
-        <div class="container-fluid small-floaty-container" v-if="won()">
+        <div class="container-fluid small-floaty-container" v-if="showDiv">
           <form id="Retry Form" class="small-floaty-form" v-on:submit.prevent>
-            <h1 class="card-header">User {{ winner }} won!</h1>
+            <h1 class="card-header">{{ winner }} won!</h1>
             <hr/>
             <div class>
-              <!-- hier ob der Spieler der Lobbybesitzer ist -->
-              <button v-on:click="Retry" v-if="isOwner()" class="btn btn-primary-lavender w-75" type="Submit" id="RedoGame" aria-expanded="false" style="margin-top: 2vmin; margin-left: 0;">Retry?</button>
+              <button v-on:click="retry" v-if="isOwner()" class="btn btn-primary-lavender w-75" type="Submit" id="RedoGame" aria-expanded="false" style="margin-top: 2vmin; margin-left: 0;">Retry?</button>
             </div>
           </form>
         </div>
@@ -60,6 +58,7 @@ export default {
       winner: null,
       disabled: false,
       size: 5,
+      showDiv: false,
     };
   },
 
@@ -97,6 +96,9 @@ export default {
     },
     'update gameStore'(res) {
       this.gameStore.setGame(res);
+      if (this.gameStore.gameState === "terminated") {
+        this.won();
+      }
     },    
   },
 
@@ -114,51 +116,53 @@ export default {
       this.$router.push('/');
     },
 
-    Retry(){
-      console.log("Hier müsste alles neu geladen werden");
+    retry(){
+      this.showDiv = false;
+
+      const data = { roomId: this.roomId }
+
+      SocketioService.restartGame(data, res => {
+        if (res.status !== 200) {
+          console.log('Error: bad request');
+          return;
+        }
+      });
     },
 
-    getPlayer(i){
-      return this.players[i-1];
+    won() {
+      if (!this.gameStore.gameState === "terminated") {
+        console.log(this.gameStore.gameState)
+        this.disabled = false;
+        return false;
+      }
+
+      const winningPlayer = this.playerStore.getPlayers.find(player => player.state === "won");
+
+      if (winningPlayer) {
+        this.winner = winningPlayer.username;
+        this.showDiv = true;
+        return true;
+      }
+
+      return false;
     },
 
-    getPlayerUsername(i) {
-      return this.playerStore.playerUsernames.at(i - 1);
-    },
+    isOwner() {
+      if (!this.gameStore.gameState === "terminated") {
+        return false;
+      }
 
-    getPlayerColor(i) {
-      return this.playerStore.playerColors.at(i - 1);
+      const player = this.playerStore.playerByUserId(this.userId)
+      if (player.userClass === "host") {
+        return true;
+      }
+
+      return false;
     },
 
     beforeUnmount() {
       SocketioService.disconnect();
     },
-
-    won(){
-      if (this.gameStore.gameState === "terminated") {
-        return true;
-      }
-      console.log(this.gameStore.gameState);
-      this.disabled = false;
-      return false;
-    },
-
-    isOwner(){
-      return false;
-    },
-
-    getPlayers() {
-      const data = {roomId: this.roomId}
-
-      console.log("test");
-
-      SocketioService.getPlayers(data, res => {
-        if (res.status !== 200) {
-          console.log(res.data);
-          this.players.push(res.data.players);
-        }
-      })
-    }
   },
 }
 </script>

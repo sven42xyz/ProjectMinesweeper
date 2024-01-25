@@ -13,7 +13,6 @@ export const usePlayerStore = defineStore('players', {
         playerByUserId: (state) => {
             return (userId) => state.players.find(player => player.userId === userId);
         },
-
     },
     actions: {
         setPlayers(data) {
