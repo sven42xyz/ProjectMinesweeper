@@ -110,7 +110,6 @@ export default {
       this.playerStore.setPlayers(res);
     },
     'delete game'() {
-      //add store logic (after implementing the game store...)
       this.leaveGame();
     },
     'enter game'() {
@@ -167,9 +166,6 @@ export default {
 
     playerReady() {
       const data = { roomId: this.roomId, userId: this.userId }
-
-      console.log(data);
-      console.log(this.$cookies.get('session'))
 
       SocketioService.playerReady(data, res => {
         if (res.status !== 200) {

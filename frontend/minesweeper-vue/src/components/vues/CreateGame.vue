@@ -70,6 +70,12 @@ export default {
     this.userId = this.$cookies.get('session').userId;
   },
 
+  sockets: {
+    'delete game'() {
+      this.leaveGame();
+    },
+  },
+
   methods: {
     createGame() {
       const data = {roomId: this.roomId, userId: this.userId, difficulty: this.difficulty};
@@ -96,10 +102,15 @@ export default {
           return;
         }
       });
-
+      SocketioService.disconnect();
       this.$router.push('/');
     },
 
+    leaveGame() {
+      SocketioService.disconnect();
+      this.$router.push('/');
+    },
+    
     //...
     beforeUnmount() {
       SocketioService.disconnect();

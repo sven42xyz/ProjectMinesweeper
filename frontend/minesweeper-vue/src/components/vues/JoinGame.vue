@@ -77,10 +77,16 @@ export default {
         this.gameStore.setGame(res.game);
         
         //Dieser Step geht bei Medium nicht
+
+        console.log(res)
+
+        const cookieData = {
+          status: res.status, roomId: res.roomId, userId: res.userId, username: res.username
+        }
         
-        this.$cookies.set('session', res);
+        this.$cookies.set('session', cookieData);
         console.log("Setting the Session");
-        console.log(res);
+        console.log(cookieData);
         console.log(this.$cookies.get('session'));
 
         this.$router.push('/lobby/');
