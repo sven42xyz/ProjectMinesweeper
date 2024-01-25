@@ -9,12 +9,21 @@
         </div>
       </div>
       <div class="col">
-        <div class="container-fluid small-floaty-container" v-if="showDiv">
+        <div class="container-fluid small-floaty-container" v-if="showWon">
           <form id="Retry Form" class="small-floaty-form" v-on:submit.prevent>
             <h1 class="card-header">{{ winner }} won!</h1>
             <hr/>
             <div class>
-              <button v-on:click="retry" v-if="isOwner()" class="btn btn-primary-lavender w-75" type="Submit" id="RedoGame" aria-expanded="false" style="margin-top: 2vmin; margin-left: 0;">Retry?</button>
+              <button v-on:click="retry" v-if="isOwner()" class="btn btn-primary-lavender w-75" type="Submit" id="RedoGame" aria-expanded="false" style="margin-top: 2vmin; margin-left: 0;">Retry</button>
+            </div>
+          </form>
+        </div>
+        <div class="container-fluid small-floaty-container" v-if="showLost">
+          <form id="Retry Form" class="small-floaty-form" v-on:submit.prevent>
+            <h1 class="card-header">{{ looser }} lost :/</h1>
+            <hr/>
+            <div class>
+              <button v-on:click="showLost = false" class="btn btn-primary-lavender w-75" type="Submit" id="RedoGame" aria-expanded="false" style="margin-top: 2vmin; margin-left: 0;">Close</button>
             </div>
           </form>
         </div>
@@ -58,9 +67,11 @@ export default {
       roomId: null,
       userId: null,
       winner: null,
+      looser: null,
       disabled: false,
       size: 5,
-      showDiv: false,
+      showWon: false,
+      showLost: false,
     };
   },
 
@@ -98,6 +109,7 @@ export default {
     },
     'update gameStore'(res) {
       this.gameStore.setGame(res);
+      this.lost();
       if (this.gameStore.gameState === "terminated") {
         this.won();
       }
@@ -122,7 +134,7 @@ export default {
     },
 
     retry(){
-      this.showDiv = false;
+      this.showWon = false;
 
       const data = { roomId: this.roomId }
 
@@ -134,7 +146,7 @@ export default {
       });
     },
 
-    won() {
+    won () {
       if (!this.gameStore.gameState === "terminated") {
         console.log(this.gameStore.gameState)
         this.disabled = false;
@@ -145,14 +157,31 @@ export default {
 
       if (winningPlayer) {
         this.winner = winningPlayer.username;
-        this.showDiv = true;
+        this.showWon = true;
         return true;
       }
 
       return false;
     },
 
-    isOwner() {
+    lost () {
+      if (!this.gameStore.gameState === "terminated") {
+        console.log(this.gameStore.gameState)
+        this.disabled = false;
+        return false;
+      }
+
+      const player = this.playerStore.playerByUserId(this.userId)
+      if (player.state === "lost") {
+        this.looser = player.username;
+        this.showLost = true;
+        return true;
+      }
+
+      return false;
+    },
+
+    isOwner () {
       if (!this.gameStore.gameState === "terminated") {
         return false;
       }
