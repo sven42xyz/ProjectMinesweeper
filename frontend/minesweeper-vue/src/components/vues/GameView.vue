@@ -4,7 +4,7 @@
       <div class="col player-col">
         <div class="container-fluid player-container">
           <div class=" row loop-div" v-for="player in playerStore.getPlayers" v-bind:key="player" style="margin-top:10%" >
-            <PlayerCurrent :username=player.username :score=player.score :active=player.turn :disabled=player.disabled :color=player.color></PlayerCurrent>
+            <PlayerCurrent :username=player.username :score=player.score :active=player.turn :state=player.state :disabled=player.disabled :color=player.color></PlayerCurrent>
           </div>
         </div>
       </div>
@@ -52,6 +52,7 @@
 <script setup>
   import PlayerCurrent from '../scraps/PlayerIconCurrent.vue'
   import Field from '../scraps/FieldFlex.vue'
+  import Chat from '../scraps/ChatBox.vue'
 </script>
 
 <script>
