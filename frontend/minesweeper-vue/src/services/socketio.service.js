@@ -68,6 +68,13 @@ class SocketioService {
         }
     }
 
+    connect(){
+        console.log("new Connection");
+        this.socket = io.connect(process.env.VUE_APP_SOCKET_ENDPOINT, 
+        { upgrade: false, transports: ['websocket'], reconnection: true, forceNew: false});
+        console.log(this.socket);
+    }
+
     startGame(data, res) {
         this.socket.emit('start game', data, res);
 

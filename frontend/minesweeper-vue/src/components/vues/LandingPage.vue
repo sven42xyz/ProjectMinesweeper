@@ -64,6 +64,12 @@ export default {
         return;
       }
 
+
+      if(SocketioService.socket.connected == false){
+        console.log("Hello there!");
+        SocketioService.connect();
+      }
+      
       SocketioService.setupSocketConnection(data, res => {
         if (res.status !== 200) {
           return;
@@ -72,9 +78,11 @@ export default {
         this.$cookies.set('session', res, 0);
         this.$router.push('/' + this.intent);
       });
+       
     },
 
     joinGame() {
+      
       this.intent = 'join'
       const data = {username: this.username, intent: this.intent};
 
@@ -84,9 +92,15 @@ export default {
         return;
       }
 
+      if(SocketioService.socket.connected == false){
+        console.log("Hello there!");
+        SocketioService.connect();
+      }
+      
       SocketioService.setupSocketConnection(data, res => {
         if (res.status !== 200) {
           return;
+          
         }
 
         this.$cookies.set('session', res);
@@ -94,10 +108,6 @@ export default {
       });
     }
 
-    /*     //not in use
-        beforeUnmount() {
-          SocketioService.disconnect();
-        } */
   }
 }
 </script>

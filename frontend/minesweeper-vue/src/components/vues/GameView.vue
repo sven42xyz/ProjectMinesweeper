@@ -120,12 +120,20 @@ export default {
     cancel() {
       const data = {roomId: this.roomId, userId: this.userId}
 
-      SocketioService.killGame(data, res => {
-        if (res.status !== 200) {
-          console.log('Error: bad request');
-          return;
+      for(let i = 0; i < this.playerStore.size; i++){
+        console.log(this.playerStore.players[i]);
+        if(this.playerStore.players[i].username == this.userId && this.playerStore.players[i].userClass == "host"){
+          SocketioService.killGame(data, res => {
+            if (res.status !== 200) {
+              console.log('Error: bad request');
+              return;
+            }
+          });
+        }else if(this.playerStore.players[i].username == this.userId){
+          //playerstore-Update
         }
-      });
+      }
+      
       SocketioService.disconnect();
       this.$router.push('/');
     },
