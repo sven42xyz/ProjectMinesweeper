@@ -145,7 +145,7 @@ export default {
     },
 
     won() {
-      if (!this.gameStore.gameState === "terminated") {
+      if (this.gameStore.gameState !== "terminated") {
         this.disabled = false;
         return false;
       }
@@ -154,8 +154,8 @@ export default {
 
       if (winningPlayer) {
         this.winner = winningPlayer.username;
-        this.showWon = true;
         this.showLost = false;
+        this.showWon = true;
         return true;
       }
 
@@ -163,7 +163,7 @@ export default {
     },
 
     lost() {
-      if (!this.gameStore.gameState === "terminated") {
+      if (this.gameStore.gameState !== "terminated") {
         this.disabled = false;
         return false;
       }

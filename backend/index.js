@@ -280,8 +280,6 @@ io.on('connection', (socket) => {
                 status: 500,
             });
         }
-
-        console.log(players)
         
         const game = utils.getGameByRoomId(data.roomId);
         if (!game) {
@@ -290,8 +288,6 @@ io.on('connection', (socket) => {
                 status: 500,
             });
         }
-
-        console.log(game)
 
         io.emit("update gameboard", gameboard);
         io.emit("update scoreboard", players);
@@ -369,6 +365,9 @@ io.on('connection', (socket) => {
             });
         }
 
+        console.log(players)
+
+
         const game = utils.getGameByRoomId(data.roomId);
         if (!game) {
             console.log(`Could not get Game of room ${data.roomId}`);
@@ -376,6 +375,9 @@ io.on('connection', (socket) => {
                 status: 500,
             });
         }
+
+        console.log(game)
+
 
         io.emit("reset gameboard", "hello there");
         io.emit("restart");
