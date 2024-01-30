@@ -81,7 +81,7 @@
           id: this.userId,
           name: this.username,
         };
-        SocketioService.sendMessage({ message, roomName: this.roomId }, (cb) => {
+        SocketioService.sendMessage({ message, SENDERID: this.userId , roomName: this.roomId }, (cb) => {
           // callback is acknowledgement from server
           console.log(cb);
           this.messages.push({

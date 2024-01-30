@@ -1,5 +1,5 @@
 <template>
-                <button class="col-btn btn" :style="cssProps" @click="$emit('clicked')"><h4>{{ isBomb }}{{ isNumber }}</h4></button>
+    <button class="col-btn btn" :style="cssProps" @click="$emit('clicked')"><h4>{{ isBomb }}{{ isNumber }}</h4></button>
 </template>
   
 <script>

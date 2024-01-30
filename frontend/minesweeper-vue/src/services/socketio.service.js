@@ -85,8 +85,9 @@ class SocketioService {
         return;
     }
 
-    sendMessage({ message, roomName }, res) {
-        this.socket.emit('message', { message, roomName }, res);
+    sendMessage({ message, SENDERID, roomName }, res) {
+        console.log(SENDERID);
+        this.socket.emit('message', { message, SENDERID, roomName }, res);
 
         return;
     }

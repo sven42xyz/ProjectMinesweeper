@@ -8,7 +8,7 @@ const server = require('http').createServer(handler);
 const io = require('socket.io')(server, {
     allowEIO3: true, 
     cors: {
-        origin: 'http://172.17.224.127:8080',
+        origin: 'http://192.168.178.38:8080',
         methods: ["GET", "POST"],
         transports: ['websocket', 'polling'],
         credentials: true,
@@ -314,21 +314,23 @@ io.on('connection', (socket) => {
         socket.join(roomName);
     });
 
-    socket.on('message', ({ message, roomName }, callback) => {
+    socket.on('message', ({ message, SENDERID ,roomName }, callback) => {
+        console.log(SENDERID);
         console.log("message: " + message + " in " + roomName);
 
-        const username = utils.getUsernameOfPlayerByUserId(socket.id);
+        const username = utils.getUsernameOfPlayerByUserId(SENDERID);
         if (!username) {
-            console.log(`Could not get username of Player ${socket.id}`);
+            console.log(`Could not get username of Player ${SENDERID}`);
             callback({
                 status: 500,
             });
         }
+        console.log(message);
 
         // generate data to send to receivers
         const outgoingMessage = {
             name: username,
-            id: socket.id,
+            id: SENDERID,
             message,
         };
 
