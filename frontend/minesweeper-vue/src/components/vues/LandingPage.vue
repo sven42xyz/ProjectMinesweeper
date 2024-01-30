@@ -27,6 +27,13 @@ import SocketioService from '../../services/socketio.service.js';
 export default {
   name: 'LandingPage',
 
+  created(){
+    if(SocketioService.socket.connected == false){
+      console.log("Hello there!");
+      SocketioService.connect();
+    }
+  },
+
   data() {
     return {
       username: null,
@@ -63,12 +70,6 @@ export default {
       if (!this.validateInput()) {
         return;
       }
-
-
-      if(SocketioService.socket.connected == false){
-        console.log("Hello there!");
-        SocketioService.connect();
-      }
       
       SocketioService.setupSocketConnection(data, res => {
         if (res.status !== 200) {
@@ -82,7 +83,7 @@ export default {
     },
 
     joinGame() {
-      
+     
       this.intent = 'join'
       const data = {username: this.username, intent: this.intent};
 
@@ -92,17 +93,11 @@ export default {
         return;
       }
 
-      if(SocketioService.socket.connected == false){
-        console.log("Hello there!");
-        SocketioService.connect();
-      }
-      
       SocketioService.setupSocketConnection(data, res => {
         if (res.status !== 200) {
           return;
           
         }
-
         this.$cookies.set('session', res);
         this.$router.push('/' + this.intent);
       });
