@@ -177,9 +177,8 @@ io.on('connection', (socket) => {
             callback({
                 status: 500,
             });
+            io.emit('delete game');
         }
-
-        io.emit('delete game');
 
         const res = utils.killGameByRoomId(data.roomId);
         if (!res) {

@@ -50,6 +50,7 @@ class SocketioService {
     }
 
     killGame(data, res) {
+        //ifHostThenEmit
         this.socket.emit('delete game', data, res);
 
         return;
