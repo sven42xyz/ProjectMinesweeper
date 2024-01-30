@@ -20,17 +20,15 @@
         </div>
         <div class="container-fluid small-floaty-container" v-if="showLost">
           <form id="Retry Form" class="small-floaty-form" v-on:submit.prevent>
-            <h1 class="card-header">{{ looser }} lost :/</h1>
+            <h1 class="card-header">{{ looser }} lost</h1>
             <hr/>
             <div class>
-              <button v-on:click="showLost = false" class="btn btn-primary-lavender w-75" type="Submit" id="RedoGame" aria-expanded="false" style="margin-top: 2vmin; margin-left: 0;">Close</button>
+              <button v-on:click="showLost = false" class="btn btn-primary-lavender w-45" type="Submit" id="RedoGame" aria-expanded="false" style="margin-top: 2vmin; margin-left: 0;">Close</button>
+              <button v-on:click="retry" v-if="isOwner()" class="btn btn-primary-lavender w-45" type="Submit" id="RedoGame" aria-expanded="false" style="margin-top: 2vmin; margin-left: 0;">Retry</button>
             </div>
           </form>
         </div>
         <div class="container-fluid game-container">
-          <!-- hier fehlt die disabled logik 
-            Wenn turn = true dann player.disabled == false hier rein, sonst true
-          -->
           <Field :disabled="disabled" :size="size" :gameboard=gameStore.gameBoard :userId=userId :roomId=roomId></Field>
         </div>
       </div>
@@ -82,17 +80,10 @@ export default {
     this.playerStore = usePlayerStore();
     this.gameStore = useGameStore();
     
-    // temporär!!!
     this.size = this.gameStore.gameDifficulty.substring(4) * 5;
 
     this.players = this.playerStore.players;
     this.playerUsernames = this.playerStore.playerUsernames;
-
-    this.playerStore.getPlayers.forEach(element => {
-      console.log(element.username)
-    });
-    
-    console.log(this.playerStore.getPlayers)
   },
 
   sockets: {
@@ -141,6 +132,7 @@ export default {
 
     retry(){
       this.showWon = false;
+      this.disabled = false;
 
       const data = { roomId: this.roomId }
 
@@ -153,8 +145,7 @@ export default {
     },
 
     won() {
-      if (!this.gameStore.gameState === "terminated") {
-        console.log(this.gameStore.gameState)
+      if (this.gameStore.gameState !== "terminated") {
         this.disabled = false;
         return false;
       }
@@ -163,8 +154,8 @@ export default {
 
       if (winningPlayer) {
         this.winner = winningPlayer.username;
-        this.showWon = true;
         this.showLost = false;
+        this.showWon = true;
         return true;
       }
 
@@ -172,8 +163,7 @@ export default {
     },
 
     lost() {
-      if (!this.gameStore.gameState === "terminated") {
-        console.log(this.gameStore.gameState)
+      if (this.gameStore.gameState !== "terminated") {
         this.disabled = false;
         return false;
       }

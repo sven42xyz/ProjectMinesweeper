@@ -103,20 +103,25 @@ class Utilities {
     }
 
     resetGameByRoomId(roomId) {
-        const game = this.gameMap.get(roomId);
+        const game = this.gameMap.get(roomId)
         if (!game) {
-            return false;
+            return false
         }
-        game.setStateByStateId(1);
+        game.setStateByStateId(1)
         game.players.forEach(userId => {
-            const player = this.playerMap.get(userId);
+            const player = this.playerMap.get(userId)
             if (!player) {
                 return false;
             }
-            player.setStateByStateId(1);
-            player.nilScore();
+            if (player.userClass === "host") {
+                player.setStateByStateId(3)
+            } else {
+                player.setStateByStateId(1)
+
+            }
+            player.nilScore()
         })
-        return true;    
+        return true   
     }
 
     killGameByRoomId(roomId) {

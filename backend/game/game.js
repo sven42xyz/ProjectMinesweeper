@@ -46,15 +46,39 @@ class Game {
         return game.gameboard[row][col];
     }
 
-    handlePlayer(player, score = 0, bomb = true, won = false) {
-        player.setScore(score)
-        player.setDisabled(true)
-        player.setStateByStateId(2)
-        if (bomb) {
-            player.setStateByStateId(4)
+    handlePlayer(player, game, totalPlayers, score = 0, bomb = true, won = false) {
+
+        //single player
+        if (totalPlayers === 1) {
+            player.setScore(score)
+            player.setStateByStateId(3)
+            if (bomb) {
+                player.setStateByStateId(4)
+            }
+            if (won) {
+                player.setStateByStateId(5)
+            }
+            return
         }
-        if (won) {
-            player.setStateByStateId(5)
+
+        //multi player
+        if (totalPlayers !== 1) {
+            const players = this.getPlayersOfGameByRoomId(game.roomId)
+            player.setScore(score)
+            player.setStateByStateId(2)
+            player.setDisabled(true)
+            if (bomb) {
+                player.setStateByStateId(4)
+                const totalLost = players.filter(player => player.state === "lost").length
+                if ((totalPlayers - totalLost) <= 1) {
+                    const winner = players.find(player => player.state !== "lost")
+                    winner.setStateByStateId(5)
+                }
+            }
+            if (won) {
+                player.setStateByStateId(5)
+            }
+            return
         }
     }
 
@@ -65,7 +89,6 @@ class Game {
         if (total == 1) {
             if (bomb) {
                 game.setStateByStateId(2)
-                return
             }
             return
         }
@@ -77,6 +100,8 @@ class Game {
         }
         //switch to next player if game condition term isn't met
         const activePlayers = players.filter(player => player.state !== "lost")
+        console.log(players)
+        console.log(activePlayers)
         const currentIndex = activePlayers.findIndex(player => player.userId === currentPlayer)
         const nextIndex = (currentIndex + 1) % total
         const nextPlayer = players[nextIndex]
@@ -89,6 +114,7 @@ class Game {
         let res = null;
         const player = this.getPlayerByUserId(userId);
         const game = this.getGameByRoomId(roomId);
+        const totalPlayers = this.getPlayersOfGameByRoomId(game.roomId).length
         const gameboardSize = this.getSizeByRoomId(roomId);
         const color = `#${player.color}`;
 
@@ -109,29 +135,23 @@ class Game {
             entryData.isBomb = 'X';
             entryData.color = 'darkred';
 
-            this.handlePlayer(player)
-            console.log("hello there, bomb")
-
+            this.handlePlayer(player, game, totalPlayers)
             this.handleGame(game)
         } else if (gameboardCell.nBombs != 0) {
             entryData.isNumber = gameboardCell.nBombs;
 
-            this.handlePlayer(player, 1, false)
-            console.log("hello there, neighbor")
-
+            this.handlePlayer(player, game, totalPlayers, 1, false)
             this.handleGame(game, userId, false)
         } else {
             const score = this.gameboardRevealNeighbours(game.gameboard, gameboardSize, gameboardRow, gameboardCol, color, refs);
 
-            this.handlePlayer(player, score, false)
-            console.log("hello there, bastard")
-
+            this.handlePlayer(player, game, totalPlayers, score, false)
             this.handleGame(game, userId, false)
         }
 
         const won = this.gameboardCheckIfAllRevealed(game.gameboard, gameboardSize, refs);
         if (won) {
-            this.handlePlayer(player, 0, false, true);
+            this.handlePlayer(player, game, totalPlayers, 0, false, true);
             game.setStateByStateId(2);
         }
 
