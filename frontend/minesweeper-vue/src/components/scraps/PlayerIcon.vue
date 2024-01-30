@@ -33,8 +33,8 @@ export default {
     },
     color: {
         type: String,
-        default: '#000000',
-      }
+        default: '#ffffff',
+    },
   },
 
   data() {
@@ -53,6 +53,7 @@ export default {
 
   created() {
     this.playerStore = usePlayerStore();
+    this.colorHEX = this.playerStore.playerByUserId(this.userId).color
   },
 
   methods: {
