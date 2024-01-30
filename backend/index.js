@@ -280,6 +280,8 @@ io.on('connection', (socket) => {
                 status: 500,
             });
         }
+
+        console.log(players)
         
         const game = utils.getGameByRoomId(data.roomId);
         if (!game) {
@@ -288,6 +290,8 @@ io.on('connection', (socket) => {
                 status: 500,
             });
         }
+
+        console.log(game)
 
         io.emit("update gameboard", gameboard);
         io.emit("update scoreboard", players);

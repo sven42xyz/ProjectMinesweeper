@@ -46,10 +46,14 @@ class Game {
         return game.gameboard[row][col];
     }
 
-    handlePlayer(player, score = 0, bomb = true, won = false) {
+    handlePlayer(player, totalPlayers, score = 0, bomb = true, won = false) {
         player.setScore(score)
-        player.setDisabled(true)
-        player.setStateByStateId(2)
+        if (totalPlayers !== 1) {
+            player.setStateByStateId(2)
+            player.setDisabled(true)
+        } else {
+            player.setStateByStateId(3)
+        }
         if (bomb) {
             player.setStateByStateId(4)
         }
@@ -65,7 +69,6 @@ class Game {
         if (total == 1) {
             if (bomb) {
                 game.setStateByStateId(2)
-                return
             }
             return
         }
@@ -89,6 +92,7 @@ class Game {
         let res = null;
         const player = this.getPlayerByUserId(userId);
         const game = this.getGameByRoomId(roomId);
+        const totalPlayers = this.getPlayersOfGameByRoomId(game.roomId).length
         const gameboardSize = this.getSizeByRoomId(roomId);
         const color = `#${player.color}`;
 
@@ -109,29 +113,23 @@ class Game {
             entryData.isBomb = 'X';
             entryData.color = 'darkred';
 
-            this.handlePlayer(player)
-            console.log("hello there, bomb")
-
+            this.handlePlayer(player, totalPlayers)
             this.handleGame(game)
         } else if (gameboardCell.nBombs != 0) {
             entryData.isNumber = gameboardCell.nBombs;
 
-            this.handlePlayer(player, 1, false)
-            console.log("hello there, neighbor")
-
+            this.handlePlayer(player, totalPlayers, 1, false)
             this.handleGame(game, userId, false)
         } else {
             const score = this.gameboardRevealNeighbours(game.gameboard, gameboardSize, gameboardRow, gameboardCol, color, refs);
 
-            this.handlePlayer(player, score, false)
-            console.log("hello there, bastard")
-
+            this.handlePlayer(player, totalPlayers, score, false)
             this.handleGame(game, userId, false)
         }
 
         const won = this.gameboardCheckIfAllRevealed(game.gameboard, gameboardSize, refs);
         if (won) {
-            this.handlePlayer(player, 0, false, true);
+            this.handlePlayer(player, totalPlayers, 0, false, true);
             game.setStateByStateId(2);
         }
 
