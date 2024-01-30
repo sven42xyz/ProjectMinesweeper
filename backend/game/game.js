@@ -46,6 +46,19 @@ class Game {
         return game.gameboard[row][col];
     }
 
+    findNextPlayer(players, currentPlayer) {
+        const total = players.length
+        const currentIndex = players.findIndex(player => player.userId === currentPlayer)
+        const nextIndex = (currentIndex + 1) % total
+        const nextPlayer = players[nextIndex]
+
+        if (nextPlayer.state === "lost") {
+            this.findNextPlayer(players, nextPlayer.userId)
+        } else {
+            return nextPlayer
+        }
+    }
+
     handlePlayer(player, game, totalPlayers, score = 0, bomb = true, won = false) {
 
         //single player
@@ -99,12 +112,8 @@ class Game {
             return
         }
         //switch to next player if game condition term isn't met
-        const activePlayers = players.filter(player => player.state !== "lost")
-        console.log(players)
-        console.log(activePlayers)
-        const currentIndex = activePlayers.findIndex(player => player.userId === currentPlayer)
-        const nextIndex = (currentIndex + 1) % total
-        const nextPlayer = players[nextIndex]
+        const nextPlayer = this.findNextPlayer(players, currentPlayer)
+        console.log(nextPlayer)
         nextPlayer.setStateByStateId(3)
         nextPlayer.setDisabled(false)
         return

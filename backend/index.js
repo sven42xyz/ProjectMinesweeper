@@ -34,7 +34,10 @@ io.on('connection', (socket) => {
     socket.on('new user', (data) => {
         socket.username = data;
         const player = new PlayerModel(socket.id, socket.username);
+        const playerColor = utils.getRandomHexColor();
+        player.setColorByHEX(playerColor);
         activeUsers.set(socket.id, player);
+        console.log(player);
         console.log('new user ' + socket.username + ' joined the server.');
     });
     
@@ -365,9 +368,6 @@ io.on('connection', (socket) => {
             });
         }
 
-        console.log(players)
-
-
         const game = utils.getGameByRoomId(data.roomId);
         if (!game) {
             console.log(`Could not get Game of room ${data.roomId}`);
@@ -375,9 +375,6 @@ io.on('connection', (socket) => {
                 status: 500,
             });
         }
-
-        console.log(game)
-
 
         io.emit("reset gameboard", "hello there");
         io.emit("restart");
