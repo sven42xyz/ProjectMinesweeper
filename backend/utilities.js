@@ -148,13 +148,12 @@ class Utilities {
         }
     }
 
-    //privates
-    _colorIsUnique(roomId, color) {
-        const game = this.gameMap.get(roomId);
-        if (!game) {
-            return false;
-        }
-        game.players
+    getRandomHexColor() {
+        // Generate a random number between 0 and 16777215 (FFFFFF in hexadecimal)
+        const randomColor = Math.floor(Math.random() * 16777215).toString(16);
+
+        // Pad the color with zeros to ensure it always has six digits
+        return "0".repeat(6 - randomColor.length) + randomColor;
     }
 }
 
